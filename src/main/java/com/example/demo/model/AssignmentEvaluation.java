@@ -11,7 +11,7 @@ public class AssignmentEvaluation{
 public AssignmentEvaluation(){
 
 }
-public Student(long id,long taskId,long volunterrId,LocalDateTime,String status,String notes){
+public Student(long id,long taskId,long volunterrId,LocalDateTime AssignedAt,String status,String notes){
     this.id=id;
     this.taskId=taskId;
     this.volunteerId=volunterrId;
@@ -28,10 +28,30 @@ public void SetTaskId(long taskId){
 public void SetVolunteerId(long volunterrId){
     this.volunteerId=volunteerId;
 }
-public void SetAssignedId(LocalDateTime assignedId){
+public void SetAssignedId(LocalDateTime assignedAt){
     this.assignedAt=assignedAt;
 }
 public void SetStatus(String status){
     this.status=status;
 }
-public void Set
+public void SetNotes(String notes){
+    this.notes=notes;
+}
+punlic long getId(){
+    return id;
+}
+public long getTaskId(){
+    return taskid;
+}
+public long VolunteerId(){
+    return volunteerid;
+}
+public LocalDateTime AssignedAt(){
+    return assignedAt;
+}
+public String getStatus(){
+    return status;
+}
+public String Notes(){
+    return notes;
+}
