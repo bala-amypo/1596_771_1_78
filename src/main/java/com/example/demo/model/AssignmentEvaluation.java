@@ -11,4 +11,15 @@ public class AssignmentEvaluation{
 public AssignmentEvaluation(){
 
 }
-public Student(long id,long taskId,long volunterrId,LocalDateTime,String status)
+public Student(long id,long taskId,long volunterrId,LocalDateTime,String status,String notes){
+    this.id=id;
+    this.taskId=taskId;
+    this.volunteerId=volunterrId;
+    this.assignedAt=assignedAt;
+    this.status=status;
+    this.notes=notes;
+}
+public void SetId(long id){
+    this.id=id;
+}
+public void Set
