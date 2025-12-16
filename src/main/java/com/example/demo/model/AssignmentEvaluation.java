@@ -28,4 +28,10 @@ public void SetTaskId(long taskId){
 public void SetVolunteerId(long volunterrId){
     this.volunteerId=volunteerId;
 }
-public void 
+public void SetAssignedId(LocalDateTime assignedId){
+    this.assignedAt=assignedAt;
+}
+public void SetStatus(String status){
+    this.status=status;
+}
+public void Set
