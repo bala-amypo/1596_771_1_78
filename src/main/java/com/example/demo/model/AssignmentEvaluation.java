@@ -1,4 +1,5 @@
 package com.example.demo.model;
+import java.time.LocalDateTime
 public class AssignmentEvaluation{
     private long id;
     private long taskId;
@@ -10,4 +11,4 @@ public class AssignmentEvaluation{
 public AssignmentEvaluation(){
 
 }
-
+public Student(long id,long taskId,long volunterrId,LocalDateTime,String status)
