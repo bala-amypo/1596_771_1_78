@@ -22,4 +22,10 @@ public Student(long id,long taskId,long volunterrId,LocalDateTime,String status,
 public void SetId(long id){
     this.id=id;
 }
-public void Set
+public void SetTaskId(long taskId){
+    this.taskId=taskId;
+}
+public void SetVolunteerId(long volunterrId){
+    this.volunteerId=volunteerId;
+}
+public void 
