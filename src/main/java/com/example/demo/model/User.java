@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 public class Users {
-    private long id;
+    private Long id;
     private String fullName;
     private String email;
     private String password;
@@ -10,7 +10,7 @@ public class Users {
 public Users(){
 
 }
-public Users(long id, String fullName, String email, String password, String role) {
+public Users(Long id, String fullName, String email, String password, String role) {
     this.id = id;
     this.fullName = fullName;
     this.email = email;

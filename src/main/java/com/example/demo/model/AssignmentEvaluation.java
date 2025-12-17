@@ -3,8 +3,8 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 
 public class AssignmentEvalaution {
-    private long id;
-    private long assignmentId;
+    private Long id;
+    private Long assignmentId;
     private int rating;
     private String feedback;
     private LocalDateTime evaluatedAt;
@@ -12,14 +12,14 @@ public class AssignmentEvalaution {
 public AssignmentEvalaution(){
 
 }
-public AssignmentEvalaution(long id, long assignmentId, int rating, String feedback, LocalDateTime evaluatedAt) {
+public AssignmentEvalaution(Long id, Long assignmentId, int rating, String feedback, LocalDateTime evaluatedAt) {
     this.id = id;
     this.assignmentId = assignmentId;
     this.rating = rating;
     this.feedback = feedback;
     this.evaluatedAt = evaluatedAt;
 }
-public long getAssignmentId() {
+public Long getAssignmentId() {
     return assignmentId;
 }
 public int getRating() {

@@ -3,7 +3,7 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 
 public class TaskRecord {
-    private long id;
+    private Long id;
     private String taskCode;
     private String taskName;
     private String requiredSkill;
@@ -15,7 +15,7 @@ public class TaskRecord {
 public TaskRecord(){
 
 }
-public TaskRecord(long id, String taskCode, String taskName, String requiredSkill, String requiredSkillLevel,
+public TaskRecord(Long id, String taskCode, String taskName, String requiredSkill, String requiredSkillLevel,
         String priority, String status, LocalDateTime createdAt) {
     this.id = id;
     this.taskCode = taskCode;

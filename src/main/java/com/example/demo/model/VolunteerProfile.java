@@ -3,8 +3,8 @@ package com.example.demo.model;
 import java.time.LocalDateTime;
 
 public class VolunteerProfile {
-    private long id;
-    private  String volunterrId;
+    private Long id;
+    private String volunterrId;
     private String fullName;
     private String email;
     private String phone;
@@ -15,7 +15,7 @@ public VolunteerProfile(){
     
 }
 
-public VolunteerProfile(long id, String volunterrId, String fullName, String email, String phone,
+public VolunteerProfile(Long id, String volunterrId, String fullName, String email, String phone,
         String availabilityStatus, LocalDateTime createdAt) {
     this.id = id;
     this.volunterrId = volunterrId;

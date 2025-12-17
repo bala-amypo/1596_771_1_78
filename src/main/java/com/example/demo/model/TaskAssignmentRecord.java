@@ -1,9 +1,9 @@
 package com.example.demo.model;
 import java.time.LocalDateTime;
 public class TaskAssignmentRecord{
-    private long id;
-    private long taskId;
-    private long volunteerId;
+    private Long id;
+    private Long taskId;
+    private Long volunteerId;
     private LocalDateTime assignedAt;
     private String status;
     private String notes;
@@ -11,7 +11,7 @@ public class TaskAssignmentRecord{
 public TaskAssignmentRecord(){
 
 }
-public TaskAssignmentRecord(long id,long taskId,long volunterrId,LocalDateTime AssignedAt,String status,String notes){
+public TaskAssignmentRecord(Long id,Long taskId,Long volunterrId,LocalDateTime AssignedAt,String status,String notes){
     this.id=id;
     this.taskId=taskId;
     this.volunteerId=volunterrId;
@@ -34,10 +34,10 @@ public void SetStatus(String status){
 public void SetNotes(String notes){
     this.notes=notes;
 }
-public long getTaskId(){
+public Long getTaskId(){
     return taskid;
 }
-public long VolunteerId(){
+public Long VolunteerId(){
     return volunteerid;
 }
 public LocalDateTime AssignedAt(){
