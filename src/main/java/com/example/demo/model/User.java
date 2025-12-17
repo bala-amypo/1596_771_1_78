@@ -6,7 +6,7 @@ public class Users {
     private String email;
     private String password;
     private String role;
-}
+
 public Users(){
 
 }
@@ -40,5 +40,6 @@ public void setPassword(String password) {
 }
 public void setRole(String role) {
     this.role = role;
+}
 }
 

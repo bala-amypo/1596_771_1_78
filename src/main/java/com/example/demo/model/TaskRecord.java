@@ -11,7 +11,7 @@ public class TaskRecord {
     private String priority;
     private String status;
     private LocalDateTime createdAt;
-}
+
 public TaskRecord(){
 
 }
@@ -68,4 +68,4 @@ public void setStatus(String status) {
 public void setCreatedAt(LocalDateTime createdAt) {
     this.createdAt = createdAt;
 }
-
+}

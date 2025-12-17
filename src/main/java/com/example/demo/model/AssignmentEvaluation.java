@@ -8,7 +8,7 @@ public class AssignmentEvalaution {
     private int rating;
     private String feedback;
     private LocalDateTime evaluatedAt;
-}
+
 public AssignmentEvalaution(){
 
 }
@@ -42,4 +42,5 @@ public void setFeedback(String feedback) {
 }
 public void setEvaluatedAt(LocalDateTime evaluatedAt) {
     this.evaluatedAt = evaluatedAt;
+}
 }

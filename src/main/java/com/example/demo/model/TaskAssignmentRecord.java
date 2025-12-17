@@ -18,7 +18,7 @@ public TaskAssignmentRecord(long id,long taskId,long volunterrId,LocalDateTime A
     this.assignedAt=assignedAt;
     this.status=status;
     this.notes=notes;
-}
+
 public void SetTaskId(long taskId){
     this.taskId=taskId;
 }
@@ -48,4 +48,5 @@ public String getStatus(){
 }
 public String Notes(){
     return notes;
+}
 }
