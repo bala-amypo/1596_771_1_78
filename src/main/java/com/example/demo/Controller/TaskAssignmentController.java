@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import io.swagger.v3.oas.annotations.Tag;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/assignments")
