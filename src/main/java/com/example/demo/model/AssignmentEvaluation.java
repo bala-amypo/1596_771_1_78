@@ -1,57 +1,45 @@
 package com.example.demo.model;
-import java.time.LocalDateTime
-public class AssignmentEvaluation{
+
+import java.time.LocalDateTime;
+
+public class AssignmentEvalaution {
     private long id;
-    private long taskId;
-    private long volunteerId;
-    private LocalDateTime assignedAt;
-    private String status;
-    private String notes;
+    private long assignmentId;
+    private int rating;
+    private String feedback;
+    private LocalDateTime evaluatedAt;
 }
-public AssignmentEvaluation(){
+public AssignmentEvalaution(){
 
 }
-public Student(long id,long taskId,long volunterrId,LocalDateTime AssignedAt,String status,String notes){
-    this.id=id;
-    this.taskId=taskId;
-    this.volunteerId=volunterrId;
-    this.assignedAt=assignedAt;
-    this.status=status;
-    this.notes=notes;
+public AssignmentEvalaution(long id, long assignmentId, int rating, String feedback, LocalDateTime evaluatedAt) {
+    this.id = id;
+    this.assignmentId = assignmentId;
+    this.rating = rating;
+    this.feedback = feedback;
+    this.evaluatedAt = evaluatedAt;
 }
-public void SetId(long id){
-    this.id=id;
+public long getAssignmentId() {
+    return assignmentId;
 }
-public void SetTaskId(long taskId){
-    this.taskId=taskId;
+public int getRating() {
+    return rating;
 }
-public void SetVolunteerId(long volunterrId){
-    this.volunteerId=volunteerId;
+public String getFeedback() {
+    return feedback;
 }
-public void SetAssignedId(LocalDateTime assignedAt){
-    this.assignedAt=assignedAt;
+public LocalDateTime getEvaluatedAt() {
+    return evaluatedAt;
 }
-public void SetStatus(String status){
-    this.status=status;
+public void setAssignmentId(long assignmentId) {
+    this.assignmentId = assignmentId;
 }
-public void SetNotes(String notes){
-    this.notes=notes;
+public void setRating(int rating) {
+    this.rating = rating;
 }
-punlic long getId(){
-    return id;
+public void setFeedback(String feedback) {
+    this.feedback = feedback;
 }
-public long getTaskId(){
-    return taskid;
-}
-public long VolunteerId(){
-    return volunteerid;
-}
-public LocalDateTime AssignedAt(){
-    return assignedAt;
-}
-public String getStatus(){
-    return status;
-}
-public String Notes(){
-    return notes;
+public void setEvaluatedAt(LocalDateTime evaluatedAt) {
+    this.evaluatedAt = evaluatedAt;
 }
