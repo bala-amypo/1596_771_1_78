@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class AssignmentEvaluationServiceImpl implements AssignmentEvaluationService {
+public class AssignmentEvaluationServiceImpl
+        implements AssignmentEvaluationService {
 
     private final AssignmentEvaluationRecordRepository repository;
 
