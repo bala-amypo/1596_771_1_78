@@ -8,7 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/skills")
 @Tag(name = "Volunteer Skills")
-public class VolunteerSkillRecord {
+public class VolunteerSkillController {
+ {
 
     @PostMapping
     public String addOrUpdateSkill(@RequestBody Object skill) {
