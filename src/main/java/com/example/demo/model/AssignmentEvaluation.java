@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 
-public class AssignmentEvalaution {
+public class AssignmentEvaluation {
     private Long id;
     private Long assignmentId;
     private int rating;
