@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class TaskAssignmentRecord {
@@ -10,20 +9,13 @@ public class TaskAssignmentRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long taskId;
-    private String status;
-    private LocalDateTime assignedAt;
+    private Long volunteerId;
 
-    public Long getId() { return id; }
+    public Long getVolunteerId() {
+        return volunteerId;
+    }
 
-    public Long getTaskId() { return taskId; }
-    public void setTaskId(Long taskId) { this.taskId = taskId; }
-
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
-
-    public LocalDateTime getAssignedAt() { return assignedAt; }
-    public void setAssignedAt(LocalDateTime assignedAt) {
-        this.assignedAt = assignedAt;
+    public void setVolunteerId(Long volunteerId) {
+        this.volunteerId = volunteerId;
     }
 }
