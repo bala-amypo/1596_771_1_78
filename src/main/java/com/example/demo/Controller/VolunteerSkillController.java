@@ -1,36 +1,38 @@
 package com.example.demo.Controller;
 
-import com.example.demo.model.VolunteerSkill;
+import com.example.demo.model.VolunteerSkillRecord;
 import com.example.demo.service.VolunteerSkillService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/volunteer-skills")
+@RequestMapping("/volunteer-skills")
 public class VolunteerSkillController {
 
-    @Autowired
-    private VolunteerSkillService volunteerSkillService;
+    private final VolunteerSkillService service;
+
+    public VolunteerSkillController(VolunteerSkillService service) {
+        this.service = service;
+    }
 
     @PostMapping
-    public VolunteerSkill createVolunteerSkill(@RequestBody VolunteerSkill skill) {
-        return volunteerSkillService.save(skill);
+    public VolunteerSkillRecord create(@RequestBody VolunteerSkillRecord record) {
+        return service.save(record);
     }
 
     @GetMapping
-    public List<VolunteerSkill> getAllVolunteerSkills() {
-        return volunteerSkillService.getAll();
+    public List<VolunteerSkillRecord> getAll() {
+        return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public VolunteerSkill getVolunteerSkillById(@PathVariable Long id) {
-        return volunteerSkillService.getById(id);
+    public VolunteerSkillRecord getById(@PathVariable Long id) {
+        return service.getById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteVolunteerSkill(@PathVariable Long id) {
-        volunteerSkillService.delete(id);
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }

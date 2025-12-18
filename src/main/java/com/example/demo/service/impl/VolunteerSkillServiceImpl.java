@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.VolunteerSkillRecord;
-import com.example.demo.repository.VolunteerSkillRecordRepository;
+import com.example.demo.repository.VolunteerSkillRepository;
+import com.example.demo.service.VolunteerSkillService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,31 +10,29 @@ import java.util.List;
 @Service
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
-    private final VolunteerSkillRecordRepository repository;
+    private final VolunteerSkillRepository repository;
 
-    // EXACT constructor signature required
-    public VolunteerSkillServiceImpl(VolunteerSkillRecordRepository repository) {
+    public VolunteerSkillServiceImpl(VolunteerSkillRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public VolunteerSkillRecord addOrUpdateSkill(VolunteerSkillRecord skill) {
-        return repository.save(skill);
+    public VolunteerSkillRecord save(VolunteerSkillRecord record) {
+        return repository.save(record);
     }
 
     @Override
-    public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
-        return repository.findByVolunteerId(volunteerId);
-    }
-
-    @Override
-    public VolunteerSkillRecord getSkillById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
-    }
-
-    @Override
-    public List<VolunteerSkillRecord> getAllSkills() {
+    public List<VolunteerSkillRecord> getAll() {
         return repository.findAll();
+    }
+
+    @Override
+    public VolunteerSkillRecord getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }
