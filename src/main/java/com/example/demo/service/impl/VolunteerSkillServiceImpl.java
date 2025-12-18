@@ -1,16 +1,16 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.VolunteerSkillRecord;
-import com.example.demo.repository.VolunteerSkillRepository;
+import com.example.demo.repository.VolunteerSkillRecordRepository;
 import com.example.demo.service.VolunteerSkillService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
-    private final VolunteerSkillRepository repository;
+    private final VolunteerSkillRecordRepository repository;
 
-    public VolunteerSkillServiceImpl(VolunteerSkillRepository repository) {
+    public VolunteerSkillServiceImpl(VolunteerSkillRecordRepository repository) {
         this.repository = repository;
     }
 

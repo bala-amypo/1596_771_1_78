@@ -4,7 +4,6 @@ import com.example.demo.model.TaskAssignmentRecord;
 import com.example.demo.repository.TaskAssignmentRecordRepository;
 import com.example.demo.repository.VolunteerSkillRecordRepository;
 import com.example.demo.service.TaskRecordService;
-import com.example.demo.util.SkillLevelUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,7 +29,7 @@ public class TaskRecordServiceImpl implements TaskRecordService {
         TaskAssignmentRecord ar = new TaskAssignmentRecord();
         ar.setTaskId(taskId);
         ar.setVolunteerId(volunteerId);
-        ar.setStatus(SkillLevelUtil.ASSIGNED);
+        ar.setStatus("ASSIGNED");
         ar.setAssignedAt(LocalDateTime.now());
 
         return taskRepo.save(ar);
