@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class AssignmentEvaluationRecord {
@@ -9,9 +10,9 @@ public class AssignmentEvaluationRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long assignmentId;
-    private Integer score;
-    private String feedback;
+    private LocalDateTime evaluatedAt;
 
-    // getters & setters
+    public void setEvaluatedAt(LocalDateTime evaluatedAt) {
+        this.evaluatedAt = evaluatedAt;
+    }
 }

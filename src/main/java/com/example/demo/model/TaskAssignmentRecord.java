@@ -11,9 +11,19 @@ public class TaskAssignmentRecord {
     private Long id;
 
     private Long taskId;
-    private Long volunteerId;
     private String status;
     private LocalDateTime assignedAt;
 
-    // getters & setters
+    public Long getId() { return id; }
+
+    public Long getTaskId() { return taskId; }
+    public void setTaskId(Long taskId) { this.taskId = taskId; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+
+    public LocalDateTime getAssignedAt() { return assignedAt; }
+    public void setAssignedAt(LocalDateTime assignedAt) {
+        this.assignedAt = assignedAt;
+    }
 }
