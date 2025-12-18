@@ -1,6 +1,10 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "task_assignment_record")
@@ -10,14 +14,31 @@ public class TaskAssignmentRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long taskId;
+
     private Long volunteerId;
 
-    private String taskName;
+    private String status;
 
-    public TaskAssignmentRecord() {}
+    // ---------- Constructors ----------
+    public TaskAssignmentRecord() {
+    }
 
+    // ---------- Getters & Setters ----------
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
     }
 
     public Long getVolunteerId() {
@@ -28,11 +49,11 @@ public class TaskAssignmentRecord {
         this.volunteerId = volunteerId;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public String getStatus() {
+        return status;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
