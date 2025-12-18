@@ -1,52 +1,28 @@
 package com.example.demo.model;
-import java.time.LocalDateTime;
-public class TaskAssignmentRecord{
-    private Long id;
-    private Long taskId;
-    private Long volunteerId;
-    private LocalDateTime assignedAt;
-    private String status;
-    private String notes;
-}
-public TaskAssignmentRecord(){
 
-}
-public TaskAssignmentRecord(Long id,Long taskId,Long volunterrId,LocalDateTime AssignedAt,String status,String notes){
-    this.id=id;
-    this.taskId=taskId;
-    this.volunteerId=volunterrId;
-    this.assignedAt=assignedAt;
-    this.status=status;
-    this.notes=notes;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
 
-public void SetTaskId(long taskId){
-    this.taskId=taskId;
-}
-public void SetVolunteerId(long volunterrId){
-    this.volunteerId=volunteerId;
-}
-public void SetAssignedId(LocalDateTime assignedAt){
-    this.assignedAt=assignedAt;
-}
-public void SetStatus(String status){
-    this.status=status;
-}
-public void SetNotes(String notes){
-    this.notes=notes;
-}
-public Long getTaskId(){
-    return taskid;
-}
-public Long VolunteerId(){
-    return volunteerid;
-}
-public LocalDateTime AssignedAt(){
-    return assignedAt;
-}
-public String getStatus(){
-    return status;
-}
-public String Notes(){
-    return notes;
-}
+@Entity
+@Table(name = "task_assignment")
+public record TaskAssignmentRecord(
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        Long id,
+
+        @Column(nullable = false)
+        Long taskId,
+
+        @Column(nullable = false)
+        Long userId,
+
+        @Column(nullable = false)
+        String status
+
+) {
 }
