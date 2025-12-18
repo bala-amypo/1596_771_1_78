@@ -9,30 +9,22 @@ public class VolunteerSkillRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long volunteerId;
     private String skillName;
-    private String skillLevel;
+    private String level;
 
-    public Long getId() {
-        return id;
-    }
+    // ✅ REQUIRED by JPA
+    public VolunteerSkillRecord() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // getters & setters
+    public Long getId() { return id; }
 
-    public String getSkillName() {
-        return skillName;
-    }
+    public Long getVolunteerId() { return volunteerId; }
+    public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
 
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
+    public String getSkillName() { return skillName; }
+    public void setSkillName(String skillName) { this.skillName = skillName; }
 
-    public String getSkillLevel() {
-        return skillLevel;
-    }
-
-    public void setSkillLevel(String skillLevel) {
-        this.skillLevel = skillLevel;
-    }
+    public String getLevel() { return level; }
+    public void setLevel(String level) { this.level = level; }
 }

@@ -15,19 +15,11 @@ public class TaskAssignmentRecord {
     private String status;
     private LocalDateTime assignedAt;
 
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
+    // ✅ REQUIRED
+    public TaskAssignmentRecord() {}
 
-    public void setVolunteerId(Long volunteerId) {
-        this.volunteerId = volunteerId;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setAssignedAt(LocalDateTime assignedAt) {
-        this.assignedAt = assignedAt;
-    }
+    public void setTaskId(Long taskId) { this.taskId = taskId; }
+    public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
+    public void setStatus(String status) { this.status = status; }
+    public void setAssignedAt(LocalDateTime assignedAt) { this.assignedAt = assignedAt; }
 }
