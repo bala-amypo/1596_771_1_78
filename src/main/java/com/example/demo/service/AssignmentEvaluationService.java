@@ -5,9 +5,11 @@ import java.util.List;
 
 public interface AssignmentEvaluationService {
 
-    AssignmentEvaluationRecord evaluateAssignment(AssignmentEvaluationRecord evaluation);
+    List<AssignmentEvaluationRecord> getAll();
 
-    List<AssignmentEvaluationRecord> getEvaluationsByAssignment(Long assignmentId);
+    AssignmentEvaluationRecord getById(Long id);
 
-    List<AssignmentEvaluationRecord> getAllEvaluations();
+    AssignmentEvaluationRecord save(AssignmentEvaluationRecord record);
+
+    void delete(Long id);
 }
