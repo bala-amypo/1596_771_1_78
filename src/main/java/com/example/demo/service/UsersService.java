@@ -1,14 +1,12 @@
 package com.example.demo.service;
 
-import com.example.demo.model.User;
+import com.example.demo.model.Users;
+import java.util.List;
 
-import java.util.Optional;
+public interface UsersService {
 
-public interface UserService {
-
-    User saveUser(User user);
-
-    Optional<User> findByEmail(String email);
-
-    boolean existsByEmail(String email);
+    Users save(Users user);
+    List<Users> getAll();
+    Users getById(Long id);
+    void delete(Long id);
 }

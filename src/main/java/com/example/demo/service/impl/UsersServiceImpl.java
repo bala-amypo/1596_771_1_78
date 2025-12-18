@@ -1,33 +1,34 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.UserService;
+import com.example.demo.model.Users;
+import com.example.demo.repository.UsersRepository;
+import com.example.demo.service.UsersService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UsersServiceImpl implements UsersService {
 
-    private final UserRepository userRepository;
+    private final UsersRepository repository;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UsersServiceImpl(UsersRepository repository) {
+        this.repository = repository;
     }
 
-    @Override
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public Users save(Users user) {
+        return repository.save(user);
     }
 
-    @Override
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public List<Users> getAll() {
+        return repository.findAll();
     }
 
-    @Override
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+    public Users getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }
