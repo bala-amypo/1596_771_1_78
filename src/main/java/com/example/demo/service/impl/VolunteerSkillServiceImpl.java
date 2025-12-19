@@ -5,47 +5,33 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.VolunteerProfile;
-import com.example.demo.repository.VolunteerProfileRepository;
-import com.example.demo.service.VolunteerProfileService;
+import com.example.demo.model.VolunteerSkillRecord;
+import com.example.demo.repository.VolunteerSkillRepository;
+import com.example.demo.service.VolunteerSkillService;
 
 @Service
-public class VolunteerProfileServiceImpl implements VolunteerProfileService {
+public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     @Autowired
-    private VolunteerProfileRepository repository;
+    private VolunteerSkillRepository repository;
 
     @Override
-    public VolunteerProfile createVolunteer(VolunteerProfile profile) {
-        return repository.save(profile);
+    public VolunteerSkillRecord addSkill(VolunteerSkillRecord skill) {
+        return repository.save(skill);
     }
 
     @Override
-    public VolunteerProfile getVolunteerById(Long id) {
-        return repository.findById(id).orElse(null); // ✅ FIX
+    public VolunteerSkillRecord getSkillById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
-    public List<VolunteerProfile> getAllVolunteers() {
-        return repository.findAll();
-    }
-
-    @Override
-    public VolunteerProfile findByVolunteerId(String volunteerId) {
+    public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
         return repository.findByVolunteerId(volunteerId);
     }
 
     @Override
-    public VolunteerProfile updateAvailability(Long id, String status) {
-
-        // ✅ FIX HERE
-        VolunteerProfile v = repository.findById(id).orElse(null);
-
-        if (v != null) {
-            v.setAvailabilityStatus(status);
-            return repository.save(v);
-        }
-
-        return null;
+    public List<VolunteerSkillRecord> getAllSkills() {
+        return repository.findAll();
     }
 }

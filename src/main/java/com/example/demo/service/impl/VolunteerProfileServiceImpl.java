@@ -15,24 +15,31 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
     @Autowired
     private VolunteerProfileRepository repository;
 
+    @Override
     public VolunteerProfile createVolunteer(VolunteerProfile profile) {
         return repository.save(profile);
     }
 
+    @Override
     public VolunteerProfile getVolunteerById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElse(null); // ✅ FIX
     }
 
+    @Override
     public List<VolunteerProfile> getAllVolunteers() {
         return repository.findAll();
     }
 
+    @Override
     public VolunteerProfile findByVolunteerId(String volunteerId) {
         return repository.findByVolunteerId(volunteerId);
     }
 
+    @Override
     public VolunteerProfile updateAvailability(Long id, String status) {
-        VolunteerProfile v = getVolunteerById(id);
+
+        VolunteerProfile v = repository.findById(id).orElse(null); // ✅ FIX
+
         if (v != null) {
             v.setAvailabilityStatus(status);
             return repository.save(v);
