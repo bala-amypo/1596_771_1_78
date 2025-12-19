@@ -1,21 +1,46 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
-@Tag(name = "Authentication")
+@CrossOrigin
 public class AuthController {
 
+    @Autowired
+    private UserService userService;
+
+    // ---------------- REGISTER ----------------
     @PostMapping("/register")
-    public String register(@RequestBody Object user) {
-        return "User registered";
+    public User register(@Valid @RequestBody User user) {
+
+        if (userService.existsByEmail(user.getEmail())) {
+            return null; // simple handling for Review-1
+        }
+
+        return userService.saveUser(user);
     }
 
+    // ---------------- LOGIN ----------------
     @PostMapping("/login")
-    public String login(@RequestBody Object loginRequest) {
+    public String login(@RequestBody User user) {
+
+        User existingUser = userService.findByEmail(user.getEmail());
+
+        if (existingUser == null) {
+            return "User not found";
+        }
+
+        if (!existingUser.getPassword().equals(user.getPassword())) {
+            return "Invalid password";
+        }
+
         return "Login successful";
     }
 }
