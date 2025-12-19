@@ -5,33 +5,47 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.VolunteerSkillRecord;
-import com.example.demo.repository.VolunteerSkillRecordRepository;
-import com.example.demo.service.VolunteerSkillService;
+import com.example.demo.model.VolunteerProfile;
+import com.example.demo.repository.VolunteerProfileRepository;
+import com.example.demo.service.VolunteerProfileService;
 
 @Service
-public class VolunteerSkillServiceImpl implements VolunteerSkillService {
+public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
     @Autowired
-    private VolunteerSkillRecordRepository repository;
+    private VolunteerProfileRepository repository;
 
     @Override
-    public VolunteerSkillRecord addOrUpdateSkill(VolunteerSkillRecord skill) {
-        return repository.save(skill);
+    public VolunteerProfile createVolunteer(VolunteerProfile profile) {
+        return repository.save(profile);
     }
 
     @Override
-    public VolunteerSkillRecord getSkillById(Long id) {
-        return repository.findById(id).orElse(null);
+    public VolunteerProfile getVolunteerById(Long id) {
+        return repository.findById(id).orElse(null); // ✅ FIX
     }
 
     @Override
-    public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
+    public List<VolunteerProfile> getAllVolunteers() {
+        return repository.findAll();
+    }
+
+    @Override
+    public VolunteerProfile findByVolunteerId(String volunteerId) {
         return repository.findByVolunteerId(volunteerId);
     }
 
     @Override
-    public List<VolunteerSkillRecord> getAllSkills() {
-        return repository.findAll();
+    public VolunteerProfile updateAvailability(Long id, String status) {
+
+        // ✅ FIX HERE
+        VolunteerProfile v = repository.findById(id).orElse(null);
+
+        if (v != null) {
+            v.setAvailabilityStatus(status);
+            return repository.save(v);
+        }
+
+        return null;
     }
 }
