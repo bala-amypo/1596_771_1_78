@@ -1,7 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.model.TaskAssignmentRecord;
+import java.util.List;
+import com.example.demo.model.TaskRecord;
 
 public interface TaskRecordService {
-    TaskAssignmentRecord assignTask(Long taskId, Long volunteerId);
+
+    TaskRecord createTask(TaskRecord task);
+
+    TaskRecord getTaskById(Long id);
+
+    List<TaskRecord> getAllTasks();
 }
