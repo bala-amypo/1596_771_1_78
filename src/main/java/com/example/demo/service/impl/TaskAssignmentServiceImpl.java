@@ -1,22 +1,33 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.TaskAssignmentRecord;
-import com.example.demo.repository.VolunteerSkillRecordRepository;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.TaskAssignmentRecord;
+import com.example.demo.repository.TaskAssignmentRecordRepository;
+import com.example.demo.service.TaskAssignmentService;
+
 @Service
-public class TaskAssignmentServiceImpl {
+public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
-    private final VolunteerSkillRecordRepository skillRepository;
+    @Autowired
+    private TaskAssignmentRecordRepository repository;
 
-    public TaskAssignmentServiceImpl(
-            VolunteerSkillRecordRepository skillRepository) {
-        this.skillRepository = skillRepository;
+    public TaskAssignmentRecord assignTask(TaskAssignmentRecord assignment) {
+        return repository.save(assignment);
     }
 
-    public TaskAssignmentRecord assignTask(Long volunteerId) {
-        TaskAssignmentRecord ar = new TaskAssignmentRecord();
-        ar.setVolunteerId(volunteerId);
-        return ar;
+    public TaskAssignmentRecord getAssignmentById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
+        return repository.findByVolunteerId(volunteerId);
+    }
+
+    public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
+        return repository.findByTaskId(taskId);
     }
 }

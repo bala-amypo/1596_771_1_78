@@ -1,37 +1,38 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.example.demo.model.TaskAssignmentRecord;
+import com.example.demo.service.TaskAssignmentService;
 
 @RestController
 @RequestMapping("/api/assignments")
-@Tag(name = "Task Assignments")
+@CrossOrigin
 public class TaskAssignmentController {
 
-    @PostMapping("/assign/{taskId}")
-    public String autoAssign(@PathVariable Long taskId) {
-        return "Auto-assigned task " + taskId;
+    @Autowired
+    private TaskAssignmentService service;
+
+    @PostMapping
+    public TaskAssignmentRecord assignTask(@RequestBody TaskAssignmentRecord assignment) {
+        return service.assignTask(assignment);
     }
 
-    @PutMapping("/{id}/status")
-    public String updateAssignmentStatus(@PathVariable Long id,
-                                         @RequestParam String status) {
-        return "Assignment status updated " + id;
+    @GetMapping("/{id}")
+    public TaskAssignmentRecord getAssignment(@PathVariable Long id) {
+        return service.getAssignmentById(id);
     }
 
     @GetMapping("/volunteer/{volunteerId}")
-    public String getByVolunteer(@PathVariable Long volunteerId) {
-        return "Assignments for volunteer " + volunteerId;
+    public List<TaskAssignmentRecord> getByVolunteer(@PathVariable Long volunteerId) {
+        return service.getAssignmentsByVolunteer(volunteerId);
     }
 
     @GetMapping("/task/{taskId}")
-    public String getByTask(@PathVariable Long taskId) {
-        return "Assignments for task " + taskId;
-    }
-
-    @GetMapping
-    public String listAllAssignments() {
-        return "List all assignments";
+    public List<TaskAssignmentRecord> getByTask(@PathVariable Long taskId) {
+        return service.getAssignmentsByTask(taskId);
     }
 }
