@@ -1,6 +1,10 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 
 import java.time.LocalDateTime;
 
@@ -14,25 +18,55 @@ public class AssignmentEvaluationRecord {
     private Long assignmentId;
     private Integer rating;
     private String feedback;
+
     private LocalDateTime evaluatedAt;
 
     @PrePersist
     public void onEvaluate() {
-        evaluatedAt = LocalDateTime.now();
+        this.evaluatedAt = LocalDateTime.now();
     }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // ---------------- GETTERS ----------------
 
-    public Long getAssignmentId() { return assignmentId; }
-    public void setAssignmentId(Long assignmentId) { this.assignmentId = assignmentId; }
+    public Long getId() {
+        return id;
+    }
 
-    public Integer getRating() { return rating; }
-    public void setRating(Integer rating) { this.rating = rating; }
+    public Long getAssignmentId() {
+        return assignmentId;
+    }
 
-    public String getFeedback() { return feedback; }
-    public void setFeedback(String feedback) { this.feedback = feedback; }
+    public Integer getRating() {
+        return rating;
+    }
 
-    public LocalDateTime getEvaluatedAt() { return evaluatedAt; }
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public LocalDateTime getEvaluatedAt() {
+        return evaluatedAt;
+    }
+
+    // ---------------- SETTERS ----------------
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setAssignmentId(Long assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public void setEvaluatedAt(LocalDateTime evaluatedAt) {
+        this.evaluatedAt = evaluatedAt;
+    }
 }
