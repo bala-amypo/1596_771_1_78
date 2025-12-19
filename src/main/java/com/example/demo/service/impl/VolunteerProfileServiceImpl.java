@@ -1,7 +1,6 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
     @Override
     public VolunteerProfile getVolunteerById(Long id) {
-        // Throws exception if not found
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with id: " + id));
     }
@@ -35,9 +33,8 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
     @Override
     public VolunteerProfile findByVolunteerId(String volunteerId) {
-        Optional<VolunteerProfile> optionalProfile = repository.findByVolunteerId(volunteerId);
-        return optionalProfile.orElseThrow(
-                () -> new RuntimeException("VolunteerProfile not found with volunteerId: " + volunteerId));
+        return repository.findByVolunteerId(volunteerId)
+                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with volunteerId: " + volunteerId));
     }
 
     @Override
