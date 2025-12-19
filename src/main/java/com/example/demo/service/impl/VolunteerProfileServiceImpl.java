@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,9 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
     @Override
     public VolunteerProfile getVolunteerById(Long id) {
-        return repository.findById(id).orElse(null); // ✅ FIX
+        // Throws exception if not found
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with id: " + id));
     }
 
     @Override
@@ -32,19 +35,17 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
     @Override
     public VolunteerProfile findByVolunteerId(String volunteerId) {
-        return repository.findByVolunteerId(volunteerId);
+        Optional<VolunteerProfile> optionalProfile = repository.findByVolunteerId(volunteerId);
+        return optionalProfile.orElseThrow(
+                () -> new RuntimeException("VolunteerProfile not found with volunteerId: " + volunteerId));
     }
 
     @Override
     public VolunteerProfile updateAvailability(Long id, String status) {
+        VolunteerProfile v = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with id: " + id));
 
-        VolunteerProfile v = repository.findById(id).orElse(null);
- // ✅ FIX
-
-        if (v != null) {
-            v.setAvailabilityStatus(status);
-            return repository.save(v);
-        }
-        return null;
+        v.setAvailabilityStatus(status);
+        return repository.save(v);
     }
 }
