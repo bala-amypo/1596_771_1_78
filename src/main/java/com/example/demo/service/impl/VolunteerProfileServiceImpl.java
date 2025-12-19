@@ -38,7 +38,8 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
     @Override
     public VolunteerProfile updateAvailability(Long id, String status) {
 
-        VolunteerProfile v = repository.findById(id).orElse(null); // ✅ FIX
+        VolunteerProfile v = repository.findById(id).orElse(null);
+ // ✅ FIX
 
         if (v != null) {
             v.setAvailabilityStatus(status);
