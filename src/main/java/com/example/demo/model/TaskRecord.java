@@ -11,13 +11,18 @@ public class TaskRecord {
     private Long id;
 
     private String taskName;
-
     private String description;
-
-    private String status;     // optional, if you want status
-    private String priority;   // add this field
+    private String status;     // e.g., "Pending", "Completed"
+    private String priority;   // e.g., "High", "Medium", "Low"
 
     public TaskRecord() {}
+
+    public TaskRecord(String taskName, String description, String status, String priority) {
+        this.taskName = taskName;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+    }
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -32,6 +37,6 @@ public class TaskRecord {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 
-    public String getPriority() { return priority; }  // ADD THIS
-    public void setPriority(String priority) { this.priority = priority; } // ADD THIS
+    public String getPriority() { return priority; }
+    public void setPriority(String priority) { this.priority = priority; }
 }

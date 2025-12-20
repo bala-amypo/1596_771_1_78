@@ -5,13 +5,13 @@ import java.util.List;
 
 public interface TaskRecordService {
 
-    TaskRecord createTask(TaskRecord task);
+    TaskRecord saveTask(TaskRecord task);
 
-    TaskRecord updateTask(Long id, TaskRecord task);
-
-    List<TaskRecord> getOpenTasks();
+    List<TaskRecord> getAllTasks();
 
     TaskRecord getTaskById(Long id);
 
-    List<TaskRecord> getAllTasks();
+    TaskRecord updateTask(Long id, TaskRecord updated);
+
+    void deleteTask(Long id);
 }
