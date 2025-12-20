@@ -14,8 +14,8 @@ public class TaskRecord {
 
     private String description;
 
-    // ADD THIS FIELD
-    private String status;
+    private String status;     // optional, if you want status
+    private String priority;   // add this field
 
     public TaskRecord() {}
 
@@ -29,7 +29,9 @@ public class TaskRecord {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-    // ADD THIS GETTER/SETTER
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
+
+    public String getPriority() { return priority; }  // ADD THIS
+    public void setPriority(String priority) { this.priority = priority; } // ADD THIS
 }
