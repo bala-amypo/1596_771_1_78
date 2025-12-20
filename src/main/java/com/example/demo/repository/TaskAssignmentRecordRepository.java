@@ -1,13 +1,12 @@
 package com.example.demo.repository;
 
+import com.example.demo.model.TaskAssignment;
+import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import com.example.demo.model.TaskAssignmentRecord;
+public interface TaskAssignmentRepository extends JpaRepository<TaskAssignment, Long> {
 
-public interface TaskAssignmentRecordRepository
-        extends JpaRepository<TaskAssignmentRecord, Long> {
+    List<TaskAssignment> findByVolunteerId(Long volunteerId);
 
-    List<TaskAssignmentRecord> findByVolunteerId(Long volunteerId);
-    List<TaskAssignmentRecord> findByTaskId(Long taskId);
+    List<TaskAssignment> findByTaskId(Long taskId);
 }

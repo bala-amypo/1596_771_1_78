@@ -2,10 +2,9 @@ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
-
 @Entity
-public class TaskAssignmentRecord {
+@Table(name = "task_assignments")
+public class TaskAssignment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,32 +12,41 @@ public class TaskAssignmentRecord {
 
     private Long taskId;
     private Long volunteerId;
-    private String status;
-    private String notes;
+    private String status; // ASSIGNED, COMPLETED
 
-    private LocalDateTime assignedAt;
+    public TaskAssignment() {}
 
-    @PrePersist
-    public void onAssign() {
-        this.assignedAt = LocalDateTime.now();
-        if (this.status == null) {
-            this.status = "ASSIGNED";
-        }
+    public TaskAssignment(Long taskId, Long volunteerId, String status) {
+        this.taskId = taskId;
+        this.volunteerId = volunteerId;
+        this.status = status;
     }
 
-    // Getters
-    public Long getId() { return id; }
-    public Long getTaskId() { return taskId; }
-    public Long getVolunteerId() { return volunteerId; }
-    public String getStatus() { return status; }
-    public String getNotes() { return notes; }
-    public LocalDateTime getAssignedAt() { return assignedAt; }
+    public Long getId() {
+        return id;
+    }
 
-    // Setters
-    public void setId(Long id) { this.id = id; }
-    public void setTaskId(Long taskId) { this.taskId = taskId; }
-    public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
-    public void setStatus(String status) { this.status = status; }
-    public void setNotes(String notes) { this.notes = notes; }
-    public void setAssignedAt(LocalDateTime assignedAt) { this.assignedAt = assignedAt; }
+    public Long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Long taskId) {
+        this.taskId = taskId;
+    }
+
+    public Long getVolunteerId() {
+        return volunteerId;
+    }
+
+    public void setVolunteerId(Long volunteerId) {
+        this.volunteerId = volunteerId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

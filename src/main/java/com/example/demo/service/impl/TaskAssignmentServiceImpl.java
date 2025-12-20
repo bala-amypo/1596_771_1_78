@@ -1,33 +1,49 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.model.TaskAssignment;
+import com.example.demo.repository.TaskAssignmentRepository;
+import com.example.demo.service.TaskAssignmentService;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.TaskAssignmentRecord;
-import com.example.demo.repository.TaskAssignmentRecordRepository;
-import com.example.demo.service.TaskAssignmentService;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
-    @Autowired
-    private TaskAssignmentRecordRepository repository;
+    private final TaskAssignmentRepository repository;
 
-    public TaskAssignmentRecord assignTask(TaskAssignmentRecord assignment) {
+    public TaskAssignmentServiceImpl(TaskAssignmentRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public TaskAssignment autoAssign(Long taskId) {
+        Long volunteerId = new Random().nextLong(100); // dummy volunteer
+        TaskAssignment assignment =
+                new TaskAssignment(taskId, volunteerId, "ASSIGNED");
         return repository.save(assignment);
     }
 
-    public TaskAssignmentRecord getAssignmentById(Long id) {
-        return repository.findById(id).orElse(null);
+    @Override
+    public TaskAssignment updateStatus(Long id, String status) {
+        TaskAssignment assignment = repository.findById(id).orElseThrow();
+        assignment.setStatus(status);
+        return repository.save(assignment);
     }
 
-    public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
+    @Override
+    public List<TaskAssignment> getByVolunteer(Long volunteerId) {
         return repository.findByVolunteerId(volunteerId);
     }
 
-    public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
+    @Override
+    public List<TaskAssignment> getByTask(Long taskId) {
         return repository.findByTaskId(taskId);
+    }
+
+    @Override
+    public List<TaskAssignment> getAll() {
+        return repository.findAll();
     }
 }

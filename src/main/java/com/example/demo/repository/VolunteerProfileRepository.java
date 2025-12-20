@@ -1,16 +1,10 @@
 package com.example.demo.repository;
 
-import java.util.Optional;
-
+import com.example.demo.model.TaskRecord;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-import com.example.demo.model.VolunteerProfile;
+public interface TaskRecordRepository extends JpaRepository<TaskRecord, Long> {
 
-@Repository
-public interface VolunteerProfileRepository extends JpaRepository<VolunteerProfile, Long> {
-
-    // Query by volunteerId
-    Optional<VolunteerProfile> findByVolunteerId(String volunteerId);
-
+    List<TaskRecord> findByStatus(String status);
 }
