@@ -17,12 +17,12 @@ public class TaskRecordController {
     }
 
     @PostMapping
-    public TaskRecord createTask(@RequestBody TaskRecord task) {
+    public TaskRecord create(@RequestBody TaskRecord task) {
         return service.createTask(task);
     }
 
     @PutMapping("/{id}")
-    public TaskRecord updateTask(@PathVariable Long id, @RequestBody TaskRecord task) {
+    public TaskRecord update(@PathVariable Long id, @RequestBody TaskRecord task) {
         return service.updateTask(id, task);
     }
 
@@ -32,12 +32,12 @@ public class TaskRecordController {
     }
 
     @GetMapping("/{id}")
-    public TaskRecord getTask(@PathVariable Long id) {
+    public TaskRecord get(@PathVariable Long id) {
         return service.getTaskById(id);
     }
 
     @GetMapping
-    public List<TaskRecord> getAll() {
+    public List<TaskRecord> all() {
         return service.getAllTasks();
     }
 }

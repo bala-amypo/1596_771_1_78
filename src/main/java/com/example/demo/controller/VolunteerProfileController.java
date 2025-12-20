@@ -16,21 +16,18 @@ public class VolunteerProfileController {
         this.service = service;
     }
 
-    // POST /api/volunteers
     @PostMapping
     public VolunteerProfile create(@RequestBody VolunteerProfile profile) {
         return service.createVolunteer(profile);
     }
 
-    // GET /api/volunteers/{volunteerId}
     @GetMapping("/{volunteerId}")
-    public VolunteerProfile getByVolunteerId(@PathVariable String volunteerId) {
+    public VolunteerProfile get(@PathVariable String volunteerId) {
         return service.getByVolunteerId(volunteerId);
     }
 
-    // GET /api/volunteers
     @GetMapping
-    public List<VolunteerProfile> getAll() {
-        return service.getAllVolunteers();
+    public List<VolunteerProfile> all() {
+        return service.getAll();
     }
 }

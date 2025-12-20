@@ -16,19 +16,15 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
         this.repository = repository;
     }
 
-    @Override
     public VolunteerProfile createVolunteer(VolunteerProfile profile) {
         return repository.save(profile);
     }
 
-    @Override
     public VolunteerProfile getByVolunteerId(String volunteerId) {
-        return repository.findByVolunteerId(volunteerId)
-                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
+        return repository.findByVolunteerId(volunteerId);
     }
 
-    @Override
-    public List<VolunteerProfile> getAllVolunteers() {
+    public List<VolunteerProfile> getAll() {
         return repository.findAll();
     }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.model.VolunteerProfile;
-
 import java.util.List;
 
 public interface VolunteerProfileService {
@@ -10,5 +9,5 @@ public interface VolunteerProfileService {
 
     VolunteerProfile getByVolunteerId(String volunteerId);
 
-    List<VolunteerProfile> getAllVolunteers();
+    List<VolunteerProfile> getAll();
 }

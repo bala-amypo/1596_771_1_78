@@ -16,32 +16,29 @@ public class TaskRecordServiceImpl implements TaskRecordService {
         this.repository = repository;
     }
 
-    @Override
     public TaskRecord createTask(TaskRecord task) {
-        task.setStatus("OPEN");
         return repository.save(task);
     }
 
-    @Override
-    public TaskRecord updateTask(Long id, TaskRecord task) {
-        TaskRecord existing = repository.findById(id).orElseThrow();
-        existing.setTitle(task.getTitle());
-        existing.setDescription(task.getDescription());
-        existing.setStatus(task.getStatus());
-        return repository.save(existing);
+    public TaskRecord updateTask(Long id, TaskRecord updated) {
+        TaskRecord task = repository.findById(id).orElse(null);
+        if (task != null) {
+            task.setTaskName(updated.getTaskName());
+            task.setPriority(updated.getPriority());
+            task.setStatus(updated.getStatus());
+            return repository.save(task);
+        }
+        return null;
     }
 
-    @Override
     public List<TaskRecord> getOpenTasks() {
         return repository.findByStatus("OPEN");
     }
 
-    @Override
     public TaskRecord getTaskById(Long id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id).orElse(null);
     }
 
-    @Override
     public List<TaskRecord> getAllTasks() {
         return repository.findAll();
     }
