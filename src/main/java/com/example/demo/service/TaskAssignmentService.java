@@ -1,17 +1,17 @@
 package com.example.demo.service;
 
-import com.example.demo.model.TaskAssignment;
+import com.example.demo.model.TaskAssignmentRecord;
 import java.util.List;
 
 public interface TaskAssignmentService {
 
-    TaskAssignment autoAssign(Long taskId);
+    TaskAssignmentRecord autoAssign(Long taskId);
 
-    TaskAssignment updateStatus(Long id, String status);
+    TaskAssignmentRecord updateStatus(Long id, String status);
 
-    List<TaskAssignment> getByVolunteer(Long volunteerId);
+    List<TaskAssignmentRecord> getByVolunteer(Long volunteerId);
 
-    List<TaskAssignment> getByTask(Long taskId);
+    List<TaskAssignmentRecord> getByTask(Long taskId);
 
-    List<TaskAssignment> getAll();
+    List<TaskAssignmentRecord> getAll();
 }

@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.TaskAssignment;
-import com.example.demo.repository.TaskAssignmentRepository;
+import com.example.demo.model.TaskAssignmentRecord;
+import com.example.demo.repository.TaskAssignmentRecordRepository;
 import com.example.demo.service.TaskAssignmentService;
 import org.springframework.stereotype.Service;
 
@@ -11,39 +11,43 @@ import java.util.Random;
 @Service
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
-    private final TaskAssignmentRepository repository;
+    private final TaskAssignmentRecordRepository repository;
 
-    public TaskAssignmentServiceImpl(TaskAssignmentRepository repository) {
+    public TaskAssignmentServiceImpl(TaskAssignmentRecordRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public TaskAssignment autoAssign(Long taskId) {
-        Long volunteerId = new Random().nextLong(100); // dummy volunteer
-        TaskAssignment assignment =
-                new TaskAssignment(taskId, volunteerId, "ASSIGNED");
-        return repository.save(assignment);
+    public TaskAssignmentRecord autoAssign(Long taskId) {
+        Long volunteerId = Math.abs(new Random().nextLong() % 1000);
+
+        TaskAssignmentRecord record =
+                new TaskAssignmentRecord(taskId, volunteerId, "ASSIGNED");
+
+        return repository.save(record);
     }
 
     @Override
-    public TaskAssignment updateStatus(Long id, String status) {
-        TaskAssignment assignment = repository.findById(id).orElseThrow();
-        assignment.setStatus(status);
-        return repository.save(assignment);
+    public TaskAssignmentRecord updateStatus(Long id, String status) {
+        TaskAssignmentRecord record = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+
+        record.setStatus(status);
+        return repository.save(record);
     }
 
     @Override
-    public List<TaskAssignment> getByVolunteer(Long volunteerId) {
+    public List<TaskAssignmentRecord> getByVolunteer(Long volunteerId) {
         return repository.findByVolunteerId(volunteerId);
     }
 
     @Override
-    public List<TaskAssignment> getByTask(Long taskId) {
+    public List<TaskAssignmentRecord> getByTask(Long taskId) {
         return repository.findByTaskId(taskId);
     }
 
     @Override
-    public List<TaskAssignment> getAll() {
+    public List<TaskAssignmentRecord> getAll() {
         return repository.findAll();
     }
 }

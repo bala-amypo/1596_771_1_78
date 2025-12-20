@@ -3,8 +3,8 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "task_assignments")
-public class TaskAssignment {
+@Table(name = "task_assignment")
+public class TaskAssignmentRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,9 +14,9 @@ public class TaskAssignment {
     private Long volunteerId;
     private String status; // ASSIGNED, COMPLETED
 
-    public TaskAssignment() {}
+    public TaskAssignmentRecord() {}
 
-    public TaskAssignment(Long taskId, Long volunteerId, String status) {
+    public TaskAssignmentRecord(Long taskId, Long volunteerId, String status) {
         this.taskId = taskId;
         this.volunteerId = volunteerId;
         this.status = status;
