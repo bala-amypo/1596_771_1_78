@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -12,33 +10,26 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Full name is required")
-    private String fullName;
+    private String name;
 
-    @Email(message = "Enter a valid email")
-    @NotBlank(message = "Email is required")
     @Column(unique = true)
     private String email;
 
-    @NotBlank(message = "Password is required")
-    private String password;   // stored as plain text for Review-1
+    private String password;
 
-    @NotBlank(message = "Role is required")
-    private String role;       // ADMIN / CUSTOMER
+    private String role;
 
-    public User() {
-    }
+    // Constructors
+    public User() {}
 
-    public User(Long id, String fullName, String email, String password, String role) {
-        this.id = id;
-        this.fullName = fullName;
+    public User(String name, String email, String password, String role) {
+        this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
     }
 
-    // ✅ Getters & Setters
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -47,12 +38,12 @@ public class User {
         this.id = id;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {

@@ -1,46 +1,34 @@
 package com.example.demo.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
-
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
-@CrossOrigin
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
     private UserService userService;
 
-    // ---------------- REGISTER ----------------
+    // Register a new user
     @PostMapping("/register")
-    public User register(@Valid @RequestBody User user) {
-
-        if (userService.existsByEmail(user.getEmail())) {
-            return null; // simple handling for Review-1
-        }
-
-        return userService.saveUser(user);
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        // Optional: check if email already exists
+        return ResponseEntity.ok(userService.saveUser(user));
     }
 
-    // ---------------- LOGIN ----------------
+    // Login user
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
-
+    public ResponseEntity<String> loginUser(@RequestBody User user) {
         User existingUser = userService.findByEmail(user.getEmail());
 
-        if (existingUser == null) {
-            return "User not found";
+        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
+            return ResponseEntity.ok("Login successful");
+        } else {
+            return ResponseEntity.status(401).body("Invalid email or password");
         }
-
-        if (!existingUser.getPassword().equals(user.getPassword())) {
-            return "Invalid password";
-        }
-
-        return "Login successful";
     }
 }
