@@ -5,13 +5,13 @@ import java.util.List;
 
 public interface TaskAssignmentService {
 
-    TaskAssignmentRecord assignTask(Long taskId, String volunteerId);
+    TaskAssignmentRecord assignTask(Long taskId);
 
     TaskAssignmentRecord updateStatus(Long id, String status);
 
-    List<TaskAssignmentRecord> getByVolunteer(String volunteerId);
+    List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId);
 
-    List<TaskAssignmentRecord> getByTask(Long taskId);
+    List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId);
 
-    List<TaskAssignmentRecord> getAll();
+    List<TaskAssignmentRecord> getAllAssignments();
 }

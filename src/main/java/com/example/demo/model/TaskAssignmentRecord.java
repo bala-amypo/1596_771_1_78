@@ -1,9 +1,10 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "task_assignment")
+@Table(name = "task_assignment_record")
 public class TaskAssignmentRecord {
 
     @Id
@@ -11,15 +12,21 @@ public class TaskAssignmentRecord {
     private Long id;
 
     private Long taskId;
-    private String volunteerId;
-    private String status;
+    private Long volunteerId;
+
+    private String status;   // ACTIVE / COMPLETED / CANCELLED
+
+    private LocalDateTime assignedAt;
+
+    private String notes;
 
     public TaskAssignmentRecord() {}
 
-    public TaskAssignmentRecord(Long taskId, String volunteerId, String status) {
+    public TaskAssignmentRecord(Long taskId, Long volunteerId) {
         this.taskId = taskId;
         this.volunteerId = volunteerId;
-        this.status = status;
+        this.status = "ACTIVE";
+        this.assignedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -34,11 +41,11 @@ public class TaskAssignmentRecord {
         this.taskId = taskId;
     }
 
-    public String getVolunteerId() {
+    public Long getVolunteerId() {
         return volunteerId;
     }
 
-    public void setVolunteerId(String volunteerId) {
+    public void setVolunteerId(Long volunteerId) {
         this.volunteerId = volunteerId;
     }
 
@@ -48,5 +55,21 @@ public class TaskAssignmentRecord {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getAssignedAt() {
+        return assignedAt;
+    }
+
+    public void setAssignedAt(LocalDateTime assignedAt) {
+        this.assignedAt = assignedAt;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

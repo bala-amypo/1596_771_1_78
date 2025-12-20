@@ -12,15 +12,20 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
     private final TaskAssignmentRecordRepository repository;
 
+    // ✅ Constructor Injection ONLY
     public TaskAssignmentServiceImpl(TaskAssignmentRecordRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public TaskAssignmentRecord assignTask(Long taskId, String volunteerId) {
-        TaskAssignmentRecord record =
-                new TaskAssignmentRecord(taskId, volunteerId, "ASSIGNED");
-        return repository.save(record);
+    public TaskAssignmentRecord assignTask(Long taskId) {
+        // simple auto-assign (dummy volunteerId)
+        Long volunteerId = 1L;
+
+        TaskAssignmentRecord assignment =
+                new TaskAssignmentRecord(taskId, volunteerId);
+
+        return repository.save(assignment);
     }
 
     @Override
@@ -34,17 +39,17 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
     }
 
     @Override
-    public List<TaskAssignmentRecord> getByVolunteer(String volunteerId) {
+    public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
         return repository.findByVolunteerId(volunteerId);
     }
 
     @Override
-    public List<TaskAssignmentRecord> getByTask(Long taskId) {
+    public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
         return repository.findByTaskId(taskId);
     }
 
     @Override
-    public List<TaskAssignmentRecord> getAll() {
+    public List<TaskAssignmentRecord> getAllAssignments() {
         return repository.findAll();
     }
 }

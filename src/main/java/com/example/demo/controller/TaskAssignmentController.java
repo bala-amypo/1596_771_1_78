@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/task-assignments")
+@RequestMapping("/api/assignments")
 public class TaskAssignmentController {
 
     private final TaskAssignmentService service;
@@ -16,13 +16,13 @@ public class TaskAssignmentController {
         this.service = service;
     }
 
-    @PostMapping("/assign")
-    public TaskAssignmentRecord assign(
-            @RequestParam Long taskId,
-            @RequestParam String volunteerId) {
-        return service.assignTask(taskId, volunteerId);
+    // POST /api/assignments/assign/{taskId}
+    @PostMapping("/assign/{taskId}")
+    public TaskAssignmentRecord assignTask(@PathVariable Long taskId) {
+        return service.assignTask(taskId);
     }
 
+    // PUT /api/assignments/{id}/status
     @PutMapping("/{id}/status")
     public TaskAssignmentRecord updateStatus(
             @PathVariable Long id,
@@ -30,20 +30,23 @@ public class TaskAssignmentController {
         return service.updateStatus(id, status);
     }
 
+    // GET /api/assignments/volunteer/{volunteerId}
     @GetMapping("/volunteer/{volunteerId}")
     public List<TaskAssignmentRecord> byVolunteer(
-            @PathVariable String volunteerId) {
-        return service.getByVolunteer(volunteerId);
+            @PathVariable Long volunteerId) {
+        return service.getAssignmentsByVolunteer(volunteerId);
     }
 
+    // GET /api/assignments/task/{taskId}
     @GetMapping("/task/{taskId}")
     public List<TaskAssignmentRecord> byTask(
             @PathVariable Long taskId) {
-        return service.getByTask(taskId);
+        return service.getAssignmentsByTask(taskId);
     }
 
+    // GET /api/assignments
     @GetMapping
-    public List<TaskAssignmentRecord> all() {
-        return service.getAll();
+    public List<TaskAssignmentRecord> getAll() {
+        return service.getAllAssignments();
     }
 }
