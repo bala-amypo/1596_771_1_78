@@ -6,7 +6,6 @@ import com.example.demo.service.TaskAssignmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
@@ -18,26 +17,24 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
     }
 
     @Override
-    public TaskAssignmentRecord autoAssign(Long taskId) {
-        Long volunteerId = Math.abs(new Random().nextLong() % 1000);
-
+    public TaskAssignmentRecord assignTask(Long taskId, String volunteerId) {
         TaskAssignmentRecord record =
                 new TaskAssignmentRecord(taskId, volunteerId, "ASSIGNED");
-
         return repository.save(record);
     }
 
     @Override
     public TaskAssignmentRecord updateStatus(Long id, String status) {
-        TaskAssignmentRecord record = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Assignment not found"));
-
-        record.setStatus(status);
-        return repository.save(record);
+        TaskAssignmentRecord record = repository.findById(id).orElse(null);
+        if (record != null) {
+            record.setStatus(status);
+            return repository.save(record);
+        }
+        return null;
     }
 
     @Override
-    public List<TaskAssignmentRecord> getByVolunteer(Long volunteerId) {
+    public List<TaskAssignmentRecord> getByVolunteer(String volunteerId) {
         return repository.findByVolunteerId(volunteerId);
     }
 

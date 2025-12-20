@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/assignments")
+@RequestMapping("/api/task-assignments")
 public class TaskAssignmentController {
 
     private final TaskAssignmentService service;
@@ -16,35 +16,34 @@ public class TaskAssignmentController {
         this.service = service;
     }
 
-    // POST /api/assignments/assign/{taskId}
-    @PostMapping("/assign/{taskId}")
-    public TaskAssignmentRecord autoAssign(@PathVariable Long taskId) {
-        return service.autoAssign(taskId);
+    @PostMapping("/assign")
+    public TaskAssignmentRecord assign(
+            @RequestParam Long taskId,
+            @RequestParam String volunteerId) {
+        return service.assignTask(taskId, volunteerId);
     }
 
-    // PUT /api/assignments/{id}/status?status=COMPLETED
     @PutMapping("/{id}/status")
-    public TaskAssignmentRecord updateStatus(@PathVariable Long id,
-                                             @RequestParam String status) {
+    public TaskAssignmentRecord updateStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
         return service.updateStatus(id, status);
     }
 
-    // GET /api/assignments/volunteer/{volunteerId}
     @GetMapping("/volunteer/{volunteerId}")
-    public List<TaskAssignmentRecord> getByVolunteer(
-            @PathVariable Long volunteerId) {
+    public List<TaskAssignmentRecord> byVolunteer(
+            @PathVariable String volunteerId) {
         return service.getByVolunteer(volunteerId);
     }
 
-    // GET /api/assignments/task/{taskId}
     @GetMapping("/task/{taskId}")
-    public List<TaskAssignmentRecord> getByTask(@PathVariable Long taskId) {
+    public List<TaskAssignmentRecord> byTask(
+            @PathVariable Long taskId) {
         return service.getByTask(taskId);
     }
 
-    // GET /api/assignments
     @GetMapping
-    public List<TaskAssignmentRecord> getAll() {
+    public List<TaskAssignmentRecord> all() {
         return service.getAll();
     }
 }

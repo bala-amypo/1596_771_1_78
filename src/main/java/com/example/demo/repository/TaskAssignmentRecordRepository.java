@@ -7,7 +7,7 @@ import java.util.List;
 public interface TaskAssignmentRecordRepository
         extends JpaRepository<TaskAssignmentRecord, Long> {
 
-    List<TaskAssignmentRecord> findByVolunteerId(Long volunteerId);
+    List<TaskAssignmentRecord> findByVolunteerId(String volunteerId);
 
     List<TaskAssignmentRecord> findByTaskId(Long taskId);
 }

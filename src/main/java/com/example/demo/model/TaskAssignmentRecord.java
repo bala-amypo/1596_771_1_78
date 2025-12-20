@@ -11,12 +11,12 @@ public class TaskAssignmentRecord {
     private Long id;
 
     private Long taskId;
-    private Long volunteerId;
-    private String status; // ASSIGNED, COMPLETED
+    private String volunteerId;
+    private String status;
 
     public TaskAssignmentRecord() {}
 
-    public TaskAssignmentRecord(Long taskId, Long volunteerId, String status) {
+    public TaskAssignmentRecord(Long taskId, String volunteerId, String status) {
         this.taskId = taskId;
         this.volunteerId = volunteerId;
         this.status = status;
@@ -34,11 +34,11 @@ public class TaskAssignmentRecord {
         this.taskId = taskId;
     }
 
-    public Long getVolunteerId() {
+    public String getVolunteerId() {
         return volunteerId;
     }
 
-    public void setVolunteerId(Long volunteerId) {
+    public void setVolunteerId(String volunteerId) {
         this.volunteerId = volunteerId;
     }
 
