@@ -1,10 +1,8 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.TaskRecord;
+import com.example.demo.model.VolunteerProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
-import java.util.List;
 
-public interface TaskRecordRepository extends JpaRepository<TaskRecord, Long> {
-
-    List<TaskRecord> findByStatus(String status);
+public interface VolunteerProfileRepository
+        extends JpaRepository<VolunteerProfile, Long> {
 }
