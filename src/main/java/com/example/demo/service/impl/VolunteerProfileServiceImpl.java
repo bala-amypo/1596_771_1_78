@@ -1,19 +1,20 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.repository.VolunteerProfileRepository;
 import com.example.demo.service.VolunteerProfileService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
-    @Autowired
-    private VolunteerProfileRepository repository;
+    private final VolunteerProfileRepository repository;
+
+    public VolunteerProfileServiceImpl(VolunteerProfileRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public VolunteerProfile createVolunteer(VolunteerProfile profile) {
@@ -21,28 +22,13 @@ public class VolunteerProfileServiceImpl implements VolunteerProfileService {
     }
 
     @Override
-    public VolunteerProfile getVolunteerById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with id: " + id));
+    public VolunteerProfile getByVolunteerId(String volunteerId) {
+        return repository.findByVolunteerId(volunteerId)
+                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
     }
 
     @Override
     public List<VolunteerProfile> getAllVolunteers() {
         return repository.findAll();
-    }
-
-    @Override
-    public VolunteerProfile findByVolunteerId(String volunteerId) {
-        return repository.findByVolunteerId(volunteerId)
-                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with volunteerId: " + volunteerId));
-    }
-
-    @Override
-    public VolunteerProfile updateAvailability(Long id, String status) {
-        VolunteerProfile v = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with id: " + id));
-
-        v.setAvailabilityStatus(status);
-        return repository.save(v);
     }
 }

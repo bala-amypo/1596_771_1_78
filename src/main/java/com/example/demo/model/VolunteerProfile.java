@@ -1,45 +1,33 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "volunteer_profiles")
+@Table(name = "volunteer_profile")
 public class VolunteerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String volunteerId;  // Unique identifier
+    @Column(unique = true, nullable = false)
+    private String volunteerId;
 
-    private String fullName;
+    private String name;
     private String email;
-    private String availabilityStatus;
+    private String phone;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-
-    // Constructors
     public VolunteerProfile() {}
 
-    public VolunteerProfile(String volunteerId, String fullName, String email, String availabilityStatus) {
+    public VolunteerProfile(String volunteerId, String name, String email, String phone) {
         this.volunteerId = volunteerId;
-        this.fullName = fullName;
+        this.name = name;
         this.email = email;
-        this.availabilityStatus = availabilityStatus;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.phone = phone;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getVolunteerId() {
@@ -50,12 +38,12 @@ public class VolunteerProfile {
         this.volunteerId = volunteerId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -66,27 +54,11 @@ public class VolunteerProfile {
         this.email = email;
     }
 
-    public String getAvailabilityStatus() {
-        return availabilityStatus;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setAvailabilityStatus(String availabilityStatus) {
-        this.availabilityStatus = availabilityStatus;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

@@ -1,43 +1,36 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.service.VolunteerProfileService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/volunteers")
-@CrossOrigin
 public class VolunteerProfileController {
 
-    @Autowired
-    private VolunteerProfileService service;
+    private final VolunteerProfileService service;
 
+    public VolunteerProfileController(VolunteerProfileService service) {
+        this.service = service;
+    }
+
+    // POST /api/volunteers
     @PostMapping
     public VolunteerProfile create(@RequestBody VolunteerProfile profile) {
         return service.createVolunteer(profile);
     }
 
-    @GetMapping("/{id}")
-    public VolunteerProfile get(@PathVariable Long id) {
-        return service.getVolunteerById(id);
+    // GET /api/volunteers/{volunteerId}
+    @GetMapping("/{volunteerId}")
+    public VolunteerProfile getByVolunteerId(@PathVariable String volunteerId) {
+        return service.getByVolunteerId(volunteerId);
     }
 
+    // GET /api/volunteers
     @GetMapping
     public List<VolunteerProfile> getAll() {
         return service.getAllVolunteers();
-    }
-
-    @PutMapping("/{id}/availability")
-    public VolunteerProfile updateStatus(@PathVariable Long id, @RequestParam String status) {
-        return service.updateAvailability(id, status);
-    }
-
-    @GetMapping("/lookup/{volunteerId}")
-    public VolunteerProfile lookup(@PathVariable String volunteerId) {
-        return service.findByVolunteerId(volunteerId);
     }
 }
