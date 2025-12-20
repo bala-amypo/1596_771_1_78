@@ -1,40 +1,51 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
+import com.example.demo.model.AssignmentEvaluation;
+import com.example.demo.repository.AssignmentEvaluationRepository;
+import com.example.demo.service.AssignmentEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.AssignmentEvaluationRecord;
-import com.example.demo.repository.AssignmentEvaluationRecordRepository;
-import com.example.demo.service.AssignmentEvaluationService;
+import java.util.List;
 
 @Service
-public class AssignmentEvaluationServiceImpl
-        implements AssignmentEvaluationService {
+public class AssignmentEvaluationServiceImpl implements AssignmentEvaluationService {
 
     @Autowired
-    private AssignmentEvaluationRecordRepository repository;
+    private AssignmentEvaluationRepository assignmentEvaluationRepository;
 
     @Override
-    public AssignmentEvaluationRecord addEvaluation(
-            AssignmentEvaluationRecord evaluation) {
-        return repository.save(evaluation);
+    public AssignmentEvaluation saveAssignment(AssignmentEvaluation assignmentEvaluation) {
+        return assignmentEvaluationRepository.save(assignmentEvaluation);
     }
 
     @Override
-    public AssignmentEvaluationRecord getEvaluationById(Long id) {
-        return repository.findById(id).orElse(null);
+    public List<AssignmentEvaluation> getAllAssignments() {
+        return assignmentEvaluationRepository.findAll();
     }
 
     @Override
-    public List<AssignmentEvaluationRecord> getEvaluationsByAssignment(
-            Long assignmentId) {
-        return repository.findByAssignmentId(assignmentId);
+    public AssignmentEvaluation getAssignmentById(Long id) {
+        return assignmentEvaluationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Assignment not found with id: " + id));
     }
 
     @Override
-    public List<AssignmentEvaluationRecord> getAllEvaluations() {
-        return repository.findAll();
+    public AssignmentEvaluation updateAssignment(Long id, AssignmentEvaluation assignmentEvaluation) {
+        AssignmentEvaluation existingAssignment =
+                assignmentEvaluationRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Assignment not found with id: " + id));
+
+        existingAssignment.setStudentName(assignmentEvaluation.getStudentName());
+        existingAssignment.setAssignmentTitle(assignmentEvaluation.getAssignmentTitle());
+        existingAssignment.setMarks(assignmentEvaluation.getMarks());
+        existingAssignment.setRemarks(assignmentEvaluation.getRemarks());
+
+        return assignmentEvaluationRepository.save(existingAssignment);
+    }
+
+    @Override
+    public void deleteAssignment(Long id) {
+        assignmentEvaluationRepository.deleteById(id);
     }
 }

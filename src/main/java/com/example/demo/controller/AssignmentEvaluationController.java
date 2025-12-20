@@ -1,44 +1,55 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.model.AssignmentEvaluation;
+import com.example.demo.service.AssignmentEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.AssignmentEvaluationRecord;
-import com.example.demo.service.AssignmentEvaluationService;
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/evaluations")
-@CrossOrigin
+@RequestMapping("/api/assignments")
 public class AssignmentEvaluationController {
 
     @Autowired
-    private AssignmentEvaluationService service;
+    private AssignmentEvaluationService assignmentEvaluationService;
 
-    // Add evaluation
+    // Create assignment evaluation
     @PostMapping
-    public AssignmentEvaluationRecord addEvaluation(
-            @RequestBody AssignmentEvaluationRecord evaluation) {
-        return service.addEvaluation(evaluation);
+    public ResponseEntity<AssignmentEvaluation> createAssignment(
+            @RequestBody AssignmentEvaluation assignmentEvaluation) {
+        return ResponseEntity.ok(
+                assignmentEvaluationService.saveAssignment(assignmentEvaluation));
     }
 
-    // Get evaluation by ID
-    @GetMapping("/{id}")
-    public AssignmentEvaluationRecord getEvaluation(@PathVariable Long id) {
-        return service.getEvaluationById(id);
-    }
-
-    // Get evaluations by assignment
-    @GetMapping("/assignment/{assignmentId}")
-    public List<AssignmentEvaluationRecord> getByAssignment(
-            @PathVariable Long assignmentId) {
-        return service.getEvaluationsByAssignment(assignmentId);
-    }
-
-    // Get all evaluations
+    // Get all assignment evaluations
     @GetMapping
-    public List<AssignmentEvaluationRecord> getAll() {
-        return service.getAllEvaluations();
+    public ResponseEntity<List<AssignmentEvaluation>> getAllAssignments() {
+        return ResponseEntity.ok(
+                assignmentEvaluationService.getAllAssignments());
+    }
+
+    // Get assignment by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<AssignmentEvaluation> getAssignmentById(@PathVariable Long id) {
+        return ResponseEntity.ok(
+                assignmentEvaluationService.getAssignmentById(id));
+    }
+
+    // Update assignment
+    @PutMapping("/{id}")
+    public ResponseEntity<AssignmentEvaluation> updateAssignment(
+            @PathVariable Long id,
+            @RequestBody AssignmentEvaluation assignmentEvaluation) {
+        return ResponseEntity.ok(
+                assignmentEvaluationService.updateAssignment(id, assignmentEvaluation));
+    }
+
+    // Delete assignment
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAssignment(@PathVariable Long id) {
+        assignmentEvaluationService.deleteAssignment(id);
+        return ResponseEntity.ok("Assignment deleted successfully");
     }
 }
