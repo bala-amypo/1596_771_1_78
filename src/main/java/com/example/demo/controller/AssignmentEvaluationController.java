@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.AssignmentEvaluation;
+import com.example.demo.model.AssignmentEvaluationRecord;
 import com.example.demo.service.AssignmentEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,38 +15,34 @@ public class AssignmentEvaluationController {
     @Autowired
     private AssignmentEvaluationService assignmentEvaluationService;
 
-    // Create assignment evaluation
+    // Create a new assignment evaluation
     @PostMapping
-    public ResponseEntity<AssignmentEvaluation> createAssignment(
-            @RequestBody AssignmentEvaluation assignmentEvaluation) {
-        return ResponseEntity.ok(
-                assignmentEvaluationService.saveAssignment(assignmentEvaluation));
+    public ResponseEntity<AssignmentEvaluationRecord> createAssignment(
+            @RequestBody AssignmentEvaluationRecord assignment) {
+        return ResponseEntity.ok(assignmentEvaluationService.saveAssignment(assignment));
     }
 
-    // Get all assignment evaluations
+    // Get all assignments
     @GetMapping
-    public ResponseEntity<List<AssignmentEvaluation>> getAllAssignments() {
-        return ResponseEntity.ok(
-                assignmentEvaluationService.getAllAssignments());
+    public ResponseEntity<List<AssignmentEvaluationRecord>> getAllAssignments() {
+        return ResponseEntity.ok(assignmentEvaluationService.getAllAssignments());
     }
 
     // Get assignment by ID
     @GetMapping("/{id}")
-    public ResponseEntity<AssignmentEvaluation> getAssignmentById(@PathVariable Long id) {
-        return ResponseEntity.ok(
-                assignmentEvaluationService.getAssignmentById(id));
+    public ResponseEntity<AssignmentEvaluationRecord> getAssignmentById(@PathVariable Long id) {
+        return ResponseEntity.ok(assignmentEvaluationService.getAssignmentById(id));
     }
 
-    // Update assignment
+    // Update assignment by ID
     @PutMapping("/{id}")
-    public ResponseEntity<AssignmentEvaluation> updateAssignment(
+    public ResponseEntity<AssignmentEvaluationRecord> updateAssignment(
             @PathVariable Long id,
-            @RequestBody AssignmentEvaluation assignmentEvaluation) {
-        return ResponseEntity.ok(
-                assignmentEvaluationService.updateAssignment(id, assignmentEvaluation));
+            @RequestBody AssignmentEvaluationRecord assignment) {
+        return ResponseEntity.ok(assignmentEvaluationService.updateAssignment(id, assignment));
     }
 
-    // Delete assignment
+    // Delete assignment by ID
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAssignment(@PathVariable Long id) {
         assignmentEvaluationService.deleteAssignment(id);
