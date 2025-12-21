@@ -6,8 +6,8 @@ import java.util.List;
 public interface VolunteerProfileService {
 
     VolunteerProfile createVolunteer(VolunteerProfile profile);
-
-    VolunteerProfile getByVolunteerId(String volunteerId);
-
-    List<VolunteerProfile> getAll();
+    VolunteerProfile getVolunteerById(Long id);
+    VolunteerProfile findByVolunteerId(String volunteerId);
+    List<VolunteerProfile> getAllVolunteers();
+    VolunteerProfile updateAvailability(Long id, String status);
 }
