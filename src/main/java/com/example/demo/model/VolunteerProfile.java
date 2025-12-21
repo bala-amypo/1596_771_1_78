@@ -4,31 +4,25 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "volunteer_profiles")
 public class VolunteerProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
-    private String volunteerId;
-
     private String fullName;
+
+    @Column(unique = true, nullable = false)
     private String email;
-    private String phone;
-    private String availabilityStatus;
 
-    private LocalDateTime createdAt;
+    private String password;
 
-    @PrePersist
-    void onCreate() {
-        createdAt = LocalDateTime.now();
-        availabilityStatus = "AVAILABLE";
-    }
+    private String role; // VOLUNTEER / COORDINATOR
 
-    public Long getId() { return id; }
-    public String getVolunteerId() { return volunteerId; }
-    public void setVolunteerId(String volunteerId) { this.volunteerId = volunteerId; }
-    public String getAvailabilityStatus() { return availabilityStatus; }
-    public void setAvailabilityStatus(String availabilityStatus) { this.availabilityStatus = availabilityStatus; }
+    private String availabilityStatus; // AVAILABLE / BUSY / UNAVAILABLE
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    // getters and setters
 }
