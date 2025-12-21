@@ -1,42 +1,50 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "task_records")
 public class TaskRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    private String taskCode;
+
     private String taskName;
-    private String description;
-    private String status;     // e.g., "Pending", "Completed"
-    private String priority;   // e.g., "High", "Medium", "Low"
+    private String requiredSkill;
+    private String requiredSkillLevel; // BEGINNER / INTERMEDIATE / EXPERT
+    private String priority; // LOW / MEDIUM / HIGH
+    private String status;   // OPEN / CLOSED
+    private LocalDateTime createdAt;
 
-    public TaskRecord() {}
-
-    public TaskRecord(String taskName, String description, String status, String priority) {
-        this.taskName = taskName;
-        this.description = description;
-        this.status = status;
-        this.priority = priority;
+    public TaskRecord() {
+        this.status = "OPEN";
+        this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public TaskRecord(String taskCode, String taskName,
+                      String requiredSkill, String requiredSkillLevel,
+                      String priority) {
+        this.taskCode = taskCode;
+        this.taskName = taskName;
+        this.requiredSkill = requiredSkill;
+        this.requiredSkillLevel = requiredSkillLevel;
+        this.priority = priority;
+        this.status = "OPEN";
+        this.createdAt = LocalDateTime.now();
+    }
 
+    public Long getId() { return id; }
+    public String getTaskCode() { return taskCode; }
+    public void setTaskCode(String taskCode) { this.taskCode = taskCode; }
     public String getTaskName() { return taskName; }
     public void setTaskName(String taskName) { this.taskName = taskName; }
-
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
-
+    public String getRequiredSkill() { return requiredSkill; }
+    public String getRequiredSkillLevel() { return requiredSkillLevel; }
+    public String getPriority() { return priority; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
-    public String getPriority() { return priority; }
-    public void setPriority(String priority) { this.priority = priority; }
 }

@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.VolunteerSkillRecord;
 import com.example.demo.service.VolunteerSkillService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,8 +20,8 @@ public class VolunteerSkillController {
         return service.addSkill(skill);
     }
 
-    @GetMapping("/volunteer/{volunteerId}")
-    public List<VolunteerSkillRecord> byVolunteer(@PathVariable Long volunteerId) {
-        return service.getSkillsByVolunteer(volunteerId);
+    @GetMapping("/volunteer/{id}")
+    public List<VolunteerSkillRecord> get(@PathVariable Long id) {
+        return service.getSkillsByVolunteer(id);
     }
 }

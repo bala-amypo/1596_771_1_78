@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.service.VolunteerProfileService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,13 +20,19 @@ public class VolunteerProfileController {
         return service.createVolunteer(profile);
     }
 
-    @GetMapping("/{volunteerId}")
-    public VolunteerProfile get(@PathVariable String volunteerId) {
-        return service.getByVolunteerId(volunteerId);
+    @GetMapping("/{id}")
+    public VolunteerProfile get(@PathVariable Long id) {
+        return service.getVolunteerById(id);
     }
 
     @GetMapping
-    public List<VolunteerProfile> all() {
-        return service.getAll();
+    public List<VolunteerProfile> getAll() {
+        return service.getAllVolunteers();
+    }
+
+    @PutMapping("/{id}/availability")
+    public VolunteerProfile update(@PathVariable Long id,
+                                   @RequestParam String status) {
+        return service.updateAvailability(id, status);
     }
 }

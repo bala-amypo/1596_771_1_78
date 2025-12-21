@@ -4,7 +4,6 @@ import com.example.demo.model.VolunteerSkillRecord;
 import com.example.demo.repository.VolunteerSkillRecordRepository;
 import com.example.demo.service.VolunteerSkillService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
