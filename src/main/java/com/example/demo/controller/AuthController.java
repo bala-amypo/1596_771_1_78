@@ -1,39 +1,46 @@
 package com.example.demo.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import jakarta.validation.Valid;
+
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class AuthController {
 
-    private final UserService service;
+    @Autowired
+    private UserService userService;
 
-    public AuthController(UserService service) {
-        this.service = service;
-    }
-
+    // ---------------- REGISTER ----------------
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
+    public User register(@Valid @RequestBody User user) {
 
-        if (service.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists");
+        if (userService.existsByEmail(user.getEmail())) {
+            return null; // simple handling for Review-1
         }
 
-        return service.saveUser(user);
+        return userService.saveUser(user);
     }
 
+    // ---------------- LOGIN ----------------
     @PostMapping("/login")
     public String login(@RequestBody User user) {
 
-        User dbUser = service.findByEmail(user.getEmail());
+        User existingUser = userService.findByEmail(user.getEmail());
 
-        if (!dbUser.getPassword().equals(user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
+        if (existingUser == null) {
+            return "User not found";
+        }
+
+        if (!existingUser.getPassword().equals(user.getPassword())) {
+            return "Invalid password";
         }
 
         return "Login successful";
-        // JWT token returned here in real implementation
     }
 }

@@ -1,32 +1,33 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.model.TaskRecord;
 import com.example.demo.service.TaskRecordService;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
+@CrossOrigin
 public class TaskRecordController {
 
-    private final TaskRecordService service;
-
-    public TaskRecordController(TaskRecordService service) {
-        this.service = service;
-    }
+    @Autowired
+    private TaskRecordService service;
 
     @PostMapping
-    public TaskRecord create(@RequestBody TaskRecord task) {
+    public TaskRecord createTask(@RequestBody TaskRecord task) {
         return service.createTask(task);
     }
 
-    @GetMapping("/open")
-    public List<TaskRecord> openTasks() {
-        return service.getOpenTasks();
+    @GetMapping
+    public List<TaskRecord> getAllTasks() {
+        return service.getAllTasks();
     }
 
-    @GetMapping
-    public List<TaskRecord> all() {
-        return service.getAllTasks();
+    @GetMapping("/{id}")
+    public TaskRecord getTask(@PathVariable Long id) {
+        return service.getTaskById(id);
     }
 }

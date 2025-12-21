@@ -1,19 +1,20 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.service.VolunteerProfileService;
-import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/volunteers")
+@CrossOrigin
 public class VolunteerProfileController {
 
-    private final VolunteerProfileService service;
-
-    public VolunteerProfileController(VolunteerProfileService service) {
-        this.service = service;
-    }
+    @Autowired
+    private VolunteerProfileService service;
 
     @PostMapping
     public VolunteerProfile create(@RequestBody VolunteerProfile profile) {
@@ -31,8 +32,12 @@ public class VolunteerProfileController {
     }
 
     @PutMapping("/{id}/availability")
-    public VolunteerProfile update(@PathVariable Long id,
-                                   @RequestParam String status) {
+    public VolunteerProfile updateStatus(@PathVariable Long id, @RequestParam String status) {
         return service.updateAvailability(id, status);
+    }
+
+    @GetMapping("/lookup/{volunteerId}")
+    public VolunteerProfile lookup(@PathVariable String volunteerId) {
+        return service.findByVolunteerId(volunteerId);
     }
 }
