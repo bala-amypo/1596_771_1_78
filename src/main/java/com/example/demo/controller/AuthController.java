@@ -2,33 +2,38 @@ package com.example.demo.controller;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService service;
 
-    // Register a new user
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        // Optional: check if email already exists
-        return ResponseEntity.ok(userService.saveUser(user));
+    public AuthController(UserService service) {
+        this.service = service;
     }
 
-    // Login user
-    @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody User user) {
-        User existingUser = userService.findByEmail(user.getEmail());
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
 
-        if (existingUser != null && existingUser.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.ok("Login successful");
-        } else {
-            return ResponseEntity.status(401).body("Invalid email or password");
+        if (service.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already exists");
         }
+
+        return service.saveUser(user);
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+
+        User dbUser = service.findByEmail(user.getEmail());
+
+        if (!dbUser.getPassword().equals(user.getPassword())) {
+            throw new RuntimeException("Invalid credentials");
+        }
+
+        return "Login successful";
+        // JWT token returned here in real implementation
     }
 }
