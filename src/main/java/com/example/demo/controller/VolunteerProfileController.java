@@ -1,20 +1,18 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.service.VolunteerProfileService;
 
 @RestController
 @RequestMapping("/api/volunteers")
-@CrossOrigin
 public class VolunteerProfileController {
 
     @Autowired
-    private VolunteerProfileService service;
+    VolunteerProfileService service;
 
     @PostMapping
     public VolunteerProfile create(@RequestBody VolunteerProfile profile) {
@@ -22,7 +20,7 @@ public class VolunteerProfileController {
     }
 
     @GetMapping("/{id}")
-    public VolunteerProfile get(@PathVariable Long id) {
+    public VolunteerProfile getById(@PathVariable Long id) {
         return service.getVolunteerById(id);
     }
 
@@ -31,13 +29,15 @@ public class VolunteerProfileController {
         return service.getAllVolunteers();
     }
 
-    @PutMapping("/{id}/availability")
-    public VolunteerProfile updateStatus(@PathVariable Long id, @RequestParam String status) {
-        return service.updateAvailability(id, status);
-    }
-
     @GetMapping("/lookup/{volunteerId}")
     public VolunteerProfile lookup(@PathVariable String volunteerId) {
         return service.findByVolunteerId(volunteerId);
+    }
+
+    @PutMapping("/{id}/availability")
+    public VolunteerProfile updateAvailability(
+            @PathVariable Long id,
+            @RequestParam String availabilityStatus) {
+        return service.updateAvailability(id, availabilityStatus);
     }
 }
