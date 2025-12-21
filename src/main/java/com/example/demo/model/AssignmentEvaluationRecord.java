@@ -1,42 +1,35 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "assignment_evaluation_records")
 public class AssignmentEvaluationRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String studentName;
-    private String assignmentTitle;
-    private Integer marks;
-    private String remarks;
+    private Long assignmentId;
+    private Integer rating;
+    private String feedback;
+    private LocalDateTime evaluatedAt;
 
-    public AssignmentEvaluationRecord() {}
-
-    public AssignmentEvaluationRecord(String studentName, String assignmentTitle, Integer marks, String remarks) {
-        this.studentName = studentName;
-        this.assignmentTitle = assignmentTitle;
-        this.marks = marks;
-        this.remarks = remarks;
+    public AssignmentEvaluationRecord() {
+        this.evaluatedAt = LocalDateTime.now();
     }
 
-    // Getters and setters
+    public AssignmentEvaluationRecord(Long assignmentId,
+                                      Integer rating,
+                                      String feedback) {
+        this.assignmentId = assignmentId;
+        this.rating = rating;
+        this.feedback = feedback;
+        this.evaluatedAt = LocalDateTime.now();
+    }
+
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getStudentName() { return studentName; }
-    public void setStudentName(String studentName) { this.studentName = studentName; }
-
-    public String getAssignmentTitle() { return assignmentTitle; }
-    public void setAssignmentTitle(String assignmentTitle) { this.assignmentTitle = assignmentTitle; }
-
-    public Integer getMarks() { return marks; }
-    public void setMarks(Integer marks) { this.marks = marks; }
-
-    public String getRemarks() { return remarks; }
-    public void setRemarks(String remarks) { this.remarks = remarks; }
+    public Long getAssignmentId() { return assignmentId; }
+    public Integer getRating() { return rating; }
+    public String getFeedback() { return feedback; }
 }

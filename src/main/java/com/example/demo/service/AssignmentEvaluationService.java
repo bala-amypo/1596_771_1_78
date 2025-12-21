@@ -5,13 +5,7 @@ import java.util.List;
 
 public interface AssignmentEvaluationService {
 
-    AssignmentEvaluationRecord saveAssignment(AssignmentEvaluationRecord assignment);
-
-    List<AssignmentEvaluationRecord> getAllAssignments();
-
-    AssignmentEvaluationRecord getAssignmentById(Long id);
-
-    AssignmentEvaluationRecord updateAssignment(Long id, AssignmentEvaluationRecord assignment);
-
-    void deleteAssignment(Long id);
+    AssignmentEvaluationRecord evaluateAssignment(AssignmentEvaluationRecord evaluation);
+    List<AssignmentEvaluationRecord> getEvaluationsByAssignment(Long assignmentId);
+    List<AssignmentEvaluationRecord> getAllEvaluations();
 }
