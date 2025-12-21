@@ -1,6 +1,11 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,25 +17,65 @@ public class VolunteerSkillRecord {
 
     private Long volunteerId;
     private String skillName;
-    private String skillLevel; // BEGINNER / INTERMEDIATE / EXPERT
-    private Boolean certified;
+    private String skillLevel;   // BEGINNER / INTERMEDIATE / EXPERT
+    private boolean certified;
+
     private LocalDateTime updatedAt;
 
-    public VolunteerSkillRecord() {
+    @PrePersist
+    public void setTime() {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public VolunteerSkillRecord(Long volunteerId, String skillName,
-                                String skillLevel, Boolean certified) {
+    // ---------------- GETTERS ----------------
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getVolunteerId() {
+        return volunteerId;
+    }
+
+    public String getSkillName() {
+        return skillName;
+    }
+
+    public String getSkillLevel() {
+        return skillLevel;
+    }
+
+    public boolean isCertified() {
+        return certified;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    // ---------------- SETTERS ----------------
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setVolunteerId(Long volunteerId) {
         this.volunteerId = volunteerId;
-        this.skillName = skillName;
-        this.skillLevel = skillLevel;
-        this.certified = certified;
-        this.updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
-    public Long getVolunteerId() { return volunteerId; }
-    public String getSkillName() { return skillName; }
-    public String getSkillLevel() { return skillLevel; }
+    public void setSkillName(String skillName) {
+        this.skillName = skillName;
+    }
+
+    public void setSkillLevel(String skillLevel) {
+        this.skillLevel = skillLevel;
+    }
+
+    public void setCertified(boolean certified) {
+        this.certified = certified;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
