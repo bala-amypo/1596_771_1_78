@@ -1,18 +1,19 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
-import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository repository;
-
-    public UserServiceImpl(UserRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private UserRepository repository;
 
     @Override
     public User saveUser(User user) {
@@ -21,12 +22,21 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return repository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.findByEmail(email);
     }
 
     @Override
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return repository.findAll();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 }

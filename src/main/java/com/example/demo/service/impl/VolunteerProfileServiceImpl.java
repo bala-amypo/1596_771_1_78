@@ -1,45 +1,47 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.repository.VolunteerProfileRepository;
 import com.example.demo.service.VolunteerProfileService;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
-    private final VolunteerProfileRepository repository;
+    @Autowired
+    private VolunteerProfileRepository repository;
 
-    public VolunteerProfileServiceImpl(VolunteerProfileRepository repository) {
-        this.repository = repository;
-    }
-
+    @Override
     public VolunteerProfile createVolunteer(VolunteerProfile profile) {
-
-        if (repository.existsByEmail(profile.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-        if (repository.existsByPhone(profile.getPhone())) {
-            throw new RuntimeException("Phone already exists");
-        }
         return repository.save(profile);
     }
 
+    @Override
     public VolunteerProfile getVolunteerById(Long id) {
-        return repository.findById(id).orElseThrow();
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with id: " + id));
     }
 
-    public VolunteerProfile findByVolunteerId(String volunteerId) {
-        return repository.findByVolunteerId(volunteerId).orElseThrow();
-    }
-
+    @Override
     public List<VolunteerProfile> getAllVolunteers() {
         return repository.findAll();
     }
 
+    @Override
+    public VolunteerProfile findByVolunteerId(String volunteerId) {
+        return repository.findByVolunteerId(volunteerId)
+                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with volunteerId: " + volunteerId));
+    }
+
+    @Override
     public VolunteerProfile updateAvailability(Long id, String status) {
-        VolunteerProfile v = getVolunteerById(id);
+        VolunteerProfile v = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("VolunteerProfile not found with id: " + id));
+
         v.setAvailabilityStatus(status);
         return repository.save(v);
     }

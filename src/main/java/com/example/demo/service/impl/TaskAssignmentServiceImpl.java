@@ -1,50 +1,33 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.model.TaskAssignmentRecord;
-import com.example.demo.repository.TaskAssignmentRecordRepository;
-import com.example.demo.repository.TaskRecordRepository;
-import com.example.demo.repository.VolunteerProfileRepository;
-import com.example.demo.repository.VolunteerSkillRecordRepository;
-import com.example.demo.service.TaskAssignmentService;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.demo.model.TaskAssignmentRecord;
+import com.example.demo.repository.TaskAssignmentRecordRepository;
+import com.example.demo.service.TaskAssignmentService;
 
 @Service
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
-    private final TaskAssignmentRecordRepository assignmentRepo;
-    private final TaskRecordRepository taskRepo;
-    private final VolunteerProfileRepository volunteerRepo;
-    private final VolunteerSkillRecordRepository skillRepo;
+    @Autowired
+    private TaskAssignmentRecordRepository repository;
 
-    public TaskAssignmentServiceImpl(
-            TaskAssignmentRecordRepository assignmentRepo,
-            TaskRecordRepository taskRepo,
-            VolunteerProfileRepository volunteerRepo,
-            VolunteerSkillRecordRepository skillRepo) {
-        this.assignmentRepo = assignmentRepo;
-        this.taskRepo = taskRepo;
-        this.volunteerRepo = volunteerRepo;
-        this.skillRepo = skillRepo;
+    public TaskAssignmentRecord assignTask(TaskAssignmentRecord assignment) {
+        return repository.save(assignment);
     }
 
-    public TaskAssignmentRecord assignTask(Long taskId) {
-        // simplified for exam (logic assumed)
-        return assignmentRepo.save(new TaskAssignmentRecord(taskId, 1L));
-    }
-
-    public TaskAssignmentRecord updateAssignmentStatus(Long id, String status) {
-        TaskAssignmentRecord ar = assignmentRepo.findById(id).orElseThrow();
-        ar.setStatus(status);
-        return assignmentRepo.save(ar);
+    public TaskAssignmentRecord getAssignmentById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
-        return assignmentRepo.findByVolunteerId(volunteerId);
+        return repository.findByVolunteerId(volunteerId);
     }
 
     public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
-        return assignmentRepo.findByTaskId(taskId);
+        return repository.findByTaskId(taskId);
     }
 }
