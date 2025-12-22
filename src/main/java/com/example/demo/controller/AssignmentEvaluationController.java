@@ -14,7 +14,7 @@ public class AssignmentEvaluationController {
     @Autowired
     AssignmentEvaluationService service;
 
-    @PostMapping
+   @PostMapping
     public AssignmentEvaluationRecord submit(@RequestBody AssignmentEvaluationRecord e) {
         return service.evaluateAssignment(e);
     }
