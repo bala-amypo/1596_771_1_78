@@ -18,7 +18,7 @@ public class AuthController {
     @Autowired
     private UserService service;
 
-    // REGISTER
+
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
         try {
@@ -29,8 +29,7 @@ public class AuthController {
                                  .body("Error registering user: " + e.getMessage());
         }
     }
-
-    // LOGIN
+    
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
         User existingUser = service.findByEmail(user.getEmail());
@@ -40,13 +39,12 @@ public class AuthController {
                                  .body("User not found");
         }
 
-        // Optional: check password here
         if (!existingUser.getPassword().equals(user.getPassword())) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                  .body("Invalid password");
         }
 
-        // If using JWT, generate token here instead of returning user
+        
         Map<String, Object> response = new HashMap<>();
         response.put("id", existingUser.getId());
         response.put("email", existingUser.getEmail());
