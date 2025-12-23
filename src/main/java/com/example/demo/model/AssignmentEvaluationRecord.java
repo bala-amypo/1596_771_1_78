@@ -4,11 +4,18 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 //@Entity
+//public class AssignmentEvaluationRecord {
+@Entity
 public class AssignmentEvaluationRecord {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assignment_eval_seq")
+    @SequenceGenerator(name = "assignment_eval_seq", sequenceName = "assignment_evaluation_record_seq", allocationSize = 1)
     private Long id;
+
+    //@Id
+    //@GeneratedValue
+    //private Long id;
     private Long assignmentId;
     private Integer rating;
     private String feedback;
