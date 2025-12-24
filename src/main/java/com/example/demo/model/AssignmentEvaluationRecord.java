@@ -1,26 +1,24 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 public class AssignmentEvaluationRecord {
 
-    @Id
-    @GeneratedValue
     private Long id;
     private Long assignmentId;
     private Integer rating;
     private String feedback;
-    private LocalDateTime evaluatedAt;
+    private LocalDateTime evaluatedAt = LocalDateTime.now();
 
-    @PrePersist
-    public void setTime() {
-        evaluatedAt = LocalDateTime.now();
+    public AssignmentEvaluationRecord() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getAssignmentId() {
@@ -49,5 +47,9 @@ public class AssignmentEvaluationRecord {
 
     public LocalDateTime getEvaluatedAt() {
         return evaluatedAt;
+    }
+
+    public void setEvaluatedAt(LocalDateTime evaluatedAt) {
+        this.evaluatedAt = evaluatedAt;
     }
 }
