@@ -33,7 +33,6 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
     public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
         return repo.findByVolunteerId(volunteerId);
     }
-
     public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
         return repo.findByTaskId(taskId);
     }
