@@ -1,23 +1,17 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 public class VolunteerSkillRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long volunteerId;
     private String skillName;
     private String skillLevel;
-    private Boolean certified;
+    private boolean certified;
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    public void setTime() {
-        updatedAt = LocalDateTime.now();
+    public VolunteerSkillRecord() {
     }
 
     public Long getId() {
@@ -52,15 +46,19 @@ public class VolunteerSkillRecord {
         this.skillLevel = skillLevel;
     }
 
-    public Boolean getCertified() {
+    public boolean isCertified() {
         return certified;
     }
 
-    public void setCertified(Boolean certified) {
+    public void setCertified(boolean certified) {
         this.certified = certified;
     }
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

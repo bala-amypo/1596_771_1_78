@@ -1,18 +1,16 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-
-@Entity
 public class VolunteerProfile {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String volunteerId;  
+    private String volunteerId;
     private String fullName;
     private String email;
     private String phone;
     private String availabilityStatus;
+
+    public VolunteerProfile() {
+    }
 
     public Long getId() {
         return id;
