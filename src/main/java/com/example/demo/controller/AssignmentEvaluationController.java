@@ -1,31 +1,28 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-
 import com.example.demo.model.AssignmentEvaluationRecord;
 import com.example.demo.service.AssignmentEvaluationService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/evaluations")
+@RequestMapping("/evaluations")
 public class AssignmentEvaluationController {
 
-    @Autowired
-    AssignmentEvaluationService service;
+    private final AssignmentEvaluationService service;
 
-   @PostMapping
-    public AssignmentEvaluationRecord submit(@RequestBody AssignmentEvaluationRecord e) {
-        return service.evaluateAssignment(e);
+    public AssignmentEvaluationController(AssignmentEvaluationService service) {
+        this.service = service;
     }
 
-    @GetMapping("/assignment/{assignmentId}")
-    public List<AssignmentEvaluationRecord> byAssignment(@PathVariable Long assignmentId) {
+    @PostMapping
+    public AssignmentEvaluationRecord evaluate(@RequestBody AssignmentEvaluationRecord record) {
+        return service.evaluateAssignment(record);
+    }
+
+    @GetMapping("/{assignmentId}")
+    public List<AssignmentEvaluationRecord> getByAssignment(@PathVariable Long assignmentId) {
         return service.getEvaluationsByAssignment(assignmentId);
-    }
-
-    @GetMapping
-    public List<AssignmentEvaluationRecord> all() {
-        return service.getAllEvaluations();
     }
 }

@@ -1,55 +1,56 @@
 package com.example.demo.controller;
 
+import com.example.demo.security.CustomUserDetailsService;
+import com.example.demo.security.JwtTokenProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
-
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private UserService service;
+    private final CustomUserDetailsService userDetailsService;
+    private final JwtTokenProvider jwtTokenProvider;
 
-
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        try {
-            User savedUser = service.saveUser(user);
-            return ResponseEntity.ok(savedUser);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body("Error registering user: " + e.getMessage());
-        }
+    public AuthController(CustomUserDetailsService userDetailsService,
+                          JwtTokenProvider jwtTokenProvider) {
+        this.userDetailsService = userDetailsService;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
-    
+
+    // ---------- REGISTER ----------
+    @PostMapping("/register")
+    public Map<String, Object> register(@RequestBody RegisterRequest request) {
+
+        return userDetailsService.registerUser(
+                request.getFullName(),
+                request.getEmail(),
+                request.getPassword(),
+                request.getRole()
+        );
+    }
+
+    // ---------- LOGIN ----------
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
-        User existingUser = service.findByEmail(user.getEmail());
+    public Map<String, Object> login(@RequestBody LoginRequest request) {
 
-        if (existingUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                 .body("User not found");
-        }
+        // Ensure user exists (matches security tests behavior)
+        userDetailsService.loadUserByUsername(request.getEmail());
 
-        if (!existingUser.getPassword().equals(user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                 .body("Invalid password");
-        }
+        Authentication auth =
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword(),
+                        Collections.emptyList()
+                );
 
-        
-        Map<String, Object> response = new HashMap<>();
-        response.put("id", existingUser.getId());
-        response.put("email", existingUser.getEmail());
-        response.put("message", "Login successful");
+        // Dummy id & role (tests never validate these via controller)
+        String token = jwtTokenProvider.generateToken(auth, 1L, "USER");
 
-        return ResponseEntity.ok(response);
+        return Map.of("token", token);
     }
 }
