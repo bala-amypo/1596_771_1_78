@@ -1,73 +1,22 @@
-package com.example.demo.model;
+`package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 
-@Entity
 public class AssignmentEvaluationRecord {
+    private Long assignmentId;
+    private Integer rating;
+    private String feedback;
+    private LocalDateTime evaluatedAt = LocalDateTime.now();
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long getAssignmentId() { return assignmentId; }
+    public void setAssignmentId(Long assignmentId) { this.assignmentId = assignmentId; }
 
-    private String studentName;
-    private String assignmentName;
-    private Integer marks;
-    private String remarks;
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
 
-    // ✅ No-argument constructor (required by JPA)
-    public AssignmentEvaluationRecord() {
-    }
+    public String getFeedback() { return feedback; }
+    public void setFeedback(String feedback) { this.feedback = feedback; }
 
-    // ✅ Parameterized constructor (optional)
-    public AssignmentEvaluationRecord(String studentName, String assignmentName, Integer marks, String remarks) {
-        this.studentName = studentName;
-        this.assignmentName = assignmentName;
-        this.marks = marks;
-        this.remarks = remarks;
-    }
-
-    // ✅ Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getStudentName() {
-        return studentName;
-    }
-
-    public void setStudentName(String studentName) {
-        this.studentName = studentName;
-    }
-
-    public String getAssignmentName() {
-        return assignmentName;
-    }
-
-    public void setAssignmentName(String assignmentName) {
-        this.assignmentName = assignmentName;
-    }
-
-    public Integer getMarks() {
-        return marks;
-    }
-
-    public void setMarks(Integer marks) {
-        this.marks = marks;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
+    public LocalDateTime getEvaluatedAt() { return evaluatedAt; }
 }
+
