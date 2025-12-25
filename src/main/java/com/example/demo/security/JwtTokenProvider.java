@@ -43,6 +43,8 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    // ✅ THIS WAS MISSING
     public String getUsernameFromToken(String token) {
         Claims claims = getAllClaims(token);
         return claims.getSubject();
