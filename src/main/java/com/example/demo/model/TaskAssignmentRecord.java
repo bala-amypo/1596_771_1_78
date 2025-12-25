@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 public class TaskAssignmentRecord {
-
     private Long id;
     private Long taskId;
     private Long volunteerId;
@@ -16,10 +15,6 @@ public class TaskAssignmentRecord {
     public Long getVolunteerId() { return volunteerId; }
     public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
 
-    public String getStatus() {
-        if (status == null) status = "ACTIVE";
-        return status;
-    }
-
+    public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }

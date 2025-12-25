@@ -10,11 +10,11 @@ public interface TaskAssignmentRecordRepository {
 
     Optional<TaskAssignmentRecord> findById(Long id);
 
-    List<TaskAssignmentRecord> findAll();
+    boolean existsByTaskIdAndStatus(Long taskId, String status);
 
     List<TaskAssignmentRecord> findByTaskId(Long taskId);
 
     List<TaskAssignmentRecord> findByVolunteerId(Long volunteerId);
 
-    boolean existsByTaskIdAndStatus(Long taskId, String status);
+    List<TaskAssignmentRecord> findAll();
 }

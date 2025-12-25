@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 public class TaskRecord {
-
     private Long id;
     private String taskCode;
     private String taskName;
@@ -30,10 +29,6 @@ public class TaskRecord {
     public String getPriority() { return priority; }
     public void setPriority(String priority) { this.priority = priority; }
 
-    public String getStatus() {
-        if (status == null) status = "OPEN";
-        return status;
-    }
-
+    public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }
