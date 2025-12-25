@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface TaskRecordRepository {
 
-    TaskRecord save(TaskRecord taskRecord);
+    TaskRecord save(TaskRecord task);
 
     Optional<TaskRecord> findById(Long id);
 

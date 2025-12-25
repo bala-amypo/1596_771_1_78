@@ -12,13 +12,13 @@ public interface VolunteerProfileRepository {
 
     boolean existsByPhone(String phone);
 
+    VolunteerProfile save(VolunteerProfile profile);
+
     Optional<VolunteerProfile> findById(Long id);
 
     Optional<VolunteerProfile> findByVolunteerId(String volunteerId);
 
     List<VolunteerProfile> findAll();
 
-    List<VolunteerProfile> findByAvailabilityStatus(String availabilityStatus);
-
-    VolunteerProfile save(VolunteerProfile volunteerProfile);
+    List<VolunteerProfile> findByAvailabilityStatus(String status);
 }
