@@ -1,9 +1,9 @@
 package com.example.demo.security;
 
-import org.springframework.security.core.userdetails.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService {
 
     private final Map<String, Map<String, Object>> users = new HashMap<>();
     private long idCounter = 1;
@@ -14,26 +14,21 @@ public class CustomUserDetailsService implements UserDetailsService {
             String password,
             String role) {
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("userId", idCounter++);
-        map.put("email", email);
-        map.put("password", password);
-        map.put("role", role);
-        map.put("name", name);
+        Map<String, Object> data = new HashMap<>();
+        data.put("userId", idCounter++);
+        data.put("email", email);
+        data.put("password", password);
+        data.put("role", role);
+        data.put("name", name);
 
-        users.put(email, map);
-        return map;
+        users.put(email, data);
+        return data;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) {
-        if (!users.containsKey(username))
-            throw new UsernameNotFoundException("User not found");
-
-        Map<String, Object> u = users.get(username);
-        return User.withUsername(username)
-                .password((String) u.get("password"))
-                .authorities(new ArrayList<>())
-                .build();
+    public Object loadUserByUsername(String username) {
+        if (!users.containsKey(username)) {
+            throw new RuntimeException("User not found");
+        }
+        return users.get(username);
     }
 }
