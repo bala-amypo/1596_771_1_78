@@ -6,7 +6,7 @@ import com.example.demo.repository.*;
 import com.example.demo.service.TaskAssignmentService;
 import com.example.demo.util.SkillLevelUtil;
 
-import java.util.*;
+import java.util.List;
 
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
@@ -16,29 +16,33 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
     private final VolunteerSkillRecordRepository skillRepo;
 
     public TaskAssignmentServiceImpl(
-            TaskAssignmentRecordRepository a,
-            TaskRecordRepository t,
-            VolunteerProfileRepository v,
-            VolunteerSkillRecordRepository s) {
-        this.assignmentRepo = a;
-        this.taskRepo = t;
-        this.volunteerRepo = v;
-        this.skillRepo = s;
+            TaskAssignmentRecordRepository assignmentRepo,
+            TaskRecordRepository taskRepo,
+            VolunteerProfileRepository volunteerRepo,
+            VolunteerSkillRecordRepository skillRepo) {
+
+        this.assignmentRepo = assignmentRepo;
+        this.taskRepo = taskRepo;
+        this.volunteerRepo = volunteerRepo;
+        this.skillRepo = skillRepo;
     }
 
+    @Override
     public TaskAssignmentRecord assignTask(Long taskId) {
 
         TaskRecord task = taskRepo.findById(taskId)
                 .orElseThrow(() -> new BadRequestException("Task not found"));
 
-        if (assignmentRepo.existsByTaskIdAndStatus(taskId, "ACTIVE"))
+        if (assignmentRepo.existsByTaskIdAndStatus(taskId, "ACTIVE")) {
             throw new BadRequestException("ACTIVE assignment already exists");
+        }
 
         List<VolunteerProfile> volunteers =
                 volunteerRepo.findByAvailabilityStatus("AVAILABLE");
 
-        if (volunteers.isEmpty())
+        if (volunteers.isEmpty()) {
             throw new BadRequestException("No AVAILABLE volunteers");
+        }
 
         for (VolunteerProfile v : volunteers) {
             List<VolunteerSkillRecord> skills =
@@ -46,18 +50,21 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
             for (VolunteerSkillRecord s : skills) {
                 if (s.getSkillName().equals(task.getRequiredSkill())) {
-                    int have = SkillLevelUtil.levelRank(s.getSkillLevel());
-                    int need = SkillLevelUtil.levelRank(task.getRequiredSkillLevel());
 
-                    if (have >= need) {
+                    int volunteerLevel =
+                            SkillLevelUtil.levelRank(s.getSkillLevel());
+                    int taskLevel =
+                            SkillLevelUtil.levelRank(task.getRequiredSkillLevel());
+
+                    if (volunteerLevel >= taskLevel) {
                         TaskAssignmentRecord rec = new TaskAssignmentRecord();
                         rec.setTaskId(taskId);
                         rec.setVolunteerId(v.getId());
-                        assignmentRepo.save(rec);
 
                         task.setStatus("ASSIGNED");
                         taskRepo.save(task);
-                        return rec;
+
+                        return assignmentRepo.save(rec);
                     }
                 }
             }
@@ -66,15 +73,18 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
         throw new BadRequestException("required skill level not met");
     }
 
-    public List<TaskAssignmentRecord> getAssignmentsByTask(Long id) {
-        return assignmentRepo.findByTaskId(id);
-    }
-
-    public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long id) {
-        return assignmentRepo.findByVolunteerId(id);
-    }
-
+    @Override
     public List<TaskAssignmentRecord> getAllAssignments() {
         return assignmentRepo.findAll();
+    }
+
+    @Override
+    public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
+        return assignmentRepo.findByTaskId(taskId);
+    }
+
+    @Override
+    public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
+        return assignmentRepo.findByVolunteerId(volunteerId);
     }
 }
