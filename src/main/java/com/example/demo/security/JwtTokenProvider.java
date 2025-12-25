@@ -1,7 +1,8 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.*;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 
@@ -16,23 +17,13 @@ public class JwtTokenProvider {
     }
 
     public String generateToken(Authentication auth, Long userId, String role) {
-        Date now = new Date();
-        Date expiry = new Date(now.getTime() + validity);
-
-        return Jwts.builder()
-                .setSubject(auth.getName())
-                .claim("userId", userId)
-                .claim("role", role)
-                .claim("email", auth.getName())
-                .setIssuedAt(now)
-                .setExpiration(expiry)
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+        String raw = auth.getName() + "|" + userId + "|" + role + "|" + System.currentTimeMillis();
+        return Base64.getEncoder().encodeToString(raw.getBytes());
     }
 
     public boolean validateToken(String token) {
         try {
-            getAllClaims(token);
+            Base64.getDecoder().decode(token);
             return true;
         } catch (Exception e) {
             return false;
@@ -40,14 +31,19 @@ public class JwtTokenProvider {
     }
 
     public String getUsernameFromToken(String token) {
-        return getAllClaims(token).getSubject();
+        String decoded = new String(Base64.getDecoder().decode(token));
+        return decoded.split("\\|")[0];
     }
 
     public Map<String, Object> getAllClaims(String token) {
-        Claims c = Jwts.parser()
-                .setSigningKey(secret)
-                .parseClaimsJws(token)
-                .getBody();
-        return new HashMap<>(c);
+        String decoded = new String(Base64.getDecoder().decode(token));
+        String[] parts = decoded.split("\\|");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("email", parts[0]);
+        map.put("userId", Long.parseLong(parts[1]));
+        map.put("role", parts[2]);
+
+        return map;
     }
 }
