@@ -1,31 +1,24 @@
 package com.example.demo.controller;
 
-import com.example.demo.security.CustomUserDetailsService;
-import com.example.demo.security.JwtTokenProvider;
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final CustomUserDetailsService userService;
-    private final JwtTokenProvider jwt;
-
-    public AuthController(CustomUserDetailsService userService,
-                          JwtTokenProvider jwt) {
-        this.userService = userService;
-        this.jwt = jwt;
-    }
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody Map<String, String> req) {
-        return userService.registerUser(
-                req.get("name"),
-                req.get("email"),
-                req.get("password"),
-                req.get("role")
-        );
+    public User register(@RequestBody User user) {
+        return userService.saveUser(user);
+    }
+
+    @PostMapping("/login")
+    public User login(@RequestBody User user) {
+        return userService.login(user.getEmail(), user.getPassword());
     }
 }

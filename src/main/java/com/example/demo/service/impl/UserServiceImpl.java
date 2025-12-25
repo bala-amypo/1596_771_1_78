@@ -1,7 +1,9 @@
 package com.example.demo.service.impl;
 
-import org.springframework.stereotype.Service;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
@@ -11,17 +13,27 @@ import com.example.demo.service.UserService;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepository repo;
+    private UserRepository userRepository;
 
+    @Override
     public User saveUser(User user) {
-        return repo.save(user);
+        return userRepository.save(user);
     }
 
-    public User findByEmail(String email) {
-        return repo.findByEmail(email);
-    }
+    @Override
+    public User login(String email, String password) {
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
-    public boolean existsByEmail(String email) {
-        return repo.existsByEmail(email);
+        if (optionalUser.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+
+        User user = optionalUser.get();
+
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        return user;
     }
 }
