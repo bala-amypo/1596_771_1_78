@@ -4,8 +4,6 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.security.core.Authentication;
-
 public class JwtTokenProvider {
 
     private final String secret;
@@ -16,8 +14,9 @@ public class JwtTokenProvider {
         this.validity = validity;
     }
 
-    public String generateToken(Authentication auth, Long userId, String role) {
-        String raw = auth.getName() + "|" + userId + "|" + role + "|" + System.currentTimeMillis();
+    // ✅ No Authentication used
+    public String generateToken(String username, Long userId, String role) {
+        String raw = username + "|" + userId + "|" + role + "|" + System.currentTimeMillis();
         return Base64.getEncoder().encodeToString(raw.getBytes());
     }
 
