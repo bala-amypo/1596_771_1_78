@@ -1,46 +1,43 @@
 package com.example.demo.service.impl;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
-
 import com.example.demo.model.TaskRecord;
 import com.example.demo.repository.TaskRecordRepository;
 import com.example.demo.service.TaskRecordService;
 
-@Service
+import java.util.*;
+
 public class TaskRecordServiceImpl implements TaskRecordService {
 
-    @Autowired
-    private TaskRecordRepository repo;
+    private final TaskRecordRepository repo;
 
-    @Override
-    public TaskRecord createTask(TaskRecord task) {
-        return repo.save(task);
+    public TaskRecordServiceImpl(TaskRecordRepository repo) {
+        this.repo = repo;
     }
 
-    @Override
-    public TaskRecord getTaskById(Long id) {
-        return repo.findById(id).orElse(null);
+    public TaskRecord createTask(TaskRecord t) {
+        if (t.getStatus() == null) t.setStatus("OPEN");
+        return repo.save(t);
     }
 
-    @Override
-    public TaskRecord getTaskByCode(String taskCode) {
-        return repo.findByTaskCode(taskCode);
+    public TaskRecord updateTask(Long id, TaskRecord updated) {
+        TaskRecord existing = repo.findById(id).orElseThrow();
+        existing.setTaskName(updated.getTaskName());
+        existing.setRequiredSkill(updated.getRequiredSkill());
+        existing.setRequiredSkillLevel(updated.getRequiredSkillLevel());
+        existing.setPriority(updated.getPriority());
+        existing.setStatus(updated.getStatus());
+        return repo.save(existing);
     }
 
-    @Override
+    public List<TaskRecord> getOpenTasks() {
+        return repo.findByStatus("OPEN");
+    }
+
     public List<TaskRecord> getAllTasks() {
         return repo.findAll();
     }
 
-    @Override
-    public TaskRecord updateStatus(Long id, String status) {
-        TaskRecord task = repo.findById(id).orElse(null);
-        if (task != null) {
-            task.setStatus(status);
-            return repo.save(task);
-        }
-        return null;
+    public Optional<TaskRecord> getTaskByCode(String code) {
+        return repo.findByTaskCode(code);
     }
 }

@@ -7,38 +7,19 @@ public class TaskAssignmentRecord {
     private Long volunteerId;
     private String status = "ACTIVE";
 
-    public TaskAssignmentRecord() {
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getTaskId() { return taskId; }
+    public void setTaskId(Long taskId) { this.taskId = taskId; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public Long getVolunteerId() {
-        return volunteerId;
-    }
-
-    public void setVolunteerId(Long volunteerId) {
-        this.volunteerId = volunteerId;
-    }
+    public Long getVolunteerId() { return volunteerId; }
+    public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
 
     public String getStatus() {
+        if (status == null) status = "ACTIVE";
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public void setStatus(String status) { this.status = status; }
 }

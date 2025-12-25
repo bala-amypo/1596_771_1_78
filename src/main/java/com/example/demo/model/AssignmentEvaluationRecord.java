@@ -8,48 +8,22 @@ public class AssignmentEvaluationRecord {
     private Long assignmentId;
     private Integer rating;
     private String feedback;
-    private LocalDateTime evaluatedAt = LocalDateTime.now();
+    private LocalDateTime evaluatedAt;
 
-    public AssignmentEvaluationRecord() {
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getAssignmentId() { return assignmentId; }
+    public void setAssignmentId(Long assignmentId) { this.assignmentId = assignmentId; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Integer getRating() { return rating; }
+    public void setRating(Integer rating) { this.rating = rating; }
 
-    public Long getAssignmentId() {
-        return assignmentId;
-    }
-
-    public void setAssignmentId(Long assignmentId) {
-        this.assignmentId = assignmentId;
-    }
-
-    public Integer getRating() {
-        return rating;
-    }
-
-    public void setRating(Integer rating) {
-        this.rating = rating;
-    }
-
-    public String getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
+    public String getFeedback() { return feedback; }
+    public void setFeedback(String feedback) { this.feedback = feedback; }
 
     public LocalDateTime getEvaluatedAt() {
+        if (evaluatedAt == null) evaluatedAt = LocalDateTime.now();
         return evaluatedAt;
-    }
-
-    public void setEvaluatedAt(LocalDateTime evaluatedAt) {
-        this.evaluatedAt = evaluatedAt;
     }
 }
