@@ -17,21 +17,6 @@
 // //     Optional<TaskRecord> getTaskByCode(String taskCode);
 // // }
 
-// package com.example.demo.service;
-
-// import com.example.demo.model.TaskRecord;
-// import java.util.List;
-
-// public interface TaskRecordService {
-//     TaskRecord createTask(TaskRecord task);
-//     TaskRecord updateTask(Long id, TaskRecord task);
-//     List<TaskRecord> getOpenTasks();
-//     List<TaskRecord> getAllTasks();
-    
-//     // ADD THIS METHOD:
-//     TaskRecord getTaskById(Long id);
-// }
-
 package com.example.demo.service;
 
 import com.example.demo.model.TaskRecord;
@@ -43,6 +28,7 @@ public interface TaskRecordService {
     List<TaskRecord> getOpenTasks();
     List<TaskRecord> getAllTasks();
     
-    // Ensure this matches the implementation exactly
+    // ADD THIS METHOD:
     TaskRecord getTaskById(Long id);
 }
+
