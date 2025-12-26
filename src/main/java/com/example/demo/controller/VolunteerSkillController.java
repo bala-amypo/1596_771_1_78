@@ -1,40 +1,28 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.VolunteerProfile;
-import com.example.demo.service.VolunteerProfileService;
-import com.example.demo.dto.AvailabilityUpdateRequest;
+import com.example.demo.model.VolunteerSkillRecord;
+import com.example.demo.service.VolunteerSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/volunteers")
-public class VolunteerController {
+@RequestMapping("/api/volunteer-skills")
+public class VolunteerSkillController {
 
     @Autowired
-    private VolunteerProfileService volunteerProfileService;
+    private VolunteerSkillService volunteerSkillService;
 
-    // GET /api/volunteers
-    @GetMapping
-    public List<VolunteerProfile> getAllVolunteers() {
-        return volunteerProfileService.getAllVolunteers();
+    @PostMapping
+    public VolunteerSkillRecord addSkill(
+            @RequestBody VolunteerSkillRecord skill) {
+        return volunteerSkillService.addOrUpdateSkill(skill);
     }
 
-    // GET /api/volunteers/{id}
-    @GetMapping("/{id}")
-    public VolunteerProfile getVolunteerById(@PathVariable Long id) {
-        return volunteerProfileService.getVolunteerById(id);
-    }
-
-    // PUT /api/volunteers/{id}/availability
-    @PutMapping("/{id}/availability")
-    public VolunteerProfile updateAvailability(
-            @PathVariable Long id,
-            @RequestBody AvailabilityUpdateRequest request) {
-
-        VolunteerProfile profile = volunteerProfileService.getVolunteerById(id);
-        profile.setAvailabilityStatus(request.getAvailabilityStatus());
-        return volunteerProfileService.updateVolunteer(profile);
+    @GetMapping("/volunteer/{volunteerId}")
+    public List<VolunteerSkillRecord> getSkills(
+            @PathVariable Long volunteerId) {
+        return volunteerSkillService.getSkillsByVolunteer(volunteerId);
     }
 }

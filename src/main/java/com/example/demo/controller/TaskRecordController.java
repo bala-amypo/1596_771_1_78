@@ -14,21 +14,13 @@ public class TaskController {
     @Autowired
     private TaskRecordService taskRecordService;
 
-    // POST /api/tasks
     @PostMapping
-    public TaskRecord createTask(@RequestBody TaskRecord task) {
+    public TaskRecord create(@RequestBody TaskRecord task) {
         return taskRecordService.createTask(task);
     }
 
-    // GET /api/tasks/open
     @GetMapping("/open")
-    public List<TaskRecord> getOpenTasks() {
+    public List<TaskRecord> openTasks() {
         return taskRecordService.getOpenTasks();
-    }
-
-    // GET /api/tasks/{id}
-    @GetMapping("/{id}")
-    public TaskRecord getTaskById(@PathVariable Long id) {
-        return taskRecordService.getTaskById(id);
     }
 }
