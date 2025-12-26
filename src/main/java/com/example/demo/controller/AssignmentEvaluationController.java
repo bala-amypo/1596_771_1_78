@@ -1,71 +1,41 @@
-// package com.example.demo.controller;
-
-// import org.springframework.web.bind.annotation.*;
-
-// @RestController
-// @RequestMapping("/api/evaluations")
-// public class AssignmentEvaluationController {
-
-//     // POST /api/evaluations/{assignmentId}
-//     @PostMapping("/{assignmentId}")
-//     public String createEvaluation(@PathVariable Long assignmentId) {
-//         return "Evaluation created for assignment " + assignmentId;
-//     }
-
-//     // GET /api/evaluations/volunteer/{volunteerId}
-//     @GetMapping("/volunteer/{volunteerId}")
-//     public String getEvaluationsByVolunteer(@PathVariable Long volunteerId) {
-//         return "Evaluations for volunteer " + volunteerId;
-//     }
-// }
-
 package com.example.demo.controller;
-
-import com.example.demo.model.AssignmentEvaluationRecord;
-import com.example.demo.service.AssignmentEvaluationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.AssignmentEvaluationRecord;
+import com.example.demo.service.AssignmentEvaluationService;
+
 @RestController
-@RequestMapping("/api/evaluations")
+@RequestMapping("/evaluations")
 public class AssignmentEvaluationController {
 
-    private final AssignmentEvaluationService evaluationService;
+    private final AssignmentEvaluationService service;
 
-    @Autowired
-    public AssignmentEvaluationController(AssignmentEvaluationService evaluationService) {
-        this.evaluationService = evaluationService;
+    public AssignmentEvaluationController(AssignmentEvaluationService service) {
+        this.service = service;
     }
 
-    // Matches POST /api/evaluations/{assignmentId}
-    @PostMapping("/{assignmentId}")
-    public ResponseEntity<AssignmentEvaluationRecord> createEvaluation(
-            @PathVariable Long assignmentId, 
-            @RequestBody AssignmentEvaluationRecord evaluation) {
-        
-        // Ensure the ID from path is set on the record [cite: 1, 9]
-        evaluation.setAssignmentId(assignmentId);
-        
-        AssignmentEvaluationRecord saved = evaluationService.evaluateAssignment(evaluation);
-        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    @PostMapping
+    public AssignmentEvaluationRecord evaluateAssignment(
+            @RequestBody AssignmentEvaluationRecord record) {
+        return service.evaluateAssignment(record);
     }
 
-    // Matches GET /api/evaluations/assignment/{assignmentId}
+    @GetMapping
+    public List<AssignmentEvaluationRecord> getAllEvaluations() {
+        return service.getAllEvaluations();
+    }
+
     @GetMapping("/assignment/{assignmentId}")
-    public ResponseEntity<List<AssignmentEvaluationRecord>> getEvaluationsByAssignment(
+    public List<AssignmentEvaluationRecord> getEvaluationsByAssignment(
             @PathVariable Long assignmentId) {
-        
-        List<AssignmentEvaluationRecord> evaluations = evaluationService.getEvaluationsByAssignment(assignmentId);
-        return ResponseEntity.ok(evaluations);
-    }
-
-    // Matches GET /api/evaluations/volunteer/{volunteerId}
-    @GetMapping("/volunteer/{volunteerId}")
-    public ResponseEntity<String> getEvaluationsByVolunteer(@PathVariable Long volunteerId) {
-        return ResponseEntity.ok("Evaluations for volunteer " + volunteerId);
+        return service.getEvaluationsByAssignment(assignmentId);
     }
 }
