@@ -141,7 +141,6 @@ public class JwtTokenProvider {
     private final String secretKey;
     private final long validityInMilliseconds;
 
-    // Constructor matches the manual instantiation in setup() 
     public JwtTokenProvider(
             @Value("${jwt.secret:VerySecretKeyForJwtDemoApplication123456}") String secretKey,
             @Value("${jwt.validity:3600000}") long validityInMilliseconds) {
@@ -150,18 +149,16 @@ public class JwtTokenProvider {
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
-    /**
-     * Fixes: testRegisterUserProducesValidToken, testJwtTokenContainsUsername,
-     * testJwtClaimsContainRoleAndUserId, and testJwtTokenIsDifferentForDifferentUsers
-     */
+    // Fixes: testRegisterUserProducesValidToken, testJwtTokenContainsUsername, 
+    // testJwtClaimsContainRoleAndUserId, testJwtTokenIsDifferentForDifferentUsers
     public String generateToken(Authentication authentication, long userId, String role) {
-        // The test expects the 'subject' to be the email/username from the auth object 
+        // The test expects the subject to be the name from the Authentication object
         String username = authentication.getName(); 
         
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("userId", userId);   // Required 
-        claims.put("role", role);       // Required 
-        claims.put("email", username);   // Required 
+        claims.put("userId", userId);   // Required by test 
+        claims.put("role", role);       // Required by test 
+        claims.put("email", username);   // Required by test 
 
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMilliseconds);
@@ -174,7 +171,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // Fixes: testJwtClaimsContainRoleAndUserId 
+    // Fixes: testJwtClaimsContainRoleAndUserId
     public Map<String, Object> getAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -182,7 +179,7 @@ public class JwtTokenProvider {
                 .getBody();
     }
 
-    // Fixes: testJwtTokenContainsUsername 
+    // Fixes: testJwtTokenContainsUsername
     public String getUsernameFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -191,7 +188,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    // Fixes: testJwtValidation [cite: 309]
+    // Fixes: testJwtValidation
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
