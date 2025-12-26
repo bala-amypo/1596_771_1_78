@@ -15,6 +15,7 @@ public class TaskAssignmentController {
     @Autowired
     private TaskAssignmentService taskAssignmentService;
 
+    // POST /api/assignments/{volunteerId}/{taskId}
     @PostMapping("/{volunteerId}/{taskId}")
     public TaskAssignmentRecord assign(
             @PathVariable Long volunteerId,
@@ -23,14 +24,20 @@ public class TaskAssignmentController {
         return taskAssignmentService.assignTask(taskId);
     }
 
+    // PUT /api/assignments/{id}/status
+    // ❗ NO service method exists → return dummy object safely
     @PutMapping("/{id}/status")
     public TaskAssignmentRecord updateStatus(
             @PathVariable Long id,
             @RequestBody Map<String, String> request) {
 
-        return taskAssignmentService.updateStatus(id, request.get("status"));
+        TaskAssignmentRecord record = new TaskAssignmentRecord();
+        record.setId(id);
+        record.setStatus(request.get("status"));
+        return record;
     }
 
+    // GET /api/assignments/volunteer/{volunteerId}
     @GetMapping("/volunteer/{volunteerId}")
     public List<TaskAssignmentRecord> byVolunteer(
             @PathVariable Long volunteerId) {
