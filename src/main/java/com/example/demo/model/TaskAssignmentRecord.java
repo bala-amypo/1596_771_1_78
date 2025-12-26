@@ -1,78 +1,44 @@
-// package com.example.demo.model;
-
-// public class TaskAssignmentRecord {
-//     private Long id;
-//     private Long taskId;
-//     private Long volunteerId;
-//     private String status = "ACTIVE";
-
-//     public Long getId() { return id; }
-//     public void setId(Long id) { this.id = id; }
-
-//     public Long getTaskId() { return taskId; }
-//     public void setTaskId(Long taskId) { this.taskId = taskId; }
-
-//     public Long getVolunteerId() { return volunteerId; }
-//     public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
-
-//     public String getStatus() { return status; }
-//     public void setStatus(String status) { this.status = status; }
-// }
-
-
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "task_assignment_record")
+@Table(name = "task_assignment_records")
 public class TaskAssignmentRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "task_id", nullable = false)
     private Long taskId;
 
-    @Column(name = "volunteer_id", nullable = false)
     private Long volunteerId;
 
-    @Column(name = "status")
-    private String status = "ACTIVE";
+    private LocalDateTime assignedAt;
 
-    public TaskAssignmentRecord() {
+    private String status; // ACTIVE / COMPLETED / CANCELLED
+
+    @PrePersist
+    public void prePersist() {
+        this.assignedAt = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = "ACTIVE";
+        }
     }
 
-    public Long getId() {
-        return id;
-    }
+    // Getters & Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getTaskId() { return taskId; }
+    public void setTaskId(Long taskId) { this.taskId = taskId; }
 
-    public Long getTaskId() {
-        return taskId;
-    }
+    public Long getVolunteerId() { return volunteerId; }
+    public void setVolunteerId(Long volunteerId) { this.volunteerId = volunteerId; }
 
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
+    public LocalDateTime getAssignedAt() { return assignedAt; }
 
-    public Long getVolunteerId() {
-        return volunteerId;
-    }
-
-    public void setVolunteerId(Long volunteerId) {
-        this.volunteerId = volunteerId;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
