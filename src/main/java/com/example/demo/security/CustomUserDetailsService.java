@@ -1,7 +1,11 @@
 package com.example.demo.security;
 
 import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
+
 import java.util.*;
+
+@Service   // ⭐ THIS IS THE MOST IMPORTANT LINE
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final Map<String, Map<String, Object>> users = new HashMap<>();
@@ -22,8 +26,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         if (!users.containsKey(username))
             throw new UsernameNotFoundException("User not found");
+
         return User.withUsername(username)
-                .password("N/A")
+                .password("{noop}password") // ⭐ avoids PasswordEncoder error
                 .authorities(Collections.emptyList())
                 .build();
     }
