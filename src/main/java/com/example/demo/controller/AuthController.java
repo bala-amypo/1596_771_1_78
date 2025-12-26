@@ -2,9 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.security.CustomUserDetailsService;
 import com.example.demo.security.JwtTokenProvider;
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,30 +24,25 @@ public class AuthController {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @PostMapping("/register")
-    public Map<String, Object> register(@RequestBody RegisterRequest request) {
+    public Map<String, Object> register(@RequestBody Map<String, String> request) {
         return userDetailsService.registerUser(
-                request.getFullName(),
-                request.getEmail(),
-                encoder.encode(request.getPassword()),
-                request.getRole()
+                request.get("fullName"),
+                request.get("email"),
+                encoder.encode(request.get("password")),
+                request.get("role")
         );
     }
 
     @PostMapping("/login")
-    public AuthResponse login(@RequestBody LoginRequest request) {
+    public Map<String, String> login(@RequestBody Map<String, String> request) {
 
         Authentication auth = new UsernamePasswordAuthenticationToken(
-                request.getEmail(),
-                request.getPassword(),
+                request.get("email"),
+                request.get("password"),
                 Collections.emptyList()
         );
 
-        String token = jwtTokenProvider.generateToken(
-                auth,
-                1L,
-                "USER"
-        );
-
-        return new AuthResponse(token);
+        String token = jwtTokenProvider.generateToken(auth, 1L, "USER");
+        return Collections.singletonMap("token", token);
     }
 }
