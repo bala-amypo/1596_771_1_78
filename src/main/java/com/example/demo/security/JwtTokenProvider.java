@@ -1,8 +1,70 @@
+// // package com.example.demo.security;
+
+// // import io.jsonwebtoken.Claims;
+// // import io.jsonwebtoken.Jwts;
+// // import io.jsonwebtoken.SignatureAlgorithm;
+// // import org.springframework.security.core.Authentication;
+// // import org.springframework.stereotype.Component;
+
+// // import java.util.Date;
+
+// // @Component
+// // public class JwtTokenProvider {
+
+// //     private String secretKey;
+// //     private long validityInMilliseconds;
+
+// //     public JwtTokenProvider(String secretKey, long validityInMilliseconds) {
+// //         this.secretKey = secretKey;
+// //         this.validityInMilliseconds = validityInMilliseconds;
+// //     }
+
+// //     public String generateToken(Authentication authentication,
+// //                                 long userId,
+// //                                 String username) {
+
+// //         Claims claims = Jwts.claims().setSubject(username);
+// //         claims.put("userId", userId);
+
+// //         Date now = new Date();
+// //         Date expiry = new Date(now.getTime() + validityInMilliseconds);
+
+// //         return Jwts.builder()
+// //                 .setClaims(claims)
+// //                 .setIssuedAt(now)
+// //                 .setExpiration(expiry)
+// //                 .signWith(SignatureAlgorithm.HS256, secretKey)
+// //                 .compact();
+// //     }
+
+// //     public Claims getAllClaims(String token) {
+// //         return Jwts.parser()
+// //                 .setSigningKey(secretKey)
+// //                 .parseClaimsJws(token)
+// //                 .getBody();
+// //     }
+
+// //     // ✅ THIS WAS MISSING
+// //     public String getUsernameFromToken(String token) {
+// //         Claims claims = getAllClaims(token);
+// //         return claims.getSubject();
+// //     }
+
+// //     public boolean validateToken(String token) {
+// //         try {
+// //             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+// //             return true;
+// //         } catch (Exception e) {
+// //             return false;
+// //         }
+// //     }
+// // }
 // package com.example.demo.security;
 
 // import io.jsonwebtoken.Claims;
 // import io.jsonwebtoken.Jwts;
 // import io.jsonwebtoken.SignatureAlgorithm;
+// import org.springframework.beans.factory.annotation.Value;
 // import org.springframework.security.core.Authentication;
 // import org.springframework.stereotype.Component;
 
@@ -11,10 +73,13 @@
 // @Component
 // public class JwtTokenProvider {
 
-//     private String secretKey;
-//     private long validityInMilliseconds;
+//     private final String secretKey;
+//     private final long validityInMilliseconds;
 
-//     public JwtTokenProvider(String secretKey, long validityInMilliseconds) {
+//     public JwtTokenProvider(
+//             @Value("${jwt.secret:exam-secret-key}") String secretKey,
+//             @Value("${jwt.validity:3600000}") long validityInMilliseconds) {
+
 //         this.secretKey = secretKey;
 //         this.validityInMilliseconds = validityInMilliseconds;
 //     }
@@ -44,10 +109,8 @@
 //                 .getBody();
 //     }
 
-//     // ✅ THIS WAS MISSING
 //     public String getUsernameFromToken(String token) {
-//         Claims claims = getAllClaims(token);
-//         return claims.getSubject();
+//         return getAllClaims(token).getSubject();
 //     }
 
 //     public boolean validateToken(String token) {
@@ -59,6 +122,7 @@
 //         }
 //     }
 // }
+
 package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
@@ -69,6 +133,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
 
 @Component
 public class JwtTokenProvider {
@@ -76,20 +141,27 @@ public class JwtTokenProvider {
     private final String secretKey;
     private final long validityInMilliseconds;
 
+    // Constructor matches the manual instantiation in setup() 
     public JwtTokenProvider(
-            @Value("${jwt.secret:exam-secret-key}") String secretKey,
+            @Value("${jwt.secret:VerySecretKeyForJwtDemoApplication123456}") String secretKey,
             @Value("${jwt.validity:3600000}") long validityInMilliseconds) {
 
         this.secretKey = secretKey;
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
-    public String generateToken(Authentication authentication,
-                                long userId,
-                                String username) {
-
+    /**
+     * Fixes: testRegisterUserProducesValidToken, testJwtTokenContainsUsername,
+     * testJwtClaimsContainRoleAndUserId, and testJwtTokenIsDifferentForDifferentUsers
+     */
+    public String generateToken(Authentication authentication, long userId, String role) {
+        // The test expects the 'subject' to be the email/username from the auth object 
+        String username = authentication.getName(); 
+        
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("userId", userId);
+        claims.put("userId", userId);   // Required 
+        claims.put("role", role);       // Required 
+        claims.put("email", username);   // Required 
 
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMilliseconds);
@@ -102,17 +174,24 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public Claims getAllClaims(String token) {
+    // Fixes: testJwtClaimsContainRoleAndUserId 
+    public Map<String, Object> getAllClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
     }
 
+    // Fixes: testJwtTokenContainsUsername 
     public String getUsernameFromToken(String token) {
-        return getAllClaims(token).getSubject();
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
+    // Fixes: testJwtValidation [cite: 309]
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
