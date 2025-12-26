@@ -1,13 +1,26 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "volunteer_profiles") // Optional: defines the table name in DB
 public class VolunteerProfile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Automatically increments the ID
     private Long id;
+
     private String volunteerId;
     private String fullName;
     private String email;
     private String phone;
     private String availabilityStatus;
 
+    // Getters and Setters (Keep these as they are)
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
