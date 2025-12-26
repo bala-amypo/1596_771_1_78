@@ -1,66 +1,50 @@
-// package com.example.demo.controller;
-
-// import org.springframework.web.bind.annotation.*;
-
-// @RestController
-// @RequestMapping("/api/volunteers")
-// public class VolunteerProfileController {
-
-//     @GetMapping
-//     public String getAllVolunteers() {
-//         return "List of volunteers";
-//     }
-
-//     @GetMapping("/{id}")
-//     public String getVolunteer(@PathVariable Long id) {
-//         return "Volunteer profile";
-//     }
-
-//     @PutMapping("/{id}/availability")
-//     public String updateAvailability(
-//             @PathVariable Long id,
-//             @RequestParam String availability) {
-//         return "Availability updated";
-//     }
-// }
-
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.*;
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.VolunteerProfile;
+import com.example.demo.service.VolunteerProfileService;
 
 @RestController
-@RequestMapping("/api/volunteers")
+@RequestMapping("/volunteers")
 public class VolunteerProfileController {
 
-    // 1. POST / - Create volunteer
+    private final VolunteerProfileService service;
+
+    public VolunteerProfileController(VolunteerProfileService service) {
+        this.service = service;
+    }
+
     @PostMapping
-    public String createVolunteer(@RequestBody String volunteerData) {
-        return "Volunteer created successfully";
+    public VolunteerProfile createVolunteer(
+            @RequestBody VolunteerProfile profile) {
+        return service.createVolunteer(profile);
     }
 
-    // 2. GET /{id} - Get volunteer
-    @GetMapping("/{id}")
-    public String getVolunteer(@PathVariable Long id) {
-        return "Volunteer profile for ID: " + id;
-    }
-
-    // 3. GET / - List all
     @GetMapping
-    public String getAllVolunteers() {
-        return "List of all volunteers";
+    public List<VolunteerProfile> getAllVolunteers() {
+        return service.getAllVolunteers();
     }
 
-    // 4. PUT /{id}/availability - Update status
+    @GetMapping("/{id}")
+    public VolunteerProfile getVolunteerById(
+            @PathVariable Long id) {
+        return service.getVolunteerById(id);
+    }
+
     @PutMapping("/{id}/availability")
-    public String updateAvailability(
+    public VolunteerProfile updateAvailability(
             @PathVariable Long id,
-            @RequestParam String availability) {
-        return "Availability updated for volunteer " + id + " to: " + availability;
-    }
-
-    // 5. GET /lookup/{volunteerId} - Lookup by ID
-    @GetMapping("/lookup/{volunteerId}")
-    public String lookupVolunteer(@PathVariable Long volunteerId) {
-        return "Lookup details for volunteer: " + volunteerId;
+            @RequestParam String status) {
+        return service.updateAvailability(id, status);
     }
 }
