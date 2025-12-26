@@ -133,14 +133,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class JwtTokenProvider {
 
-    private final String secretKey;
-    private final long validityInMilliseconds;
+    private String secretKey;
+    private long validityInMilliseconds;
 
+    // The test calls this constructor directly
     public JwtTokenProvider(
             @Value("${jwt.secret:VerySecretKeyForJwtDemoApplication123456}") String secretKey,
             @Value("${jwt.validity:3600000}") long validityInMilliseconds) {
@@ -148,26 +150,38 @@ public class JwtTokenProvider {
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
-    // Must match signature: generateToken(Authentication, long, String) 
+    // Must match: generateToken(Authentication, long, String)
     public String generateToken(Authentication authentication, long userId, String role) {
-        String username = authentication.getName(); // Extracted email 
+        // The test expects the username to be retrieved from authentication.getName()
+        String username = authentication.getName();
         
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("userId", userId);   // Required 
-        claims.put("role", role);       // Required 
-        claims.put("email", username);  // Required 
-
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMilliseconds);
 
+        // Build claims - Test expects "userId", "role", and "email"
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId);
+        claims.put("role", role);
+        claims.put("email", username);
+
         return Jwts.builder()
                 .setClaims(claims)
+                .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
+    // Required for: testJwtClaimsContainRoleAndUserId
+    public Map<String, Object> getAllClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // Required for: testJwtTokenContainsUsername
     public String getUsernameFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -176,14 +190,7 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    // Required for testJwtClaimsContainRoleAndUserId 
-    public Map<String, Object> getAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
+    // Required for: testJwtValidation
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
