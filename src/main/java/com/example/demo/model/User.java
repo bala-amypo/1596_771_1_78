@@ -8,12 +8,6 @@ public class User {
 
     public User() {}
 
-    public User(Long userId, String username, String role) {
-        this.userId = userId;
-        this.username = username;
-        this.role = role;
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -24,5 +18,17 @@ public class User {
 
     public String getRole() {
         return role;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
