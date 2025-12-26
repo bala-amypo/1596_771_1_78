@@ -45,23 +45,21 @@ public class TaskRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "task_code", unique = true)
     private String taskCode;
 
-    @Column(name = "required_skill")
+    private String taskName;   // ✅ ADDED
+
+    private String priority;   // ✅ ADDED
+
     private String requiredSkill;
 
-    @Column(name = "required_skill_level")
     private String requiredSkillLevel;
 
-    @Column(name = "status")
     private String status;
 
-    // ✅ REQUIRED: no-arg constructor
     public TaskRecord() {
     }
 
-    // getters & setters
     public Long getId() {
         return id;
     }
@@ -76,6 +74,22 @@ public class TaskRecord {
 
     public void setTaskCode(String taskCode) {
         this.taskCode = taskCode;
+    }
+
+    public String getTaskName() {        // ✅ ADDED
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getPriority() {        // ✅ ADDED
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public String getRequiredSkill() {
