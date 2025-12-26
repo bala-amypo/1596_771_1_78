@@ -58,41 +58,38 @@
 //         return repository.findByVolunteerId(volunteerId);
 //     }
 // }
-
 package com.example.demo.service.impl;
 
 import com.example.demo.model.VolunteerSkillRecord;
-import com.example.demo.repository.VolunteerSkillRepository;
+import com.example.demo.repository.VolunteerSkillRecordRepository; // Updated import
 import com.example.demo.service.VolunteerSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     @Autowired
-    private VolunteerSkillRepository volunteerSkillRepository;
+    private VolunteerSkillRecordRepository volunteerSkillRecordRepository; // Updated variable
 
     @Override
     public VolunteerSkillRecord addOrUpdateSkill(VolunteerSkillRecord skill) {
-        return volunteerSkillRepository.save(skill);
+        return volunteerSkillRecordRepository.save(skill);
     }
 
     @Override
     public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
-        // Assuming your repository has this custom find method
-        return volunteerSkillRepository.findByVolunteerId(volunteerId);
+        return volunteerSkillRecordRepository.findByVolunteerId(volunteerId);
     }
 
     @Override
     public VolunteerSkillRecord getSkillById(Long id) {
-        return volunteerSkillRepository.findById(id).orElse(null);
+        return volunteerSkillRecordRepository.findById(id).orElse(null);
     }
 
     @Override
     public List<VolunteerSkillRecord> getAllSkills() {
-        return volunteerSkillRepository.findAll();
+        return volunteerSkillRecordRepository.findAll();
     }
 }
