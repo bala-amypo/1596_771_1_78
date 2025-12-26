@@ -54,7 +54,7 @@ public class AssignmentEvaluationController {
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
-    /}
+    // Matches GET /api/evaluations/assignment/{assignmentId}
     @GetMapping("/assignment/{assignmentId}")
     public ResponseEntity<List<AssignmentEvaluationRecord>> getEvaluationsByAssignment(
             @PathVariable Long assignmentId) {
