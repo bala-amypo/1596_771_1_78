@@ -2,7 +2,6 @@ package com.example.demo.security;
 
 import org.springframework.security.core.userdetails.*;
 import java.util.*;
-
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final Map<String, Map<String, Object>> users = new HashMap<>();
