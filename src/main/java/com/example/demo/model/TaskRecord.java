@@ -32,7 +32,6 @@
 //     public String getStatus() { return status; }
 //     public void setStatus(String status) { this.status = status; }
 // }
-
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -46,15 +45,10 @@ public class TaskRecord {
     private Long id;
 
     private String taskCode;
-
-    private String taskName;   // ✅ ADDED
-
-    private String priority;   // ✅ ADDED
-
+    private String taskName;
+    private String priority;
     private String requiredSkill;
-
     private String requiredSkillLevel;
-
     private String status;
 
     public TaskRecord() {
@@ -76,7 +70,7 @@ public class TaskRecord {
         this.taskCode = taskCode;
     }
 
-    public String getTaskName() {        // ✅ ADDED
+    public String getTaskName() {   // ✅ REQUIRED
         return taskName;
     }
 
@@ -84,7 +78,7 @@ public class TaskRecord {
         this.taskName = taskName;
     }
 
-    public String getPriority() {        // ✅ ADDED
+    public String getPriority() {   // ✅ REQUIRED
         return priority;
     }
 
