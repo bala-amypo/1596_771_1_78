@@ -18,6 +18,8 @@
 //     public String getStatus() { return status; }
 //     public void setStatus(String status) { this.status = status; }
 // }
+
+
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -39,11 +41,9 @@ public class TaskAssignmentRecord {
     @Column(name = "status")
     private String status = "ACTIVE";
 
-    // ✅ REQUIRED: No-arg constructor
     public TaskAssignmentRecord() {
     }
 
-    // getters & setters
     public Long getId() {
         return id;
     }
