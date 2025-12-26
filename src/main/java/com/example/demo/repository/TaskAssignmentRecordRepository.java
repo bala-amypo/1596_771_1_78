@@ -3,7 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.model.TaskAssignmentRecord;
 import java.util.List;
 import java.util.Optional;
-
+@Repository
 public interface TaskAssignmentRecordRepository {
 
     TaskAssignmentRecord save(TaskAssignmentRecord record);
