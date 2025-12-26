@@ -1,71 +1,55 @@
-// package com.example.demo.controller;
-
-// import org.springframework.web.bind.annotation.*;
-
-// @RestController
-// @RequestMapping("/api/tasks")
-// public class TaskRecordController {
-
-//     @PostMapping
-//     public String createTask() {
-//         return "Task created";
-//     }
-
-//     @GetMapping("/open")
-//     public String getOpenTasks() {
-//         return "Open tasks";
-//     }
-
-//     @GetMapping("/{id}")
-//     public String getTaskById(@PathVariable Long id) {
-//         return "Task details";
-//     }
-// }
-
-
 package com.example.demo.controller;
-
-import com.example.demo.model.TaskRecord;
-import com.example.demo.service.TaskRecordService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.example.demo.model.TaskRecord;
+import com.example.demo.service.TaskRecordService;
+
 @RestController
-@RequestMapping("/api/tasks") // Base path as per requirement: (/api/tasks)
+@RequestMapping("/tasks")
 public class TaskRecordController {
 
-    @Autowired
-    private TaskRecordService taskRecordService;
+    private final TaskRecordService service;
 
-    // 1. POST / - Create task
+    public TaskRecordController(TaskRecordService service) {
+        this.service = service;
+    }
+
     @PostMapping
-    public TaskRecord createTask(@RequestBody TaskRecord task) {
-        return taskRecordService.createTask(task);
+    public TaskRecord createTask(
+            @RequestBody TaskRecord task) {
+        return service.createTask(task);
     }
 
-    // 2. PUT /{id} - Update task
-    @PutMapping("/{id}")
-    public TaskRecord updateTask(@PathVariable Long id, @RequestBody TaskRecord task) {
-        return taskRecordService.updateTask(id, task);
-    }
-
-    // 3. GET /open - List open tasks
-    @GetMapping("/open")
-    public List<TaskRecord> getOpenTasks() {
-        return taskRecordService.getOpenTasks();
-    }
-
-    // 4. GET /{id} - Get task
-    @GetMapping("/{id}")
-    public TaskRecord getTaskById(@PathVariable Long id) {
-        return taskRecordService.getTaskById(id);
-    }
-
-    // 5. GET / - List all
     @GetMapping
     public List<TaskRecord> getAllTasks() {
-        return taskRecordService.getAllTasks();
+        return service.getAllTasks();
+    }
+
+    @GetMapping("/open")
+    public List<TaskRecord> getOpenTasks() {
+        return service.getOpenTasks();
+    }
+
+    @GetMapping("/{id}")
+    public TaskRecord getTaskById(
+            @PathVariable Long id) {
+        return service.getTaskById(id);
+    }
+
+    @PutMapping("/{id}/status")
+    public TaskRecord updateTaskStatus(
+            @PathVariable Long id,
+            @RequestParam String status) {
+        return service.updateStatus(id, status);
     }
 }
