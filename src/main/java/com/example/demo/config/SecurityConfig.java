@@ -21,7 +21,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/swagger-ui/**", "/api-docs/**","/swagger-ui/index.html").permitAll()
+                .requestMatchers(
+                "/api/auth/**", 
+                "/v3/api-docs/**",    // Added v3 prefix
+                "/swagger-ui/**", 
+                "/swagger-ui.html",   // Added standard redirect path
+                "/api-docs/**"
+            ).permitAll()
                 .anyRequest().authenticated()
             )
             .sessionManagement(session -> session
