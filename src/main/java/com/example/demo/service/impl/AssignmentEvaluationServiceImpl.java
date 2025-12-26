@@ -1,31 +1,37 @@
 package com.example.demo.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.AssignmentEvaluationRecord;
+import com.example.demo.repository.AssignmentEvaluationRecordRepository;
+import com.example.demo.repository.TaskAssignmentRecordRepository;
 import com.example.demo.service.AssignmentEvaluationService;
 
-@Service
+import java.util.List;
+
 public class AssignmentEvaluationServiceImpl implements AssignmentEvaluationService {
 
+    private final AssignmentEvaluationRecordRepository evalRepo;
+    private final TaskAssignmentRecordRepository assignmentRepo;
+
+    public AssignmentEvaluationServiceImpl(
+            AssignmentEvaluationRecordRepository evalRepo,
+            TaskAssignmentRecordRepository assignmentRepo) {
+        this.evalRepo = evalRepo;
+        this.assignmentRepo = assignmentRepo;
+    }
+
     @Override
-    public AssignmentEvaluationRecord evaluateAssignment(AssignmentEvaluationRecord record) {
-        // No setters used → safe
-        return record;
+    public AssignmentEvaluationRecord evaluateAssignment(
+            AssignmentEvaluationRecord record) {
+
+        assignmentRepo.findById(record.getAssignmentId())
+                .orElseThrow(() -> new BadRequestException("Assignment not found"));
+
+        return evalRepo.save(record);
     }
 
     @Override
     public List<AssignmentEvaluationRecord> getEvaluationsByAssignment(Long assignmentId) {
-
-        List<AssignmentEvaluationRecord> evaluations = new ArrayList<>();
-
-        // Dummy empty records (no setters)
-        evaluations.add(new AssignmentEvaluationRecord());
-        evaluations.add(new AssignmentEvaluationRecord());
-
-        return evaluations;
+        return evalRepo.findByAssignmentId(assignmentId);
     }
 }
