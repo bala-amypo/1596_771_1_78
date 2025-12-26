@@ -14,6 +14,10 @@
 //     List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId);
 // }
 
+package com.example.demo.service;
+
+import com.example.demo.model.TaskAssignmentRecord; // Required import
+import java.util.List; // Required import
 
 public interface TaskAssignmentService {
     TaskAssignmentRecord assignTask(Long taskId);
