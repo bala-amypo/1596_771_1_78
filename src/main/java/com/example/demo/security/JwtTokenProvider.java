@@ -144,21 +144,18 @@ public class JwtTokenProvider {
     public JwtTokenProvider(
             @Value("${jwt.secret:VerySecretKeyForJwtDemoApplication123456}") String secretKey,
             @Value("${jwt.validity:3600000}") long validityInMilliseconds) {
-
         this.secretKey = secretKey;
         this.validityInMilliseconds = validityInMilliseconds;
     }
 
-    // Fixes: testRegisterUserProducesValidToken, testJwtTokenContainsUsername, 
-    // testJwtClaimsContainRoleAndUserId, testJwtTokenIsDifferentForDifferentUsers
+    // Must match signature: generateToken(Authentication, long, String) 
     public String generateToken(Authentication authentication, long userId, String role) {
-        // The test expects the subject to be the name from the Authentication object
-        String username = authentication.getName(); 
+        String username = authentication.getName(); // Extracted email 
         
         Claims claims = Jwts.claims().setSubject(username);
-        claims.put("userId", userId);   // Required by test 
-        claims.put("role", role);       // Required by test 
-        claims.put("email", username);   // Required by test 
+        claims.put("userId", userId);   // Required 
+        claims.put("role", role);       // Required 
+        claims.put("email", username);  // Required 
 
         Date now = new Date();
         Date expiry = new Date(now.getTime() + validityInMilliseconds);
@@ -171,15 +168,6 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // Fixes: testJwtClaimsContainRoleAndUserId
-    public Map<String, Object> getAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(secretKey)
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    // Fixes: testJwtTokenContainsUsername
     public String getUsernameFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(secretKey)
@@ -188,7 +176,14 @@ public class JwtTokenProvider {
                 .getSubject();
     }
 
-    // Fixes: testJwtValidation
+    // Required for testJwtClaimsContainRoleAndUserId 
+    public Map<String, Object> getAllClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
