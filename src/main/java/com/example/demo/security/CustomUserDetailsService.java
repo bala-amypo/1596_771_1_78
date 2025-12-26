@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-@Service   // ⭐ THIS IS THE MOST IMPORTANT LINE
+@Service   
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final Map<String, Map<String, Object>> users = new HashMap<>();
