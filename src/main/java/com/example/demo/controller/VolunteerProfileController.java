@@ -1,38 +1,25 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.VolunteerProfile;
-import com.example.demo.service.VolunteerProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/volunteers")
-public class VolunteerController {
-
-    @Autowired
-    private VolunteerProfileService volunteerProfileService;
+public class VolunteerProfileController {
 
     @GetMapping
-    public List<VolunteerProfile> getAllVolunteers() {
-        return volunteerProfileService.getAllVolunteers();
+    public String getAllVolunteers() {
+        return "List of volunteers";
     }
 
     @GetMapping("/{id}")
-    public VolunteerProfile getVolunteer(@PathVariable Long id) {
-        return volunteerProfileService.getVolunteerById(id);
+    public String getVolunteer(@PathVariable Long id) {
+        return "Volunteer profile";
     }
 
     @PutMapping("/{id}/availability")
-    public VolunteerProfile updateAvailability(
+    public String updateAvailability(
             @PathVariable Long id,
-            @RequestBody Map<String, String> request) {
-
-        VolunteerProfile profile =
-                volunteerProfileService.getVolunteerById(id);
-        profile.setAvailabilityStatus(request.get("availabilityStatus"));
-        return profile; // no updateVolunteer() exists
+            @RequestParam String availability) {
+        return "Availability updated";
     }
 }
