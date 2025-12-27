@@ -23,16 +23,6 @@ public class AssignmentEvaluationRecord {
     public void prePersist() {
         this.evaluatedAt = LocalDateTime.now();
     }
-//new
-@Entity
-@EntityListeners(AuditingEntityListener.class) // Add this to class level
-public class AssignmentEvaluationRecord {
-    // ... other fields
-
-    @CreatedDate
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-}
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -26,15 +26,7 @@ public class VolunteerSkillRecord {
     public void updateTimestamp() {
         this.updatedAt = LocalDateTime.now();
     }
-//new
-@Entity
-@EntityListeners(AuditingEntityListener.class) // Add this to class level
-public class VolunteerSkillRecord {
-    // ... other fields
-    
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-}
+
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

@@ -37,14 +37,6 @@ public class TaskRecord {
         }
     }
 
-    //new
-    @PrePersist
-public void prePersist() {
-    if (this.status == null) {
-        this.status = "Open";
-    }
-}
-
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
