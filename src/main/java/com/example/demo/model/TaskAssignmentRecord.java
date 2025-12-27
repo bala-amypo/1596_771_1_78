@@ -26,7 +26,13 @@ public class TaskAssignmentRecord {
             this.status = "ACTIVE";
         }
     }
-
+//new
+@PrePersist
+public void prePersist() {
+    if (this.status == null) {
+        this.status = "Active";
+    }
+}
     // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
