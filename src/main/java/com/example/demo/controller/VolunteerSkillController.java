@@ -5,9 +5,10 @@ import com.example.demo.service.VolunteerSkillService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 @RestController
 @RequestMapping("/skills")
+@SecurityRequirement(name="bearerAuth")
 public class VolunteerSkillController {
 
     private final VolunteerSkillService service;
