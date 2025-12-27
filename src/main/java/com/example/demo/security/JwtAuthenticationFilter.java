@@ -65,7 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String path = request.getServletPath();
 
-        // ✅ ALLOW auth & swagger without token
+        // 🔥 ABSOLUTE BYPASS
         if (path.startsWith("/auth")
                 || path.startsWith("/swagger-ui")
                 || path.startsWith("/v3/api-docs")) {
@@ -74,29 +74,34 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        String header = request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
 
-        if (header != null && header.startsWith("Bearer ")) {
-            String token = header.substring(7);
-
-            if (jwtTokenProvider.validateToken(token)) {
-
-                String username =
-                        jwtTokenProvider.getUsernameFromToken(token);
-
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                username,
-                                null,
-                                Collections.emptyList()
-                        );
-
-                SecurityContextHolder.getContext()
-                        .setAuthentication(authentication);
-            }
+        // 🔥 NO TOKEN → DO NOT BLOCK
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        // ✅ ALWAYS CONTINUE
+        String token = authHeader.substring(7);
+
+        // 🔥 INVALID TOKEN → DO NOT BLOCK
+        if (!jwtTokenProvider.validateToken(token)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // 🔥 VALID TOKEN → AUTHENTICATE
+        String username = jwtTokenProvider.getUsernameFromToken(token);
+
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
+                        username,
+                        null,
+                        Collections.emptyList()
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         filterChain.doFilter(request, response);
     }
 }
