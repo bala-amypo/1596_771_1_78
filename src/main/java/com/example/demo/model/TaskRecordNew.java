@@ -11,7 +11,7 @@ public class TaskRecordNew {
     private String status;
 
     // ✅ default constructor
-    public TaskRecord() {
+    public TaskRecordNew() {
         this.status = "OPEN";
     }
 
