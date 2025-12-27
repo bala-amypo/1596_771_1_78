@@ -1,3 +1,45 @@
+// // package com.example.demo.model;
+
+// // import jakarta.persistence.*;
+// // import java.time.LocalDateTime;
+
+// // @Entity
+// // @Table(name = "assignment_evaluations")
+// // public class AssignmentEvaluationRecord {
+
+// //     @Id
+// //     @GeneratedValue(strategy = GenerationType.IDENTITY)
+// //     private Long id;
+
+// //     private Long assignmentId;
+
+// //     private Integer rating; // 1–5
+
+// //     private String feedback;
+
+// //     private LocalDateTime evaluatedAt;
+
+// //     @PrePersist
+// //     public void prePersist() {
+// //         this.evaluatedAt = LocalDateTime.now();
+// //     }
+// //     // Getters & Setters
+// //     public Long getId() { return id; }
+// //     public void setId(Long id) { this.id = id; }
+
+// //     public Long getAssignmentId() { return assignmentId; }
+// //     public void setAssignmentId(Long assignmentId) { this.assignmentId = assignmentId; }
+
+// //     public Integer getRating() { return rating; }
+// //     public void setRating(Integer rating) { this.rating = rating; }
+
+// //     public String getFeedback() { return feedback; }
+// //     public void setFeedback(String feedback) { this.feedback = feedback; }
+
+// //     public LocalDateTime getEvaluatedAt() { return evaluatedAt; }
+// // }
+
+
 // package com.example.demo.model;
 
 // import jakarta.persistence.*;
@@ -20,25 +62,59 @@
 //     private LocalDateTime evaluatedAt;
 
 //     @PrePersist
-//     public void prePersist() {
+//     public void onCreate() {
+//         if (this.evaluatedAt == null) {
+//             this.evaluatedAt = LocalDateTime.now();
+//         }
+//     }
+
+//     @PreUpdate
+//     public void onUpdate() {
 //         this.evaluatedAt = LocalDateTime.now();
 //     }
-//     // Getters & Setters
-//     public Long getId() { return id; }
-//     public void setId(Long id) { this.id = id; }
 
-//     public Long getAssignmentId() { return assignmentId; }
-//     public void setAssignmentId(Long assignmentId) { this.assignmentId = assignmentId; }
+//     // ---------------- GETTERS & SETTERS ----------------
 
-//     public Integer getRating() { return rating; }
-//     public void setRating(Integer rating) { this.rating = rating; }
+//     public Long getId() {
+//         return id;
+//     }
 
-//     public String getFeedback() { return feedback; }
-//     public void setFeedback(String feedback) { this.feedback = feedback; }
+//     public void setId(Long id) {
+//         this.id = id;
+//     }
 
-//     public LocalDateTime getEvaluatedAt() { return evaluatedAt; }
+//     public Long getAssignmentId() {
+//         return assignmentId;
+//     }
+
+//     public void setAssignmentId(Long assignmentId) {
+//         this.assignmentId = assignmentId;
+//     }
+
+//     public Integer getRating() {
+//         return rating;
+//     }
+
+//     public void setRating(Integer rating) {
+//         this.rating = rating;
+//     }
+
+//     public String getFeedback() {
+//         return feedback;
+//     }
+
+//     public void setFeedback(String feedback) {
+//         this.feedback = feedback;
+//     }
+
+//     public LocalDateTime getEvaluatedAt() {
+//         return evaluatedAt;
+//     }
+
+//     public void setEvaluatedAt(LocalDateTime evaluatedAt) {
+//         this.evaluatedAt = evaluatedAt;
+//     }
 // }
-
 
 package com.example.demo.model;
 
@@ -59,7 +135,8 @@ public class AssignmentEvaluationRecord {
 
     private String feedback;
 
-    private LocalDateTime evaluatedAt;
+    // ✅ default value so mocked save() still works
+    private LocalDateTime evaluatedAt = LocalDateTime.now();
 
     @PrePersist
     public void onCreate() {
@@ -115,3 +192,4 @@ public class AssignmentEvaluationRecord {
         this.evaluatedAt = evaluatedAt;
     }
 }
+
