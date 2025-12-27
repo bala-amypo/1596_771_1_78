@@ -1,3 +1,39 @@
+// package com.example.demo.security;
+
+// import jakarta.servlet.FilterChain;
+// import jakarta.servlet.ServletException;
+// import jakarta.servlet.http.HttpServletRequest;
+// import jakarta.servlet.http.HttpServletResponse;
+// import org.springframework.security.core.Authentication;
+// import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.stereotype.Component;
+// import org.springframework.web.filter.OncePerRequestFilter;
+
+// import java.io.IOException;
+
+// @Component  // <- make sure this is imported correctly
+// public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+//     @Override
+//     protected void doFilterInternal(HttpServletRequest request,
+//                                     HttpServletResponse response,
+//                                     FilterChain filterChain) throws ServletException, IOException {
+
+//         // Example JWT validation logic
+//         String token = request.getHeader("Authorization");
+//         if (token != null && token.startsWith("Bearer ")) {
+//             token = token.substring(7);
+//             // Validate token and get Authentication object
+//             Authentication auth = null; // replace with your actual logic
+//             SecurityContextHolder.getContext().setAuthentication(auth);
+//         }
+
+//         filterChain.doFilter(request, response);
+//     }
+// }
+
+
+//swagger
 package com.example.demo.security;
 
 import jakarta.servlet.FilterChain;
@@ -11,23 +47,46 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-@Component  // <- make sure this is imported correctly
+@Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final JwtTokenProvider jwtTokenProvider;
+
+    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        // Example JWT validation logic
-        String token = request.getHeader("Authorization");
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
-            // Validate token and get Authentication object
-            Authentication auth = null; // replace with your actual logic
-            SecurityContextHolder.getContext().setAuthentication(auth);
+        String path = request.getServletPath();
+
+        // ✅ ALLOW auth & swagger WITHOUT token
+        if (path.startsWith("/auth")
+                || path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")) {
+
+            filterChain.doFilter(request, response);
+            return;
         }
 
+        String header = request.getHeader("Authorization");
+
+        if (header != null && header.startsWith("Bearer ")) {
+            String token = header.substring(7);
+
+            if (jwtTokenProvider.validateToken(token)) {
+                Authentication authentication =
+                        jwtTokenProvider.getAuthentication(token);
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
+            }
+        }
+
+        // ✅ DO NOT BLOCK REQUEST
         filterChain.doFilter(request, response);
     }
 }
