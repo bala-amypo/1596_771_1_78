@@ -1,33 +1,33 @@
-package com.example.demo.controller;
+// package com.example.demo.controller;
 
-import com.example.demo.model.VolunteerSkillRecord;
-import com.example.demo.service.VolunteerSkillService;
-import org.springframework.web.bind.annotation.*;
+// import com.example.demo.model.VolunteerSkillRecord;
+// import com.example.demo.service.VolunteerSkillService;
+// import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+// import java.util.List;
 
-@RestController
-@RequestMapping("/skills")
-public class VolunteerSkillController {
+// @RestController
+// @RequestMapping("/skills")
+// public class VolunteerSkillController {
 
-    private final VolunteerSkillService service;
+//     private final VolunteerSkillService service;
 
-    public VolunteerSkillController(VolunteerSkillService service) {
-        this.service = service;
-    }
+//     public VolunteerSkillController(VolunteerSkillService service) {
+//         this.service = service;
+//     }
 
-    @PostMapping
-    public VolunteerSkillRecord save(@RequestBody VolunteerSkillRecord skill) {
-        return service.addOrUpdateSkill(skill);
-    }
+//     @PostMapping
+//     public VolunteerSkillRecord save(@RequestBody VolunteerSkillRecord skill) {
+//         return service.addOrUpdateSkill(skill);
+//     }
 
-    @GetMapping
-    public List<VolunteerSkillRecord> all() {
-        return service.getAllSkills();
-    }
+//     @GetMapping
+//     public List<VolunteerSkillRecord> all() {
+//         return service.getAllSkills();
+//     }
 
-    @GetMapping("/{id}")
-    public VolunteerSkillRecord get(@PathVariable Long id) {
-        return service.getSkillById(id);
-    }
-}
+//     @GetMapping("/{id}")
+//     public VolunteerSkillRecord get(@PathVariable Long id) {
+//         return service.getSkillById(id);
+//     }
+// }
