@@ -43,18 +43,18 @@
 //     }
 // }
 
+///new
 package com.example.demo.controller;
 
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder; // Added
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -63,7 +63,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder; // Added
+    private final PasswordEncoder passwordEncoder;
 
     public AuthController(AuthenticationManager authenticationManager,
                           JwtTokenProvider jwtTokenProvider,
@@ -76,19 +76,21 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
-        // 1. Check if user already exists
-        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already taken");
+    public String register(@RequestBody RegisterRequest request) {
+
+        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
+            return "Username already exists";
         }
 
-        // 2. Encode the password before saving
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        
-        // 3. Save the user
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setEmail(request.getEmail());
+        user.setRole("ROLE_USER"); // ✅ VERY IMPORTANT
+
         userRepository.save(user);
 
-        return "User registered successfully!";
+        return "User registered successfully";
     }
 
     @PostMapping("/login")
@@ -97,16 +99,12 @@ public class AuthController {
 
         Authentication authentication =
                 authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                username, password));
+                        new UsernamePasswordAuthenticationToken(username, password)
+                );
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return jwtTokenProvider.generateToken(
-                authentication,
-                user.getId(),
-                user.getRole()
-        );
+        return jwtTokenProvider.generateToken(authentication, user.getId(), user.getRole());
     }
 }
