@@ -20,19 +20,21 @@
 
 package com.example.demo.service;
 
-import com.example.demo.model.TaskAssignmentRecord;
-
 import java.util.List;
+import org.springframework.stereotype.Service;
+import com.example.demo.entity.TaskAssignmentRecord;
+import com.example.demo.repository.TaskAssignmentRecordRepository;
 
-public interface TaskAssignmentService {
+@Service
+public class TaskAssignmentService {
 
-    TaskAssignmentRecord assignTask(Long taskId);
+    private final TaskAssignmentRecordRepository repo;
 
-    TaskAssignmentRecord updateAssignmentStatus(Long assignmentId, String status);
+    public TaskAssignmentService(TaskAssignmentRecordRepository repo) {
+        this.repo = repo;
+    }
 
-    List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId);
-
-    List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId);
-
-    List<TaskAssignmentRecord> getAllAssignments();
+    public List<TaskAssignmentRecord> getTasksByVolunteer(Long volunteerId) {
+        return repo.findByVolunteerProfile_Id(volunteerId);
+    }
 }
