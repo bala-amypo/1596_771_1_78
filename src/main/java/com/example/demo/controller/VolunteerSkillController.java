@@ -38,44 +38,48 @@ package com.example.demo.controller;
 
 import com.example.demo.model.VolunteerSkillRecord;
 import com.example.demo.service.VolunteerSkillService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skills")
-@Tag(name = "Volunteer Skills")
+@RequestMapping("/api/skills") // Updated base path from your image
 public class VolunteerSkillController {
 
     private final VolunteerSkillService volunteerSkillService;
 
+    @Autowired
     public VolunteerSkillController(VolunteerSkillService volunteerSkillService) {
         this.volunteerSkillService = volunteerSkillService;
     }
 
-    @Operation(summary = "Add or update skill")
+    // POST / - Add/update skill
     @PostMapping
-    public VolunteerSkillRecord addSkill(@RequestBody VolunteerSkillRecord skill) {
-        return volunteerSkillService.addOrUpdateSkill(skill);
+    public ResponseEntity<VolunteerSkillRecord> addOrUpdateSkill(@RequestBody VolunteerSkillRecord skill) {
+        return ResponseEntity.ok(volunteerSkillService.save(skill));
     }
 
-    @Operation(summary = "Get skills by volunteer ID")
+    // GET /volunteer/{volunteerId} - Get skills for a specific volunteer
     @GetMapping("/volunteer/{volunteerId}")
-    public List<VolunteerSkillRecord> getSkillsByVolunteer(@PathVariable Long volunteerId) {
-        return volunteerSkillService.getSkillsByVolunteer(volunteerId);
+    public ResponseEntity<List<VolunteerSkillRecord>> getSkillsByVolunteer(@PathVariable Long volunteerId) {
+        return ResponseEntity.ok(volunteerSkillService.getSkillsByVolunteer(volunteerId));
     }
 
-    @Operation(summary = "Get skill by ID")
+    // GET /{id} - Get a specific skill by its ID
     @GetMapping("/{id}")
-    public VolunteerSkillRecord getSkill(@PathVariable Long id) {
-        return volunteerSkillService.getSkillById(id);
+    public ResponseEntity<VolunteerSkillRecord> getSkillById(@PathVariable Long id) {
+        // FIX FOR LINE 73: Unwrapping the Optional to fix "incompatible types"
+        VolunteerSkillRecord record = volunteerSkillService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Skill not found with id: " + id));
+        
+        return ResponseEntity.ok(record);
     }
 
-    @Operation(summary = "Get all skills")
+    // GET / - List all skills
     @GetMapping
-    public List<VolunteerSkillRecord> getAllSkills() {
-        return volunteerSkillService.getAllSkills();
+    public ResponseEntity<List<VolunteerSkillRecord>> listAll() {
+        return ResponseEntity.ok(volunteerSkillService.getAllSkills());
     }
 }
