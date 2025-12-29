@@ -23,6 +23,8 @@ package com.example.demo.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.VolunteerSkillRecord;
 
+import java.util.List;
+
 public interface VolunteerSkillRecordRepository extends JpaRepository<VolunteerSkillRecord, Long> {
-    // Custom queries can be added if needed
+    List<VolunteerSkillRecord> findByVolunteerProfileId(Long volunteerId);
 }

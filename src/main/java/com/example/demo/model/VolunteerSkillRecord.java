@@ -151,7 +151,6 @@ public class VolunteerSkillRecord {
 
     private String description;
 
-    // Optional: link to VolunteerProfile
     @ManyToOne
     @JoinColumn(name = "volunteer_id")
     private VolunteerProfile volunteerProfile;
