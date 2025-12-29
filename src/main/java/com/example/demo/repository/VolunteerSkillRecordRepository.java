@@ -17,15 +17,41 @@
 //             String skillLevel
 //     );
 // }
-package com.example.demo.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+
+package com.example.demo.controller;
+
 import com.example.demo.model.VolunteerSkillRecord;
+import com.example.demo.service.VolunteerSkillService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-public interface VolunteerSkillRecordRepository
-        extends JpaRepository<VolunteerSkillRecord, Long> {
+@RestController
+@RequestMapping("/api/volunteer-skills")
+public class VolunteerSkillController {
 
-    List<VolunteerSkillRecord> findByVolunteerProfileId(Long volunteerId);
+    private final VolunteerSkillService volunteerSkillService;
+
+    public VolunteerSkillController(VolunteerSkillService volunteerSkillService) {
+        this.volunteerSkillService = volunteerSkillService;
+    }
+
+    @PostMapping
+    public VolunteerSkillRecord addOrUpdateSkill(
+            @RequestBody VolunteerSkillRecord skill) {
+        return volunteerSkillService.addOrUpdateSkill(skill);
+    }
+
+    @GetMapping("/volunteer/{volunteerId}")
+    public List<VolunteerSkillRecord> getSkillsByVolunteer(
+            @PathVariable Long volunteerId) {
+        return volunteerSkillService.getSkillsByVolunteer(volunteerId);
+    }
+
+    @GetMapping("/{id}")
+    public VolunteerSkillRecord getSkillById(@PathVariable Long id) {
+        return volunteerSkillService.getSkillById(id)
+                .orElseThrow(() -> new RuntimeException("Skill not found"));
+    }
 }
