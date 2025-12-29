@@ -54,25 +54,30 @@ import java.util.Optional;
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     @Autowired
-    private VolunteerSkillRecordRepository volunteerSkillRecordRepository;
+    private VolunteerSkillRecordRepository repository;
 
     @Override
     public VolunteerSkillRecord saveSkill(VolunteerSkillRecord skill) {
-        return volunteerSkillRecordRepository.save(skill);
+        return repository.save(skill);
     }
 
     @Override
     public Optional<VolunteerSkillRecord> getSkillById(Long id) {
-        return volunteerSkillRecordRepository.findById(id);
+        return repository.findById(id);
+    }
+
+    @Override
+    public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
+        return repository.findByVolunteerProfileId(volunteerId);
     }
 
     @Override
     public List<VolunteerSkillRecord> getAllSkills() {
-        return volunteerSkillRecordRepository.findAll();
+        return repository.findAll();
     }
 
     @Override
     public void deleteSkill(Long id) {
-        volunteerSkillRecordRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }

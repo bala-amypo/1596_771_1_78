@@ -14,7 +14,6 @@
 
 //     List<VolunteerSkillRecord> getAllSkills();
 // }
-
 package com.example.demo.service;
 
 import com.example.demo.model.VolunteerSkillRecord;
@@ -23,9 +22,13 @@ import java.util.Optional;
 
 public interface VolunteerSkillService {
 
-    VolunteerSkillRecord addOrUpdateSkill(VolunteerSkillRecord skill);
+    VolunteerSkillRecord saveSkill(VolunteerSkillRecord skill);
+
+    Optional<VolunteerSkillRecord> getSkillById(Long id);
 
     List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId);
 
-    Optional<VolunteerSkillRecord> getSkillById(Long id);
+    List<VolunteerSkillRecord> getAllSkills();
+
+    void deleteSkill(Long id);
 }
