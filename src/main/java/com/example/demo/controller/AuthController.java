@@ -76,7 +76,7 @@ public class AuthController {
 
     // ✅ REGISTER
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
+    public String register(@RequestBody AuthRequest request) {
 
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             return "Username already exists";
@@ -92,9 +92,9 @@ public class AuthController {
         return "User registered successfully";
     }
 
-    // ✅ LOGIN
+    // ✅ LOGIN → RETURNS TOKEN
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public String login(@RequestBody AuthRequest request) {
 
         Authentication authentication =
                 authenticationManager.authenticate(
