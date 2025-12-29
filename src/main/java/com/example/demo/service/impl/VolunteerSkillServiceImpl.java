@@ -40,12 +40,10 @@
 
 package com.example.demo.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.VolunteerSkillRecord;
 import com.example.demo.repository.VolunteerSkillRecordRepository;
 import com.example.demo.service.VolunteerSkillService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,11 +51,14 @@ import java.util.Optional;
 @Service
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
-    @Autowired
-    private VolunteerSkillRecordRepository repository;
+    private final VolunteerSkillRecordRepository repository;
+
+    public VolunteerSkillServiceImpl(VolunteerSkillRecordRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public VolunteerSkillRecord saveSkill(VolunteerSkillRecord skill) {
+    public VolunteerSkillRecord addOrUpdateSkill(VolunteerSkillRecord skill) {
         return repository.save(skill);
     }
 

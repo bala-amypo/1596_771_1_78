@@ -17,12 +17,13 @@
 package com.example.demo.service;
 
 import com.example.demo.model.VolunteerSkillRecord;
+
 import java.util.List;
 import java.util.Optional;
 
 public interface VolunteerSkillService {
 
-    VolunteerSkillRecord saveSkill(VolunteerSkillRecord skill);
+    VolunteerSkillRecord addOrUpdateSkill(VolunteerSkillRecord skill);
 
     Optional<VolunteerSkillRecord> getSkillById(Long id);
 
