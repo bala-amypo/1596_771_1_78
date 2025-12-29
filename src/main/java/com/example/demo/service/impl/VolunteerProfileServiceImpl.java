@@ -59,23 +59,48 @@
 
 package com.example.demo.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.repository.VolunteerProfileRepository;
 import com.example.demo.service.VolunteerProfileService;
+import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
-    @Autowired
-    private VolunteerProfileRepository volunteerProfileRepository;
+    private final VolunteerProfileRepository repository;
+
+    public VolunteerProfileServiceImpl(VolunteerProfileRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public Optional<VolunteerProfile> getProfileById(Long id) {
-        return volunteerProfileRepository.findById(id);
+    public VolunteerProfile createVolunteer(VolunteerProfile volunteer) {
+        return repository.save(volunteer);
+    }
+
+    @Override
+    public VolunteerProfile getVolunteerById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
+    }
+
+    @Override
+    public List<VolunteerProfile> getAllVolunteers() {
+        return repository.findAll();
+    }
+
+    @Override
+    public VolunteerProfile updateAvailability(Long id, String availability) {
+        VolunteerProfile v = getVolunteerById(id);
+        v.setAvailability(availability);
+        return repository.save(v);
+    }
+
+    @Override
+    public VolunteerProfile findByVolunteerId(String volunteerId) {
+        return repository.findByVolunteerId(volunteerId)
+                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
     }
 }

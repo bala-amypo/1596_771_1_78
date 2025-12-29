@@ -112,20 +112,49 @@
 
 package com.example.demo.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.example.demo.model.TaskAssignmentRecord;
 import com.example.demo.repository.TaskAssignmentRecordRepository;
 import com.example.demo.service.TaskAssignmentService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
-    @Autowired
-    private TaskAssignmentRecordRepository assignmentRepo;
+    private final TaskAssignmentRecordRepository assignmentRepo;
+
+    public TaskAssignmentServiceImpl(TaskAssignmentRecordRepository assignmentRepo) {
+        this.assignmentRepo = assignmentRepo;
+    }
 
     @Override
-    public boolean existsByTaskIdAndStatus(Long taskId, String status) {
-        return assignmentRepo.existsByTaskIdAndStatus(taskId, status);
+    public TaskAssignmentRecord assignTask(Long taskId) {
+        TaskAssignmentRecord record = new TaskAssignmentRecord();
+        record.setStatus("ASSIGNED");
+        return assignmentRepo.save(record);
+    }
+
+    @Override
+    public TaskAssignmentRecord updateAssignmentStatus(Long assignmentId, String status) {
+        TaskAssignmentRecord record = assignmentRepo.findById(assignmentId)
+                .orElseThrow(() -> new RuntimeException("Assignment not found"));
+        record.setStatus(status);
+        return assignmentRepo.save(record);
+    }
+
+    @Override
+    public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
+        return assignmentRepo.findByVolunteerProfileId(volunteerId);
+    }
+
+    @Override
+    public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
+        return assignmentRepo.findByTaskRecordId(taskId);
+    }
+
+    @Override
+    public List<TaskAssignmentRecord> getAllAssignments() {
+        return assignmentRepo.findAll();
     }
 }

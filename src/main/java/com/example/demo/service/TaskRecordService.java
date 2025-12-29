@@ -22,17 +22,14 @@
 package com.example.demo.service;
 
 import com.example.demo.model.TaskRecord;
+
 import java.util.List;
 
 public interface TaskRecordService {
 
     TaskRecord createTask(TaskRecord task);
 
-    TaskRecord updateTask(Long taskId, TaskRecord task);
+    TaskRecord updateTask(Long id, TaskRecord task);
 
     List<TaskRecord> getOpenTasks();
-
-    TaskRecord getTaskById(Long taskId);
-
-    List<TaskRecord> getAllTasks();
 }

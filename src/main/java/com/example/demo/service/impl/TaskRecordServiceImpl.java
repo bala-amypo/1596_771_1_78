@@ -55,29 +55,35 @@
 
 package com.example.demo.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.example.demo.model.TaskRecord;
 import com.example.demo.repository.TaskRecordRepository;
 import com.example.demo.service.TaskRecordService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class TaskRecordServiceImpl implements TaskRecordService {
 
-    @Autowired
-    private TaskRecordRepository taskRecordRepository;
+    private final TaskRecordRepository repository;
 
-    @Override
-    public TaskRecord getTaskById(Long id) {
-        return taskRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+    public TaskRecordServiceImpl(TaskRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public List<TaskRecord> getAllTasks() {
-        return taskRecordRepository.findAll();
+    public TaskRecord createTask(TaskRecord task) {
+        return repository.save(task);
+    }
+
+    @Override
+    public TaskRecord updateTask(Long id, TaskRecord task) {
+        task.setId(id);
+        return repository.save(task);
+    }
+
+    @Override
+    public List<TaskRecord> getOpenTasks() {
+        return repository.findByStatus("OPEN");
     }
 }

@@ -25,9 +25,9 @@ import java.util.List;
 public interface TaskAssignmentRecordRepository
         extends JpaRepository<TaskAssignmentRecord, Long> {
 
-    List<TaskAssignmentRecord> findByStatus(String status);
+    List<TaskAssignmentRecord> findByVolunteerProfileId(Long volunteerId);
 
-    List<TaskAssignmentRecord> findByTaskId(Long taskId);
+    List<TaskAssignmentRecord> findByTaskRecordId(Long taskId);
 
-    List<TaskAssignmentRecord> findByVolunteerId(Long volunteerId);
+    boolean existsByTaskRecordIdAndStatus(Long taskId, String status);
 }
