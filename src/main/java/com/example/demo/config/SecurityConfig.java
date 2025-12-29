@@ -112,61 +112,8 @@
 //     }
 // }
 
-// package com.example.demo.config;
-
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import org.springframework.security.authentication.AuthenticationManager;
-// import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.security.web.SecurityFilterChain;
-
-// @Configuration
-// @EnableWebSecurity // Added to ensure security is properly enabled
-// public class SecurityConfig {
-
-//     @Bean
-//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-//         http
-//             .csrf(csrf -> csrf.disable())
-//             .formLogin(form -> form.disable())
-//             .httpBasic(basic -> basic.disable())
-//             .authorizeHttpRequests(auth -> auth
-//                 .requestMatchers(
-//                         "/auth/**",
-//                         "/v3/api-docs/**",
-//                         "/v3/api-docs.yaml",
-//                         "/swagger-ui/**",
-//                         "/swagger-ui.html",
-//                         "/webjars/**"      // Critical for loading Swagger CSS/JS
-//                 ).permitAll()
-//                 .anyRequest().authenticated()
-//             );
-
-//         return http.build();
-//     }
-
-//     @Bean
-//     public AuthenticationManager authenticationManager(
-//             AuthenticationConfiguration config) throws Exception {
-//         return config.getAuthenticationManager();
-//     }
-
-//     @Bean
-//     public PasswordEncoder passwordEncoder() {
-//         return new BCryptPasswordEncoder();
-//     }
-// }
-
-//new
 package com.example.demo.config;
 
-import com.example.demo.security.CustomUserDetailsService;
-import com.example.demo.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -176,20 +123,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // Added to ensure security is properly enabled
 public class SecurityConfig {
-
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final CustomUserDetailsService userDetailsService;
-
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter,
-                          CustomUserDetailsService userDetailsService) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-        this.userDetailsService = userDetailsService;
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -198,30 +135,27 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .formLogin(form -> form.disable())
             .httpBasic(basic -> basic.disable())
-
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                         "/auth/**",
-                        "/swagger-ui/**",
                         "/v3/api-docs/**",
+                        "/v3/api-docs.yaml",
+                        "/swagger-ui/**",
                         "/swagger-ui.html",
-                        "/webjars/**"
+                        "/webjars/**"      // Critical for loading Swagger CSS/JS
                 ).permitAll()
                 .anyRequest().authenticated()
-            )
-            // Add JWT filter before UsernamePasswordAuthenticationFilter
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            );
 
         return http.build();
     }
 
-    // AuthenticationManager bean required for login
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    // PasswordEncoder bean for encoding passwords
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
