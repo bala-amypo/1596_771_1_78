@@ -31,5 +31,9 @@ public interface TaskRecordService {
 
     TaskRecord updateTask(Long id, TaskRecord task);
 
+    TaskRecord getTaskById(Long id);
+
+    List<TaskRecord> getAllTasks();
+
     List<TaskRecord> getOpenTasks();
 }

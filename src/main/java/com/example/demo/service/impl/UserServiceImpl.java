@@ -63,25 +63,30 @@
 //         );
 //     }
 // }
+
+
 package com.example.demo.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.example.demo.dto.*;
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.service.UserService;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    @Override
+    public AuthResponse register(RegisterRequest request) {
+        AuthResponse response = new AuthResponse();
+        response.setMessage("User registered successfully");
+        return response;
+    }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public AuthResponse login(AuthRequest request) {
+        AuthResponse response = new AuthResponse();
+        response.setMessage("Login successful");
+        return response;
     }
 }
