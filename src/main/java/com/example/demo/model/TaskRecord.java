@@ -94,43 +94,78 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "task_record")
 public class TaskRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String title;
+
+    @Column(length = 500)
     private String description;
 
+    @Column(nullable = false)
     private String requiredSkill;
+
+    @Column(nullable = false)
     private int requiredSkillLevel;
 
+    @Column(nullable = false)
     private String status;
 
-    public TaskRecord() {}
+    // ✅ No-args constructor
+    public TaskRecord() {
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // ✅ Getters and Setters
+    public Long getId() {
+        return id;
+    }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDescription() { return description; }
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public String getRequiredSkill() { return requiredSkill; }
+    public String getRequiredSkill() {
+        return requiredSkill;
+    }
+
     public void setRequiredSkill(String requiredSkill) {
         this.requiredSkill = requiredSkill;
     }
 
-    public int getRequiredSkillLevel() { return requiredSkillLevel; }
+    public int getRequiredSkillLevel() {
+        return requiredSkillLevel;
+    }
+
     public void setRequiredSkillLevel(int requiredSkillLevel) {
         this.requiredSkillLevel = requiredSkillLevel;
     }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
