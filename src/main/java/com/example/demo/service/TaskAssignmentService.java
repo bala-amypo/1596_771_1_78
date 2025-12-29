@@ -18,23 +18,15 @@
 // }
 
 
-package com.example.demo.service;
+public interface TaskAssignmentService {
 
-import java.util.List;
-import org.springframework.stereotype.Service;
-import com.example.demo.entity.TaskAssignmentRecord;
-import com.example.demo.repository.TaskAssignmentRecordRepository;
+    TaskAssignmentRecord assignTask(Long taskId);
 
-@Service
-public class TaskAssignmentService {
+    TaskAssignmentRecord updateAssignmentStatus(Long assignmentId, String status);
 
-    private final TaskAssignmentRecordRepository repo;
+    List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId);
 
-    public TaskAssignmentService(TaskAssignmentRecordRepository repo) {
-        this.repo = repo;
-    }
+    List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId);
 
-    public List<TaskAssignmentRecord> getTasksByVolunteer(Long volunteerId) {
-        return repo.findByVolunteerProfile_Id(volunteerId);
-    }
+    List<TaskAssignmentRecord> getAllAssignments();
 }
