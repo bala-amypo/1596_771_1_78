@@ -43,8 +43,8 @@ package com.example.demo.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.VolunteerSkill;
-import com.example.demo.repository.VolunteerSkillRepository;
+import com.example.demo.model.VolunteerSkillRecord;
+import com.example.demo.repository.VolunteerSkillRecordRepository;
 import com.example.demo.service.VolunteerSkillService;
 
 import java.util.List;
@@ -54,25 +54,25 @@ import java.util.Optional;
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     @Autowired
-    private VolunteerSkillRepository volunteerSkillRepository;
+    private VolunteerSkillRecordRepository volunteerSkillRecordRepository;
 
     @Override
-    public VolunteerSkill saveSkill(VolunteerSkill skill) {
-        return volunteerSkillRepository.save(skill);
+    public VolunteerSkillRecord saveSkill(VolunteerSkillRecord skill) {
+        return volunteerSkillRecordRepository.save(skill);
     }
 
     @Override
-    public Optional<VolunteerSkill> getSkillById(Long id) {
-        return volunteerSkillRepository.findById(id);
+    public Optional<VolunteerSkillRecord> getSkillById(Long id) {
+        return volunteerSkillRecordRepository.findById(id);
     }
 
     @Override
-    public List<VolunteerSkill> getAllSkills() {
-        return volunteerSkillRepository.findAll();
+    public List<VolunteerSkillRecord> getAllSkills() {
+        return volunteerSkillRecordRepository.findAll();
     }
 
     @Override
     public void deleteSkill(Long id) {
-        volunteerSkillRepository.deleteById(id);
+        volunteerSkillRecordRepository.deleteById(id);
     }
 }

@@ -151,59 +151,24 @@ public class VolunteerSkillRecord {
 
     private String description;
 
-    // Optional: link to a volunteer profile
+    // Optional: link to VolunteerProfile
     @ManyToOne
     @JoinColumn(name = "volunteer_id")
     private VolunteerProfile volunteerProfile;
 
-    // Constructors
-    public VolunteerSkillRecord() {
-    }
-
-    public VolunteerSkillRecord(String skillName, String proficiencyLevel, String description) {
-        this.skillName = skillName;
-        this.proficiencyLevel = proficiencyLevel;
-        this.description = description;
-    }
-
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getSkillName() { return skillName; }
+    public void setSkillName(String skillName) { this.skillName = skillName; }
 
-    public String getSkillName() {
-        return skillName;
-    }
+    public String getProficiencyLevel() { return proficiencyLevel; }
+    public void setProficiencyLevel(String proficiencyLevel) { this.proficiencyLevel = proficiencyLevel; }
 
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getProficiencyLevel() {
-        return proficiencyLevel;
-    }
-
-    public void setProficiencyLevel(String proficiencyLevel) {
-        this.proficiencyLevel = proficiencyLevel;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public VolunteerProfile getVolunteerProfile() {
-        return volunteerProfile;
-    }
-
-    public void setVolunteerProfile(VolunteerProfile volunteerProfile) {
-        this.volunteerProfile = volunteerProfile;
-    }
+    public VolunteerProfile getVolunteerProfile() { return volunteerProfile; }
+    public void setVolunteerProfile(VolunteerProfile volunteerProfile) { this.volunteerProfile = volunteerProfile; }
 }
