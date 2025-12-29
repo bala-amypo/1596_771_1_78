@@ -171,7 +171,7 @@
 //     public VolunteerProfile getVolunteerProfile() { return volunteerProfile; }
 //     public void setVolunteerProfile(VolunteerProfile volunteerProfile) { this.volunteerProfile = volunteerProfile; }
 // }
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 
