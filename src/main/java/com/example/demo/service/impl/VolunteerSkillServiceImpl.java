@@ -45,12 +45,11 @@ import com.example.demo.repository.VolunteerSkillRecordRepository;
 import com.example.demo.service.VolunteerSkillService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
+@RequiredArgsConstructor // Automatically injects the repository
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     private final VolunteerSkillRecordRepository repository;
@@ -72,7 +71,6 @@ public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     @Override
     public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
-        // This calls the method we added to your Repository earlier
         return repository.findByVolunteerProfileId(volunteerId);
     }
 }
