@@ -73,40 +73,32 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String username,
-                        @RequestParam String password) {
-
-        Authentication authentication =
-                authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(username, password));
-
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return jwtTokenProvider.generateToken(
-                authentication,
-                user.getId(),
-                user.getRole()
-        );
-    }
-
     @PostMapping("/register")
     public String register(@RequestParam String username,
                            @RequestParam String password,
                            @RequestParam String role) {
 
         if (userRepository.findByUsername(username).isPresent()) {
-            return "Username already exists";
+            return "Error: Username already exists";
         }
 
         User user = new User();
         user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole(role);
+        user.setPassword(passwordEncoder.encode(password)); // Encrypt password
+        user.setRole(role.toUpperCase()); // Ensure consistency (e.g., USER)
 
         userRepository.save(user);
-
         return "User registered successfully";
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, password));
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return jwtTokenProvider.generateToken(authentication, user.getId(), user.getRole());
     }
 }
