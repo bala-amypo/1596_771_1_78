@@ -22,9 +22,17 @@
 package com.example.demo.service;
 
 import com.example.demo.model.VolunteerProfile;
-
-import java.util.Optional;
+import java.util.List;
 
 public interface VolunteerProfileService {
-    Optional<VolunteerProfile> getProfileById(Long id);
+
+    VolunteerProfile createVolunteer(VolunteerProfile volunteer);
+
+    VolunteerProfile getVolunteerById(Long id);
+
+    List<VolunteerProfile> getAllVolunteers();
+
+    VolunteerProfile updateAvailability(Long id, String availability);
+
+    VolunteerProfile findByVolunteerId(String volunteerId);
 }
