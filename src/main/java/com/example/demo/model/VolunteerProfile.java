@@ -132,22 +132,64 @@ public class VolunteerProfile {
     private Long id;
 
     @Column(nullable = false)
-    private boolean availability;
+    private String name;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
+    private boolean availability;
 
     public VolunteerProfile() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public boolean isAvailability() { return availability; }
-    public void setAvailability(boolean availability) {
+    public VolunteerProfile(String name, String email, String phone, boolean availability) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
         this.availability = availability;
     }
 
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
+    // ✅ Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {       // ✅ FIXED
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {      // ✅ FIXED
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {      // ✅ FIXED
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
 }

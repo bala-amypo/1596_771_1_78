@@ -26,13 +26,14 @@ import java.util.List;
 
 public interface VolunteerProfileService {
 
-    VolunteerProfile createVolunteerProfile(VolunteerProfile volunteerProfile);
+    VolunteerProfile createVolunteer(VolunteerProfile volunteerProfile);
 
-    VolunteerProfile getVolunteerProfileById(Long id);
+    VolunteerProfile getVolunteerById(Long id);
 
-    List<VolunteerProfile> getAllVolunteerProfiles();
+    List<VolunteerProfile> getAllVolunteers();
 
-    VolunteerProfile updateVolunteerProfile(Long id, VolunteerProfile volunteerProfile);
+    VolunteerProfile updateAvailability(Long id, String availability);
 
-    void deleteVolunteerProfile(Long id);
+    VolunteerProfile findByVolunteerId(String email);
 }
+

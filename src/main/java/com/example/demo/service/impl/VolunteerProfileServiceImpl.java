@@ -71,49 +71,41 @@ import java.util.List;
 @Service
 public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
-    private final VolunteerProfileRepository volunteerProfileRepository;
+    private final VolunteerProfileRepository repository;
 
-    public VolunteerProfileServiceImpl(VolunteerProfileRepository volunteerProfileRepository) {
-        this.volunteerProfileRepository = volunteerProfileRepository;
+    public VolunteerProfileServiceImpl(VolunteerProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public VolunteerProfile createVolunteerProfile(VolunteerProfile volunteerProfile) {
-        // FIX: availability must be boolean, not String
-        volunteerProfile.setAvailability(true);
-        return volunteerProfileRepository.save(volunteerProfile);
+    public VolunteerProfile createVolunteer(VolunteerProfile volunteerProfile) {
+        volunteerProfile.setAvailability(true); // default
+        return repository.save(volunteerProfile);
     }
 
     @Override
-    public VolunteerProfile getVolunteerProfileById(Long id) {
-        return volunteerProfileRepository.findById(id)
+    public VolunteerProfile getVolunteerById(Long id) {
+        return repository.findById(id)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("VolunteerProfile not found with id: " + id));
+                        new ResourceNotFoundException("Volunteer not found with id: " + id));
     }
 
     @Override
-    public List<VolunteerProfile> getAllVolunteerProfiles() {
-        return volunteerProfileRepository.findAll();
+    public List<VolunteerProfile> getAllVolunteers() {
+        return repository.findAll();
     }
 
     @Override
-    public VolunteerProfile updateVolunteerProfile(Long id, VolunteerProfile updatedProfile) {
-        VolunteerProfile existingProfile = getVolunteerProfileById(id);
-
-        existingProfile.setName(updatedProfile.getName());
-        existingProfile.setEmail(updatedProfile.getEmail());
-        existingProfile.setPhone(updatedProfile.getPhone());
-
-        // FIXED: boolean assignment
-        existingProfile.setAvailability(updatedProfile.isAvailability());
-
-        return volunteerProfileRepository.save(existingProfile);
+    public VolunteerProfile updateAvailability(Long id, String availability) {
+        VolunteerProfile profile = getVolunteerById(id);
+        profile.setAvailability(Boolean.parseBoolean(availability));
+        return repository.save(profile);
     }
 
     @Override
-    public void deleteVolunteerProfile(Long id) {
-        VolunteerProfile profile = getVolunteerProfileById(id);
-        volunteerProfileRepository.delete(profile);
+    public VolunteerProfile findByVolunteerId(String email) {
+        return repository.findByEmail(email)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Volunteer not found with email: " + email));
     }
 }
-
