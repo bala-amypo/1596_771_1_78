@@ -27,5 +27,7 @@ import java.util.List;
 
 @Repository
 public interface VolunteerSkillRecordRepository extends JpaRepository<VolunteerSkillRecord, Long> {
-    List<VolunteerSkillRecord> findByVolunteerId(Long volunteerId);
+    
+    // FIX: This method was missing, causing the ServiceImpl error
+    List<VolunteerSkillRecord> findByVolunteerProfileId(Long volunteerProfileId);
 }
