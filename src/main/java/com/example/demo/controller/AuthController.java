@@ -43,7 +43,7 @@
 //     }
 // }
     
-    package com.example.demo.controller;
+package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
