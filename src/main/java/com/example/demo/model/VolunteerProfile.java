@@ -68,57 +68,6 @@
 // // }
 
 
-// package com.example.demo.model;
-
-// import jakarta.persistence.*;
-
-// @Entity
-// public class VolunteerProfile {
-
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
-
-//     private String volunteerId;
-//     private String name;
-//     private String availability;
-
-//     // getters
-//     public Long getId() {
-//         return id;
-//     }
-
-//     public String getVolunteerId() {
-//         return volunteerId;
-//     }
-
-//     public String getName() {
-//         return name;
-//     }
-
-//     public String getAvailability() {
-//         return availability;
-//     }
-
-//     // setters
-//     public void setId(Long id) {
-//         this.id = id;
-//     }
-
-//     public void setVolunteerId(String volunteerId) {
-//         this.volunteerId = volunteerId;
-//     }
-
-//     public void setName(String name) {
-//         this.name = name;
-//     }
-
-//     // ✅ THIS FIXES YOUR ERROR
-//     public void setAvailability(String availability) {
-//         this.availability = availability;
-//     }
-// }
-
 
 package com.example.demo.model;
 
