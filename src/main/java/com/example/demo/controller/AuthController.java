@@ -42,9 +42,21 @@
 //         );
 //     }
 // }
+package com.example.demo.controller;
+
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.JwtTokenProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin // optional but helps Swagger
+@CrossOrigin
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -63,7 +75,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody RegisterRequest request) {
+    public String register(@RequestBody AuthRequest request) {
 
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             return "Error: Username already exists";
@@ -72,14 +84,14 @@ public class AuthController {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole("ROLE_" + request.getRole().toUpperCase()); // ✅ FIX
+        user.setRole("ROLE_" + request.getRole().toUpperCase());
 
         userRepository.save(user);
         return "User registered successfully";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody RegisterRequest request) {
+    public String login(@RequestBody AuthRequest request) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
