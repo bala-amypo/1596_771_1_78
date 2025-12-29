@@ -57,8 +57,10 @@
 // }
 
 
+
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.VolunteerProfile;
 import com.example.demo.repository.VolunteerProfileRepository;
 import com.example.demo.service.VolunteerProfileService;
@@ -69,38 +71,49 @@ import java.util.List;
 @Service
 public class VolunteerProfileServiceImpl implements VolunteerProfileService {
 
-    private final VolunteerProfileRepository repository;
+    private final VolunteerProfileRepository volunteerProfileRepository;
 
-    public VolunteerProfileServiceImpl(VolunteerProfileRepository repository) {
-        this.repository = repository;
+    public VolunteerProfileServiceImpl(VolunteerProfileRepository volunteerProfileRepository) {
+        this.volunteerProfileRepository = volunteerProfileRepository;
     }
 
     @Override
-    public VolunteerProfile createVolunteer(VolunteerProfile volunteer) {
-        return repository.save(volunteer);
+    public VolunteerProfile createVolunteerProfile(VolunteerProfile volunteerProfile) {
+        // FIX: availability must be boolean, not String
+        volunteerProfile.setAvailability(true);
+        return volunteerProfileRepository.save(volunteerProfile);
     }
 
     @Override
-    public VolunteerProfile getVolunteerById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
+    public VolunteerProfile getVolunteerProfileById(Long id) {
+        return volunteerProfileRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("VolunteerProfile not found with id: " + id));
     }
 
     @Override
-    public List<VolunteerProfile> getAllVolunteers() {
-        return repository.findAll();
+    public List<VolunteerProfile> getAllVolunteerProfiles() {
+        return volunteerProfileRepository.findAll();
     }
 
     @Override
-    public VolunteerProfile updateAvailability(Long id, String availability) {
-        VolunteerProfile v = getVolunteerById(id);
-        v.setAvailability(availability);
-        return repository.save(v);
+    public VolunteerProfile updateVolunteerProfile(Long id, VolunteerProfile updatedProfile) {
+        VolunteerProfile existingProfile = getVolunteerProfileById(id);
+
+        existingProfile.setName(updatedProfile.getName());
+        existingProfile.setEmail(updatedProfile.getEmail());
+        existingProfile.setPhone(updatedProfile.getPhone());
+
+        // FIXED: boolean assignment
+        existingProfile.setAvailability(updatedProfile.isAvailability());
+
+        return volunteerProfileRepository.save(existingProfile);
     }
 
     @Override
-    public VolunteerProfile findByVolunteerId(String volunteerId) {
-        return repository.findByVolunteerId(volunteerId)
-                .orElseThrow(() -> new RuntimeException("Volunteer not found"));
+    public void deleteVolunteerProfile(Long id) {
+        VolunteerProfile profile = getVolunteerProfileById(id);
+        volunteerProfileRepository.delete(profile);
     }
 }
+

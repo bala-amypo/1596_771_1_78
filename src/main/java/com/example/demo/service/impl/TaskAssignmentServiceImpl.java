@@ -112,12 +112,13 @@
 
 package com.example.demo.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.example.demo.model.TaskAssignmentRecord;
 import com.example.demo.repository.TaskAssignmentRecordRepository;
 import com.example.demo.service.TaskAssignmentService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class TaskAssignmentServiceImpl implements TaskAssignmentService {
@@ -130,27 +131,22 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
     @Override
     public TaskAssignmentRecord assignTask(Long taskId) {
-        TaskAssignmentRecord record = new TaskAssignmentRecord();
-        record.setStatus("ASSIGNED");
-        return assignmentRepo.save(record);
+        return null; // implement later
     }
 
     @Override
-    public TaskAssignmentRecord updateAssignmentStatus(Long assignmentId, String status) {
-        TaskAssignmentRecord record = assignmentRepo.findById(assignmentId)
-                .orElseThrow(() -> new RuntimeException("Assignment not found"));
-        record.setStatus(status);
-        return assignmentRepo.save(record);
+    public TaskAssignmentRecord updateAssignmentStatus(Long id, String status) {
+        return null;
     }
 
     @Override
     public List<TaskAssignmentRecord> getAssignmentsByVolunteer(Long volunteerId) {
-        return assignmentRepo.findByVolunteerProfileId(volunteerId);
+        return assignmentRepo.findByVolunteerProfile_Id(volunteerId);
     }
 
     @Override
     public List<TaskAssignmentRecord> getAssignmentsByTask(Long taskId) {
-        return assignmentRepo.findByTaskRecordId(taskId);
+        return assignmentRepo.findByTaskRecord_Id(taskId);
     }
 
     @Override
