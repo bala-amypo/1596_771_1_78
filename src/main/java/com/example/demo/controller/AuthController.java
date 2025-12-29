@@ -42,7 +42,6 @@
 //         );
 //     }
 // }
-
 //new
 package com.example.demo.controller;
 
@@ -54,6 +53,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -74,44 +75,119 @@ public class AuthController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // ✅ REGISTER
-    @PostMapping("/register")
-    public String register(@RequestBody AuthRequest request) {
-
-        if (userRepository.findByUsername(request.getUsername()).isPresent()) {
-            return "Username already exists";
-        }
-
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole("USER");
-
-        userRepository.save(user);
-
-        return "User registered successfully";
-    }
-
-    // ✅ LOGIN → RETURNS TOKEN
+    // LOGIN
     @PostMapping("/login")
-    public String login(@RequestBody AuthRequest request) {
+    public String login(@RequestParam String username,
+                        @RequestParam String password) {
 
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                request.getUsername(),
-                                request.getPassword()
-                        )
-                );
+                                username, password));
 
-        User user = userRepository
-                .findByUsername(request.getUsername())
-                .orElseThrow();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         return jwtTokenProvider.generateToken(
                 authentication,
                 user.getId(),
                 user.getRole()
         );
+    }
+
+    // REGISTER
+    @PostMapping("/register")
+    public String register(@RequestParam String username,
+                           @RequestParam String password,
+                           @RequestParam String role) {
+
+        // Check if username already exists
+        if (userRepository.findByUsername(username).isPresent()) {
+            return "Error: Username is already taken!";
+        }
+
+        // Create new user
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password)); // encrypt password
+        user.setRole(role);
+
+        userRepository.save(user);
+
+        return "User registered successfully!";
+    }
+}
+package com.example.demo.controller;
+
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.JwtTokenProvider;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/auth")
+public class AuthController {
+
+    private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthController(AuthenticationManager authenticationManager,
+                          JwtTokenProvider jwtTokenProvider,
+                          UserRepository userRepository,
+                          PasswordEncoder passwordEncoder) {
+        this.authenticationManager = authenticationManager;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // LOGIN
+    @PostMapping("/login")
+    public String login(@RequestParam String username,
+                        @RequestParam String password) {
+
+        Authentication authentication =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                username, password));
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return jwtTokenProvider.generateToken(
+                authentication,
+                user.getId(),
+                user.getRole()
+        );
+    }
+
+    // REGISTER
+    @PostMapping("/register")
+    public String register(@RequestParam String username,
+                           @RequestParam String password,
+                           @RequestParam String role) {
+
+        // Check if username already exists
+        if (userRepository.findByUsername(username).isPresent()) {
+            return "Error: Username is already taken!";
+        }
+
+        // Create new user
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(passwordEncoder.encode(password)); // encrypt password
+        user.setRole(role);
+
+        userRepository.save(user);
+
+        return "User registered successfully!";
     }
 }
