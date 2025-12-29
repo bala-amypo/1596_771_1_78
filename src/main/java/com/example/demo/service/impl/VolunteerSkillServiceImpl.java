@@ -43,33 +43,26 @@ package com.example.demo.service.impl;
 import com.example.demo.model.VolunteerSkillRecord;
 import com.example.demo.repository.VolunteerSkillRecordRepository;
 import com.example.demo.service.VolunteerSkillService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class VolunteerSkillServiceImpl implements VolunteerSkillService {
 
     private final VolunteerSkillRecordRepository repository;
 
-    public VolunteerSkillServiceImpl(VolunteerSkillRecordRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
-    public VolunteerSkillRecord addOrUpdateSkill(VolunteerSkillRecord skill) {
+    public VolunteerSkillRecord save(VolunteerSkillRecord skill) {
         return repository.save(skill);
     }
 
     @Override
-    public Optional<VolunteerSkillRecord> getSkillById(Long id) {
+    public Optional<VolunteerSkillRecord> findById(Long id) {
         return repository.findById(id);
-    }
-
-    @Override
-    public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
-        return repository.findByVolunteerProfileId(volunteerId);
     }
 
     @Override
@@ -78,7 +71,8 @@ public class VolunteerSkillServiceImpl implements VolunteerSkillService {
     }
 
     @Override
-    public void deleteSkill(Long id) {
-        repository.deleteById(id);
+    public List<VolunteerSkillRecord> getSkillsByVolunteer(Long volunteerId) {
+        // This calls the method we added to your Repository earlier
+        return repository.findByVolunteerProfileId(volunteerId);
     }
 }

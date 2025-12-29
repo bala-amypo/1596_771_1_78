@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/skills") // Updated base path from your image
+@RequestMapping("/api/skills")
 public class VolunteerSkillController {
 
     private final VolunteerSkillService volunteerSkillService;
@@ -58,6 +58,7 @@ public class VolunteerSkillController {
     // POST / - Add/update skill
     @PostMapping
     public ResponseEntity<VolunteerSkillRecord> addOrUpdateSkill(@RequestBody VolunteerSkillRecord skill) {
+        // Now works because save() is in the Interface
         return ResponseEntity.ok(volunteerSkillService.save(skill));
     }
 
@@ -70,7 +71,8 @@ public class VolunteerSkillController {
     // GET /{id} - Get a specific skill by its ID
     @GetMapping("/{id}")
     public ResponseEntity<VolunteerSkillRecord> getSkillById(@PathVariable Long id) {
-        // FIX FOR LINE 73: Unwrapping the Optional to fix "incompatible types"
+        // Now works because findById() is in the Interface 
+        // AND we use .orElseThrow() to handle the Optional
         VolunteerSkillRecord record = volunteerSkillService.findById(id)
                 .orElseThrow(() -> new RuntimeException("Skill not found with id: " + id));
         
