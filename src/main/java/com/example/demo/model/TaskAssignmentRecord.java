@@ -217,36 +217,29 @@ public class TaskAssignmentRecord {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "volunteer_profile_id", nullable = false)
     private VolunteerProfile volunteerProfile;
 
     @ManyToOne
-    @JoinColumn(name = "task_id", nullable = false)
-    private Task task;
+    private TaskRecord taskRecord;
 
-    @Column(nullable = false)
-    private String status; // ACTIVE, COMPLETED, CANCELLED
+    private String status;
 
-    // Constructors
     public TaskAssignmentRecord() {}
 
-    public TaskAssignmentRecord(VolunteerProfile volunteerProfile, Task task, String status) {
-        this.volunteerProfile = volunteerProfile;
-        this.task = task;
-        this.status = status;
-    }
-
-    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public VolunteerProfile getVolunteerProfile() { return volunteerProfile; }
+    public VolunteerProfile getVolunteerProfile() {
+        return volunteerProfile;
+    }
     public void setVolunteerProfile(VolunteerProfile volunteerProfile) {
         this.volunteerProfile = volunteerProfile;
     }
 
-    public Task getTask() { return task; }
-    public void setTask(Task task) { this.task = task; }
+    public TaskRecord getTaskRecord() { return taskRecord; }
+    public void setTaskRecord(TaskRecord taskRecord) {
+        this.taskRecord = taskRecord;
+    }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

@@ -171,7 +171,13 @@
 //     public VolunteerProfile getVolunteerProfile() { return volunteerProfile; }
 //     public void setVolunteerProfile(VolunteerProfile volunteerProfile) { this.volunteerProfile = volunteerProfile; }
 // }
-package com.example.demo.model;
+
+
+ 
+
+
+
+ package com.example.demo.model;
 
 import jakarta.persistence.*;
 
@@ -182,57 +188,30 @@ public class VolunteerSkillRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String skillName;
-
-    @Column(nullable = false)
-    private int skillLevel;   // Example: 1–5
+    private int skillLevel;
 
     @ManyToOne
-    @JoinColumn(name = "volunteer_profile_id", nullable = false)
+    @JoinColumn(name = "volunteer_profile_id")
     private VolunteerProfile volunteerProfile;
 
-    // No-arg constructor
     public VolunteerSkillRecord() {}
 
-    // Parameterized constructor
-    public VolunteerSkillRecord(String skillName, int skillLevel, VolunteerProfile volunteerProfile) {
-        this.skillName = skillName;
-        this.skillLevel = skillLevel;
-        this.volunteerProfile = volunteerProfile;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public String getSkillName() { return skillName; }
+    public void setSkillName(String skillName) { this.skillName = skillName; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSkillName() {
-        return skillName;
-    }
-
-    public void setSkillName(String skillName) {
-        this.skillName = skillName;
-    }
-
-    public int getSkillLevel() {
-        return skillLevel;
-    }
-
-    public void setSkillLevel(int skillLevel) {
-        this.skillLevel = skillLevel;
-    }
+    public int getSkillLevel() { return skillLevel; }
+    public void setSkillLevel(int skillLevel) { this.skillLevel = skillLevel; }
 
     public VolunteerProfile getVolunteerProfile() {
         return volunteerProfile;
     }
-
     public void setVolunteerProfile(VolunteerProfile volunteerProfile) {
         this.volunteerProfile = volunteerProfile;
     }
 }
+
 

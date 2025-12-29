@@ -100,37 +100,31 @@ public class TaskRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String taskName;
+    private String title;
+    private String description;
 
-    @Column(nullable = false)
     private String requiredSkill;
-
-    @Column(nullable = false)
     private int requiredSkillLevel;
 
-    @Column(nullable = false)
-    private String status; // ACTIVE, COMPLETED, CANCELLED
+    private String status;
 
-    // Constructors
     public TaskRecord() {}
 
-    public TaskRecord(String taskName, String requiredSkill, int requiredSkillLevel, String status) {
-        this.taskName = taskName;
-        this.requiredSkill = requiredSkill;
-        this.requiredSkillLevel = requiredSkillLevel;
-        this.status = status;
-    }
-
-    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public String getTaskName() { return taskName; }
-    public void setTaskName(String taskName) { this.taskName = taskName; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getRequiredSkill() { return requiredSkill; }
-    public void setRequiredSkill(String requiredSkill) { this.requiredSkill = requiredSkill; }
+    public void setRequiredSkill(String requiredSkill) {
+        this.requiredSkill = requiredSkill;
+    }
 
     public int getRequiredSkillLevel() { return requiredSkillLevel; }
     public void setRequiredSkillLevel(int requiredSkillLevel) {

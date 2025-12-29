@@ -135,23 +135,18 @@ public class VolunteerProfile {
     private boolean availability;
 
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    // Constructors
     public VolunteerProfile() {}
 
-    public VolunteerProfile(boolean availability, User user) {
-        this.availability = availability;
-        this.user = user;
-    }
-
-    // Getters & Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public boolean isAvailability() { return availability; }
-    public void setAvailability(boolean availability) { this.availability = availability; }
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
 
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
